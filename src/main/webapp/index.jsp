@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="common/base.jsp" %>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -7,62 +8,142 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="favicon.ico">
-    <title>Treviso - Clean & Elegant Onepage Multipurpose Bootstrap HTML</title>
+    <title>成功学院学生会</title>
+    <%@ include file="common/commons.jsp" %>
     <!-- Bootstrap core CSS -->
-    <script src="js/jquery-1.12.4.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <script src="${staticPath}/js/jquery-1.12.4.min.js"></script>
+    <script src="${staticPath}/js/bootstrap.min.js"></script>
+    <link href="${staticPath}/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="${staticPath}/css/font-awesome.min.css">
     <!-- Custom styles for this template -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="${staticPath}/css/style.css" rel="stylesheet">
 </head>
 <body id="page-top">
 <!--login-->
-<div class="modal fade" id="empAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="stulogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">LOGIN IN</h4>
+                <h4 class="modal-title">用户登录</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal">
-
+                    <br>
                     <div class="form-group">
-                        <label for="empName_add" class="col-sm-2 control-label">EMPNAME</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="empName" class="form-control" id="empName_add" placeholder="empname">
+                        <label for="empName_add" class="col-sm-2 control-label">邮箱:</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="email" class="form-control" id="stuEmail" placeholder="123@qq.com">
                             <span  class="help-block"></span>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="email_add" class="col-sm-2 control-label">EMAIL</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="email" class="form-control" id="email_add" placeholder="123@qq.com">
+                        <label for="email_add" class="col-sm-2 control-label">密码:</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="password" class="form-control" id="stupassword" placeholder="yourpassword">
+                            <span  class="help-block"></span>
+                        </div>
+                    </div>
+                    <%--<div class="form-group">--%>
+                        <%--<div class="col-md-2"></div>--%>
+                        <%--<div class="col-sm-7">--%>
+                            <%--<input id="yzm2" type="text" readonly class="form-control" placeholder="验证码"/>--%>
+                        <%--</div>--%>
+                        <%--<div class="col-sm-2">--%>
+                            <%--<button type="button" class="btn btn-danger" onclick="getyzm(this);">获取验证码</button>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="stu_login_btn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--注册-->
+<div class="modal fade" id="stuAdd" tstuabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">用户注册</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <br>
+                    <div class="form-group">
+                        <label for="empName_add" class="col-sm-2 control-label">姓名:</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="empName" class="form-control" id="empName_add" placeholder="请输入您的姓名">
                             <span  class="help-block"></span>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label  class="col-sm-2 control-label">GENDER</label>
-                        <div class="col-sm-10">
+                        <label  class="col-sm-2 control-label">性别:</label>
+                        <div class="col-sm-8">
                             <label class="radio-inline">
-                                <input type="radio" name="gender" id="gender1_add" value="M" checked> MAN
+                                <input type="radio" name="gender" id="gender1_update" value="M" checked> MAN
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="gender" id="gender2_add" value="F"> WOMAN
+                                <input type="radio" name="gender" id="gender2_update" value="w"> WOMAN
                             </label>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label  class="col-sm-2 control-label">DEPTNAME</label>
-                        <div class="col-sm-3">
-                            <select class="form-control" name="dId">
+                        <label for="email_add" class="col-sm-2 control-label">年龄:</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="email" class="form-control" id="email_add" placeholder="请输入您的年龄">
+                            <span  class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email_add" class="col-sm-2 control-label">昵称:</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="email" class="form-control" id="email_add" placeholder="请输入您的昵称">
+                            <span  class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email_add" class="col-sm-2 control-label">出生年月:</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="email" class="form-control" id="email_add" placeholder="请输入您的出生年月">
+                            <span  class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email_add" class="col-sm-2 control-label">联系方式:</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="email" class="form-control" id="email_add" placeholder="请输入您的联系方式">
+                            <span  class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email_add" class="col-sm-2 control-label">寝室住址:</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="email" class="form-control" id="email_add" placeholder="请输入您的寝室住址">
+                            <span  class="help-block"></span>
+                        </div>
+                    </div>
 
-                            </select>
+                    <div class="form-group">
+                        <label for="email_add" class="col-sm-2 control-label">邮箱:</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="email" class="form-control" id="email_add" placeholder="请输入您的邮箱">
+                            <span  class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-2"></div>
+                        <div class="col-sm-7">
+                            <input id="yzm" type="text" readonly class="form-control" placeholder="验证码"/>
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-danger" onclick="getyzm(this);">获取验证码</button>
                         </div>
                     </div>
                 </form>
@@ -102,13 +183,14 @@
                     <a class="page-scroll" href="#about">关于学院</a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="">个人中心</a>
+                    <a class="page-scroll" id="peocenter" style="cursor: pointer">个人中心</a>
+                </li>
+
+                <li>
+                    <a class="page-scroll" id="resert" style="cursor: pointer">注册</a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="" id="login">登录</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="">注册</a>
+                    <a class="page-scroll"  id="login" style="cursor: pointer">登录</a>
                 </li>
             </ul>
         </div>
@@ -535,22 +617,209 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <!--引入jqury-->
 
-<script src="js/bootstrap.min.js"></script>
-<script src="js/SmoothScroll.js"></script>
-<script src="js/theme-scripts.js"></script>
+<script src="${staticPath}/js/bootstrap.min.js"></script>
+<script src="${staticPath}/js/SmoothScroll.js"></script>
+<script src="${staticPath}/js/theme-scripts.js"></script>
 <script>
     //弹出模态框
     $("#login").click(function(){
-        alert(0);
         // //清除表单数据和样式
-        // reset_form("#empAdd form");
-        // //先查出部门信息
-        // getDepts("#empAdd select");
+       reset_form("#stulogin form");
         //弹出模态框
-        $("#empAdd").modal({
+        $("#stulogin").modal({
             backdrop:"static"
         });
     });
+
+    $("#resert").click(function(){
+        // //清除表单数据和样式
+        reset_form("#stuAdd form");
+        //弹出模态框
+        $("#stuAdd").modal({
+            backdrop:"static"
+        });
+    });
+
+    //清除表单数据和样式
+    function reset_form(ele) {
+        $(ele)[0].reset();
+        //清除表单样式
+        $(ele).find("*").removeClass("has-success has-error");
+        $(ele).find(".help-block").text("");
+    }
+
+    //校验表单数据
+    function validate_add_form() {
+
+        //校验email
+        var empEmail=$("#stuEmail").val();
+        var regEmail=/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+        if(!regEmail.test(empEmail)){
+            //alert("邮箱格式不正确")
+            show_validate_msg("#stuEmail","error","邮箱格式不正确");
+            return false;
+        }else{
+            show_validate_msg("#stuEmail","success","");
+        }
+        return true;
+    }
+
+    function show_validate_msg(ele,status,msg) {
+        $(ele).parent().removeClass("has-success has-error");
+        $(ele).next("span").text(" ");
+        if("success" == status){
+            $(ele).parent().addClass("has-success");
+            $(ele).next("span").text(msg);
+        }else if("error" == status){
+            $(ele).parent().addClass("has-error");
+            $(ele).next("span").text(msg);
+        }
+    }
+
+    $("#stuEmail").change(function () {
+        validate_add_form();
+    });
+
+    $("#stu_login_btn").click(function () {
+
+        if(!validate_add_form()){
+            return false;
+        }
+
+        var email=$("#stuEmail").val();
+        var pwd=$("#stupassword").val();
+       //2.发送ajax请求保存员工
+        $.ajax({
+            url:"/user/check",
+            type:"POST",
+            data: {"email":email,"password":pwd},//序列化保存的数据
+            success:function (result) {
+                //员工保存成功
+                if(result.code == 100) {
+                    //1.关闭模态框
+                    $("#stulogin").modal('hide');
+                    window.location.href="/user/home";
+                }else{
+//                    console.log(result);
+                    if(undefined != result.extend.errorFileds.email){
+                        //显示邮箱的错误信息
+                        show_validate_msg("#email_add","error",result.extend.errorFileds.email);
+                    }
+
+                    if(undefined != result.extend.errorFileds.empName){
+                        //显示员工的错误信息
+                        show_validate_msg("#empName_add","error",result.extend.errorFileds.empNamel);
+                    }
+                }
+            }
+        });
+    });
+
+
+        function getyzm(obj) {
+            var email = $('#stuEmail').val().trim();
+            var remail = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+            if (email != null && email != '') {
+                if (!remail.test(email)) {
+                    layer.tips("邮箱格式错误", $('#email'));
+                } else {
+                    $('#yzm').removeAttr('readonly');
+                    $(obj).attr({'disabled': 'disabled'});
+                    $.ajax({
+                        type: 'get',
+                        url: '/user/sendyzm3',
+                        data: {email: email},
+                        success: function (data) {
+                            if (data == 'has_email') {
+                                layer.msg("账号已注册！请确认！3秒后跳转到登录页面！");
+                                setTimeout(function () {
+                                    location.href = '/login.html';
+                                }, 3000);
+                            }
+                        }
+                    });
+                    setTimeout(function () {
+                        $(obj).removeAttr('disabled');
+                    }, 45000);
+                }
+            } else {
+                layer.tips("请输入邮箱", $('#email'));
+            }
+        }
+
+    function check() {
+        var email = $('#email').val().trim();
+        var nickname = $('#nickname').val().trim();
+        var password = $('#password').val().trim();
+        var again = $('#again').val().trim();
+        var yzm = $('#yzm').val().trim();
+        var rpassword = /^[\w]{6,12}$/;
+        var remail = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+        if (email == null || email == '') {
+            layer.tips("不能为空", $('#email'));
+            return false;
+        } else if (nickname == null || nickname == '') {
+            layer.tips("不能为空", $('#nickname'));
+            return false;
+        } else if (password == null || password == '') {
+            layer.tips("不能为空", $('#password'));
+            return false;
+        } else if (again == null || again == '') {
+            layer.tips("不能为空", $('#again'));
+            return false;
+        } else if (!remail.test(email)) {
+            layer.tips("邮箱格式错误", $('#email'));
+            return false;
+        } else if (!rpassword.test(password)) {
+            layer.tips("6-12位字母、数字、下划线", $('#password'));
+            return false;
+        } else if (password != again) {
+            layer.tips("两次密码输入不同", $('#again'));
+            return false;
+        } else if (yzm == null || yzm == '') {
+            layer.tips("请输入验证码", $('#yzm'));
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function submitf2() {
+        var email = $('#email').val().trim();
+        var nickname = $('#nickname').val().trim();
+        var password = $('#password').val().trim();
+        var yzm = $('#yzm').val().trim();
+        //alert(email + ":" + nickname + ":" + password);
+        if (check()) {
+            //alert(email);
+            $.ajax({
+                type: 'post',
+                url: "/user/checkRegister",
+                dataType: "text",
+                data: {uemail: email, unickname: nickname, upassword: password, yzm: yzm},
+                success: function (data) {
+                    if (data == "success") {
+                        layer.msg("注册成功");
+                        setTimeout(function () {
+                            location.href = "/login.html";
+                        }, 1000);
+                    } else if (data == "busy") {
+                        layer.msg("服务器繁忙");
+                    } else if (data == "has") {
+                        layer.tips("此邮箱已被注册！", $("#email"));
+                    } else if (data == 'error_yzm') {
+                        layer.tips("验证码错误！", $("#yzm"));
+                    } else if (data == 'unknowerr') {
+                        layer.msg("未知错误！");
+                    } else {
+                        layer.msg("请不要修改客户端！");
+                    }
+
+                }
+            });
+        }
+    }
+
 </script>
 </body>
 </html>
