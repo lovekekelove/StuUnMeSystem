@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stumesystem.mapper.StuRightMapper">
+  <resultMap id="BaseResultMap" type="com.stumesystem.bean.StuRight">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="r_right" jdbcType="VARCHAR" property="rRight" />
+    <result column="fid" jdbcType="INTEGER" property="fid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, r_right, fid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from stu_right
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from stu_right
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.stumesystem.bean.StuRight">
+    insert into stu_right (id, r_right, fid
+      )
+    values (#{id,jdbcType=INTEGER}, #{rRight,jdbcType=VARCHAR}, #{fid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.stumesystem.bean.StuRight">
+    insert into stu_right
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="rRight != null">
+        r_right,
+      </if>
+      <if test="fid != null">
+        fid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="rRight != null">
+        #{rRight,jdbcType=VARCHAR},
+      </if>
+      <if test="fid != null">
+        #{fid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stumesystem.bean.StuRight">
+    update stu_right
+    <set>
+      <if test="rRight != null">
+        r_right = #{rRight,jdbcType=VARCHAR},
+      </if>
+      <if test="fid != null">
+        fid = #{fid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stumesystem.bean.StuRight">
+    update stu_right
+    set r_right = #{rRight,jdbcType=VARCHAR},
+      fid = #{fid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

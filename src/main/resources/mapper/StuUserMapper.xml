@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stumesystem.mapper.StuUserMapper">
+  <resultMap id="BaseResultMap" type="com.stumesystem.bean.StuUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="sex" jdbcType="CHAR" property="sex" />
+    <result column="brith" jdbcType="DATE" property="brith" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="docu_address" jdbcType="VARCHAR" property="docuAddress" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="img_heah" jdbcType="VARCHAR" property="imgHeah" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, nickname, password, sex, brith, age, phone, docu_address, email, img_heah
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from stu_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--StuUser selectByEmail(String email);-->
+  <select id="selectByEmail"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from stu_user
+    where email = #{email}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from stu_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.stumesystem.bean.StuUser">
+    insert into stu_user (id, name, nickname, 
+      password, sex, brith, age, 
+      phone, docu_address, email, 
+      img_heah)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{sex,jdbcType=CHAR}, #{brith,jdbcType=DATE}, #{age,jdbcType=INTEGER}, 
+      #{phone,jdbcType=VARCHAR}, #{docuAddress,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{imgHeah,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.stumesystem.bean.StuUser">
+    insert into stu_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="brith != null">
+        brith,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="docuAddress != null">
+        docu_address,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="imgHeah != null">
+        img_heah,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=CHAR},
+      </if>
+      <if test="brith != null">
+        #{brith,jdbcType=DATE},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="docuAddress != null">
+        #{docuAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="imgHeah != null">
+        #{imgHeah,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stumesystem.bean.StuUser">
+    update stu_user
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=CHAR},
+      </if>
+      <if test="brith != null">
+        brith = #{brith,jdbcType=DATE},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="docuAddress != null">
+        docu_address = #{docuAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="imgHeah != null">
+        img_heah = #{imgHeah,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stumesystem.bean.StuUser">
+    update stu_user
+    set name = #{name,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=CHAR},
+      brith = #{brith,jdbcType=DATE},
+      age = #{age,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
+      docu_address = #{docuAddress,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      img_heah = #{imgHeah,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
