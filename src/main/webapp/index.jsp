@@ -8,17 +8,74 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
+    <link rel="icon" href="img/bb.ico">
     <title>成功学院学生会</title>
-    <%@ include file="common/commons.jsp" %>
     <!-- Bootstrap core CSS -->
-    <script src="${staticPath}/js/jquery-1.12.4.min.js"></script>
-    <script src="${staticPath}/js/bootstrap.min.js"></script>
-    <link href="${staticPath}/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="${staticPath}/css/font-awesome.min.css">
+
+    <script src="js/jquery-1.12.4.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/SmoothScroll.js"></script>
+    <script src="js/theme-scripts.js"></script>
+    <script src="${staticPath}/js/plugins/layer/layer.min.js"></script>
+    <script src="${staticPath}/js/plugins/layer/laypage/laypage.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
     <!-- Custom styles for this template -->
-    <link href="${staticPath}/css/style.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 </head>
+
 <body id="page-top">
+<!--修改密码-->
+<div class="modal fade" id="changePwd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">修改密码</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <br>
+                    <div class="form-group">
+                        <label for="stuEmail" class="col-sm-2 control-label">邮箱:</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="email" class="form-control" id="sEmail" placeholder="123@qq.com">
+                            <span  class="help-block"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="stupassword" class="col-sm-2 control-label">新密码:</label>
+                        <div class="col-sm-9">
+                            <input type="password" name="password" class="form-control" id="stupassword1" placeholder="yourpassword">
+                            <span  class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="stupassword" class="col-sm-2 control-label">确认密码:</label>
+                        <div class="col-sm-9">
+                            <input type="password" name="password" class="form-control" id="stupassword2" placeholder="yourpassword">
+                            <span  class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-2"></div>
+                        <div class="col-sm-7">
+                            <input id="mimayzm" type="text" readonly class="form-control" placeholder="验证码"/>
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-danger" onclick="getyzm(this);">获取验证码</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="stu_change_btn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!--login-->
 <div class="modal fade" id="stulogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -31,7 +88,7 @@
                 <form class="form-horizontal">
                     <br>
                     <div class="form-group">
-                        <label for="empName_add" class="col-sm-2 control-label">邮箱:</label>
+                        <label for="stuEmail" class="col-sm-2 control-label">邮箱:</label>
                         <div class="col-sm-9">
                             <input type="text" name="email" class="form-control" id="stuEmail" placeholder="123@qq.com">
                             <span  class="help-block"></span>
@@ -39,26 +96,19 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="email_add" class="col-sm-2 control-label">密码:</label>
+                        <label for="stupassword" class="col-sm-2 control-label">密码:</label>
                         <div class="col-sm-9">
-                            <input type="text" name="password" class="form-control" id="stupassword" placeholder="yourpassword">
+                            <input type="password" name="password" class="form-control" id="stupassword" placeholder="yourpassword">
                             <span  class="help-block"></span>
                         </div>
                     </div>
-                    <%--<div class="form-group">--%>
-                        <%--<div class="col-md-2"></div>--%>
-                        <%--<div class="col-sm-7">--%>
-                            <%--<input id="yzm2" type="text" readonly class="form-control" placeholder="验证码"/>--%>
-                        <%--</div>--%>
-                        <%--<div class="col-sm-2">--%>
-                            <%--<button type="button" class="btn btn-danger" onclick="getyzm(this);">获取验证码</button>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="stu_login_btn">Save</button>
+                <span id="wangjimima" class="col-sm-3 " style="cursor: pointer;color: red">忘记密码？</span>
+                <span class="col-sm-4 "></span>
+                <button type="button" class="btn btn-default col-sm-2" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary col-sm-2" id="stu_login_btn">Save</button>
             </div>
         </div>
     </div>
@@ -95,45 +145,45 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="email_add" class="col-sm-2 control-label">年龄:</label>
+                        <label for="age" class="col-sm-2 control-label">年龄:</label>
                         <div class="col-sm-9">
-                            <input type="text" name="email" class="form-control" id="email_add" placeholder="请输入您的年龄">
+                            <input type="text" name="email" class="form-control" id="age" placeholder="请输入您的年龄">
                             <span  class="help-block"></span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="email_add" class="col-sm-2 control-label">昵称:</label>
+                        <label for="nikename" class="col-sm-2 control-label">昵称:</label>
                         <div class="col-sm-9">
-                            <input type="text" name="email" class="form-control" id="email_add" placeholder="请输入您的昵称">
+                            <input type="text" name="email" class="form-control" id="nikename" placeholder="请输入您的昵称">
                             <span  class="help-block"></span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="email_add" class="col-sm-2 control-label">出生年月:</label>
+                        <label for="brith" class="col-sm-2 control-label">出生年月:</label>
                         <div class="col-sm-9">
-                            <input type="text" name="email" class="form-control" id="email_add" placeholder="请输入您的出生年月">
+                            <input type="text" name="email" class="form-control" id="brith" placeholder="请输入您的出生年月">
                             <span  class="help-block"></span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="email_add" class="col-sm-2 control-label">联系方式:</label>
+                        <label for="phone" class="col-sm-2 control-label">联系方式:</label>
                         <div class="col-sm-9">
-                            <input type="text" name="email" class="form-control" id="email_add" placeholder="请输入您的联系方式">
+                            <input type="text" name="phone" class="form-control" id="phone" placeholder="请输入您的联系方式">
                             <span  class="help-block"></span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="email_add" class="col-sm-2 control-label">寝室住址:</label>
+                        <label for="adress" class="col-sm-2 control-label">寝室住址:</label>
                         <div class="col-sm-9">
-                            <input type="text" name="email" class="form-control" id="email_add" placeholder="请输入您的寝室住址">
+                            <input type="text" name="email" class="form-control" id="adress" placeholder="请输入您的寝室住址">
                             <span  class="help-block"></span>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="email_add" class="col-sm-2 control-label">邮箱:</label>
+                        <label for="iemail" class="col-sm-2 control-label">邮箱:</label>
                         <div class="col-sm-9">
-                            <input type="text" name="email" class="form-control" id="email_add" placeholder="请输入您的邮箱">
+                            <input type="text" name="email" class="form-control" id="iemail" placeholder="请输入您的邮箱">
                             <span  class="help-block"></span>
                         </div>
                     </div>
@@ -168,7 +218,7 @@
             </button>
             <span class="navbar-brand page-scroll">
                 <div>
-                    <img src="images/aa.png"  width="70" height="70"><a>郑州成功财经学院学生会</a>
+                    <img src="img/aa.png"  width="70" height="70"><a>郑州成功财经学院学生会</a>
                 </div>
                </span>
         </div>
@@ -182,16 +232,22 @@
                 <li>
                     <a class="page-scroll" href="#about">关于学院</a>
                 </li>
+                <c:if test="${not empty sessionScope.userinfo}">
                 <li>
                     <a class="page-scroll" id="peocenter" style="cursor: pointer">个人中心</a>
                 </li>
-
+                <li>
+                    <a class="page-scroll"  id="logout" style="cursor: pointer">退出</a>
+                </li>
+                </c:if>
+                <c:if test="${ empty sessionScope.userinfo}">
                 <li>
                     <a class="page-scroll" id="resert" style="cursor: pointer">注册</a>
                 </li>
                 <li>
-                    <a class="page-scroll"  id="login" style="cursor: pointer">登录</a>
+                   <a class="page-scroll"  id="login" style="cursor: pointer">登录</a>
                 </li>
+                </c:if>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -215,7 +271,7 @@
             <div class="col-md-6 col-0-gutter">
                 <div class="ot-portfolio-item">
                     <figure class="effect-bubba">
-                        <img src="images/demo/portfolio-1.jpg" alt="img02" class="img-responsive" />
+                        <img src="img/demo/portfolio-1.jpg" alt="img02" class="img-responsive" />
                         <figcaption>
                             <h2>Dean & Letter</h2>
                             <p>Branding, Design</p>
@@ -229,7 +285,7 @@
             <div class="col-md-6 col-0-gutter">
                 <div class="ot-portfolio-item">
                     <figure class="effect-bubba">
-                        <img src="images/demo/portfolio-2.jpg" alt="img02" class="img-responsive" />
+                        <img src="img/demo/portfolio-2.jpg" alt="img02" class="img-responsive" />
                         <figcaption>
                             <h2>Startup Framework</h2>
                             <p>Branding, Web Design</p>
@@ -245,7 +301,7 @@
             <div class="col-md-6 col-0-gutter">
                 <div class="ot-portfolio-item">
                     <figure class="effect-bubba">
-                        <img src="images/demo/portfolio-3.jpg" alt="img02" class="img-responsive" />
+                        <img src="img/demo/portfolio-3.jpg" alt="img02" class="img-responsive" />
                         <figcaption>
                             <h2>Lamp & Velvet</h2>
                             <p>Branding, Web Design</p>
@@ -259,7 +315,7 @@
             <div class="col-md-6 col-0-gutter">
                 <div class="ot-portfolio-item">
                     <figure class="effect-bubba">
-                        <img src="images/demo/portfolio-4.jpg" alt="img02" class="img-responsive" />
+                        <img src="img/demo/portfolio-4.jpg" alt="img02" class="img-responsive" />
                         <figcaption>
                             <h2>Smart Name</h2>
                             <p>Branding, Design</p>
@@ -275,7 +331,7 @@
             <div class="col-md-6 col-0-gutter">
                 <div class="ot-portfolio-item">
                     <figure class="effect-bubba">
-                        <img src="images/demo/portfolio-5.jpg" alt="img02" class="img-responsive" />
+                        <img src="img/demo/portfolio-5.jpg" alt="img02" class="img-responsive" />
                         <figcaption>
                             <h2>Fast People</h2>
                             <p>Branding, Web Design</p>
@@ -289,7 +345,7 @@
             <div class="col-md-6 col-0-gutter">
                 <div class="ot-portfolio-item">
                     <figure class="effect-bubba">
-                        <img src="images/demo/portfolio-6.jpg" alt="img02" class="img-responsive" />
+                        <img src="img/demo/portfolio-6.jpg" alt="img02" class="img-responsive" />
                         <figcaption>
                             <h2>Kites & Stars</h2>
                             <p>Branding, Web Design</p>
@@ -362,40 +418,6 @@
                 </div>
             </div>
         </div>
-        <div class="row row-0-gutter">
-            <!-- about module -->
-            <div class="col-md-3 col-0-gutter mz-about-default text-center">
-                <div class="mz-module-about">
-                    <i class="fa fa-briefcase ot-circle"></i>
-                    <h3>Web Development</h3>
-                </div>
-            </div>
-            <!-- end about module -->
-            <!-- about module -->
-            <div class="col-md-3 col-0-gutter mz-about-dark text-center">
-                <div class="mz-module-about">
-                    <i class="fa fa-photo ot-circle"></i>
-                    <h3>Visualisation</h3>
-                </div>
-            </div>
-            <!-- end about module -->
-            <!-- about module -->
-            <div class="col-md-3 col-0-gutter mz-about-default text-center">
-                <div class="mz-module-about">
-                    <i class="fa fa-camera-retro ot-circle"></i>
-                    <h3>Photography</h3>
-                </div>
-            </div>
-            <!-- end about module -->
-            <!-- about module -->
-            <div class="col-md-3 col-0-gutter mz-about-dark text-center">
-                <div class="mz-module-about">
-                    <i class="fa fa-cube ot-circle"></i>
-                    <h3>UI/UX Design</h3>
-                </div>
-            </div>
-            <!-- end about module -->
-        </div>
     </div>
     <!-- /.container -->
 </section>
@@ -414,7 +436,7 @@
             <div class="col-md-4">
                 <div class="team-item">
                     <div class="team-image">
-                        <img src="images/demo/author-2.jpg" class="img-responsive" alt="author">
+                        <img src="img/1.jpg" class="img-responsive" alt="author">
                     </div>
                     <div class="team-text">
                         <h3>TOM BEKERS</h3>
@@ -428,7 +450,7 @@
             <div class="col-md-4">
                 <div class="team-item">
                     <div class="team-image">
-                        <img src="images/demo/author-6.jpg" class="img-responsive" alt="author">
+                        <img src="img/1.jpg" class="img-responsive" alt="author">
                     </div>
                     <div class="team-text">
                         <h3>LINA GOSATA</h3>
@@ -442,7 +464,7 @@
             <div class="col-md-4">
                 <div class="team-item">
                     <div class="team-image">
-                        <img src="images/demo/author-4.jpg" class="img-responsive" alt="author">
+                        <img src="img/1.jpg" class="img-responsive" alt="author">
                     </div>
                     <div class="team-text">
                         <h3>John BEKERS</h3>
@@ -456,59 +478,13 @@
     </div>
 </section>
 
-<section id="contact">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <div class="section-title">
-                    <h2>Contact Us</h2>
-                    <p>If you have some Questions or need Help! Please Contact Us!<br>We make Cool and Clean Design for your Business</p>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <form name="sentMessage" id="contactForm" novalidate="">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Your Name *" id="name" required="" data-validation-required-message="Please enter your name.">
-                                <p class="help-block text-danger"></p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <input type="email" class="form-control" placeholder="Your Email *" id="email" required="" data-validation-required-message="Please enter your email address.">
-                                <p class="help-block text-danger"></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <textarea class="form-control" placeholder="Your Message *" id="message" required="" data-validation-required-message="Please enter a message."></textarea>
-                                <p class="help-block text-danger"></p>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12 text-center">
-                            <div id="success"></div>
-                            <button type="submit" class="btn">Send Message</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
+
 <p id="back-top">
     <a href="#top"><i class="fa fa-angle-up"></i></a>
 </p>
 <footer>
     <div class="container text-center">
-        <p>Designed by MOOZThemes - More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>
+        <p>Designed by 张腾飞 - More Templates  - Collect from <a href="http://www.chenggong.edu.cn/" title="成功学院" target="_blank">成功学院</a></p>
     </div>
 </footer>
 
@@ -521,7 +497,7 @@
                 <h4 class="modal-title" id="Modal-label-1">Dean & Letter</h4>
             </div>
             <div class="modal-body">
-                <img src="images/demo/portfolio-1.jpg" alt="img01" class="img-responsive" />
+                <img src="img/demo/portfolio-1.jpg" alt="img01" class="img-responsive" />
                 <div class="modal-works"><span>Branding</span><span>Web Design</span></div>
                 <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe</p>
             </div>
@@ -541,7 +517,7 @@
                 <h4 class="modal-title" id="Modal-label-2">Startup Framework</h4>
             </div>
             <div class="modal-body">
-                <img src="images/demo/portfolio-2.jpg" alt="img01" class="img-responsive" />
+                <img src="img/demo/portfolio-2.jpg" alt="img01" class="img-responsive" />
                 <div class="modal-works"><span>Branding</span><span>Web Design</span></div>
                 <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe</p>
             </div>
@@ -561,7 +537,7 @@
                 <h4 class="modal-title" id="Modal-label-3">Lamp & Velvet</h4>
             </div>
             <div class="modal-body">
-                <img src="images/demo/portfolio-3.jpg" alt="img01" class="img-responsive" />
+                <img src="img/demo/portfolio-3.jpg" alt="img01" class="img-responsive" />
                 <div class="modal-works"><span>Branding</span><span>Web Design</span></div>
                 <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe</p>
             </div>
@@ -581,7 +557,7 @@
                 <h4 class="modal-title" id="Modal-label-4">Smart Name</h4>
             </div>
             <div class="modal-body">
-                <img src="images/demo/portfolio-4.jpg" alt="img01" class="img-responsive" />
+                <img src="img/demo/portfolio-4.jpg" alt="img01" class="img-responsive" />
                 <div class="modal-works"><span>Branding</span><span>Web Design</span></div>
                 <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe</p>
             </div>
@@ -601,7 +577,7 @@
                 <h4 class="modal-title" id="Modal-label-5">Fast People</h4>
             </div>
             <div class="modal-body">
-                <img src="images/demo/portfolio-5.jpg" alt="img01" class="img-responsive" />
+                <img src="img/demo/portfolio-5.jpg" alt="img01" class="img-responsive" />
                 <div class="modal-works"><span>Branding</span><span>Web Design</span></div>
                 <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe</p>
             </div>
@@ -617,10 +593,44 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <!--引入jqury-->
 
-<script src="${staticPath}/js/bootstrap.min.js"></script>
-<script src="${staticPath}/js/SmoothScroll.js"></script>
-<script src="${staticPath}/js/theme-scripts.js"></script>
 <script>
+    <!--退出系统-->
+    $("#logout").click(function () {
+        $.ajax({
+            type: "POST",
+            url: "/user/logout",
+            dataType: "json",
+            success: function (result) {
+                if(result.code == 100){
+                    console.log(result)
+                    window.location.href="/";
+                }
+            }
+        });
+    });
+
+    <!--忘记密码，修改密码-->
+    $("#wangjimima").click(function () {
+        //1.关闭模态框
+        $("#stulogin").modal('hide');
+        //2打开修改密码的模态框
+        $("#changePwd").modal({
+            backdrop:"static"
+        });
+    });
+<!--获取验证码-->
+    function getyzm(obj) {
+        var email=$("#sEmail").val();
+        alert(email);
+        $('#mimayzm').removeAttr('readonly');
+        $(obj).attr({'disabled': 'disabled'});
+        $.ajax({
+            type: 'get',
+            url: '${staticPath}/user/sendyzm',
+           data: {"email":email},
+        });
+    }
+
     //弹出模态框
     $("#login").click(function(){
         // //清除表单数据和样式
@@ -688,27 +698,32 @@
 
         var email=$("#stuEmail").val();
         var pwd=$("#stupassword").val();
+
        //2.发送ajax请求保存员工
         $.ajax({
-            url:"/user/check",
+            url:"/user/login",
             type:"POST",
-            data: {"email":email,"password":pwd},//序列化保存的数据
+            dataType: "json",
+            data: {"email":email,"password":pwd},
             success:function (result) {
-                //员工保存成功
+                //登录成功
+                // console.log(result.code);
+
                 if(result.code == 100) {
                     //1.关闭模态框
                     $("#stulogin").modal('hide');
-                    window.location.href="/user/home";
+                    window.location.href="/";
                 }else{
-//                    console.log(result);
-                    if(undefined != result.extend.errorFileds.email){
+
+                    if(result.code == 404){
+
                         //显示邮箱的错误信息
-                        show_validate_msg("#email_add","error",result.extend.errorFileds.email);
+                        show_validate_msg("#stuEmail","error",result.extend.errors);
                     }
 
-                    if(undefined != result.extend.errorFileds.empName){
+                    if(result.code == 200){
                         //显示员工的错误信息
-                        show_validate_msg("#empName_add","error",result.extend.errorFileds.empNamel);
+                        show_validate_msg("#stupassword","error",result.extend.errors);
                     }
                 }
             }
@@ -716,36 +731,37 @@
     });
 
 
-        function getyzm(obj) {
-            var email = $('#stuEmail').val().trim();
-            var remail = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
-            if (email != null && email != '') {
-                if (!remail.test(email)) {
-                    layer.tips("邮箱格式错误", $('#email'));
-                } else {
-                    $('#yzm').removeAttr('readonly');
-                    $(obj).attr({'disabled': 'disabled'});
-                    $.ajax({
-                        type: 'get',
-                        url: '/user/sendyzm3',
-                        data: {email: email},
-                        success: function (data) {
-                            if (data == 'has_email') {
-                                layer.msg("账号已注册！请确认！3秒后跳转到登录页面！");
-                                setTimeout(function () {
-                                    location.href = '/login.html';
-                                }, 3000);
-                            }
-                        }
-                    });
-                    setTimeout(function () {
-                        $(obj).removeAttr('disabled');
-                    }, 45000);
-                }
-            } else {
-                layer.tips("请输入邮箱", $('#email'));
-            }
-        }
+
+        // function getyzm(obj) {
+        //     var email = $('#stuEmail').val().trim();
+        //     var remail = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+        //     if (email != null && email != '') {
+        //         if (!remail.test(email)) {
+        //             layer.tips("邮箱格式错误", $('#email'));
+        //         } else {
+        //             $('#yzm').removeAttr('readonly');
+        //             $(obj).attr({'disabled': 'disabled'});
+        //             $.ajax({
+        //                 type: 'get',
+        //                 url: '/user/sendyzm3',
+        //                 data: {email: email},
+        //                 success: function (data) {
+        //                     if (data == 'has_email') {
+        //                         layer.msg("账号已注册！请确认！3秒后跳转到登录页面！");
+        //                         setTimeout(function () {
+        //                             location.href = '/login.html';
+        //                         }, 3000);
+        //                     }
+        //                 }
+        //             });
+        //             setTimeout(function () {
+        //                 $(obj).removeAttr('disabled');
+        //             }, 45000);
+        //         }
+        //     } else {
+        //         layer.tips("请输入邮箱", $('#email'));
+        //     }
+        // }
 
     function check() {
         var email = $('#email').val().trim();
