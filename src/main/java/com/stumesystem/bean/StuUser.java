@@ -1,5 +1,6 @@
 package com.stumesystem.bean;
 
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 public class StuUser {
@@ -21,6 +22,8 @@ public class StuUser {
 
     private String docuAddress;
 
+    @Pattern(regexp = "^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]{2,6})$"
+            ,message = "邮箱格式错误")
     private String email;
 
     private String imgHeah;

@@ -15,5 +15,7 @@ public interface StuUserMapper {
 
     int updateByPrimaryKeySelective(StuUser record);
 
+    int updateByEmailSelective(StuUser record);
+
     int updateByPrimaryKey(StuUser record);
 }

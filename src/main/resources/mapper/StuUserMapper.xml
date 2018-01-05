@@ -154,6 +154,42 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="updateByEmailSelective" parameterType="com.stumesystem.bean.StuUser">
+    update stu_user
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=CHAR},
+      </if>
+      <if test="brith != null">
+        brith = #{brith,jdbcType=DATE},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="docuAddress != null">
+        docu_address = #{docuAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="imgHeah != null">
+        img_heah = #{imgHeah,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where email = #{email,jdbcType=VARCHAR}
+  </update>
   <update id="updateByPrimaryKey" parameterType="com.stumesystem.bean.StuUser">
     update stu_user
     set name = #{name,jdbcType=VARCHAR},
@@ -168,4 +204,5 @@
       img_heah = #{imgHeah,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
 </mapper>

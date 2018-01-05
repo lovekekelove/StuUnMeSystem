@@ -52,7 +52,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="stupassword" class="col-sm-2 control-label">确认密码:</label>
+                        <label for="stupassword2" class="col-sm-2 control-label">确认密码:</label>
                         <div class="col-sm-9">
                             <input type="password" name="password" class="form-control" id="stupassword2" placeholder="yourpassword">
                             <span  class="help-block"></span>
@@ -60,18 +60,19 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-2"></div>
-                        <div class="col-sm-7">
+                        <div class="col-sm-6">
                             <input id="mimayzm" type="text" readonly class="form-control" placeholder="验证码"/>
+                            <span  class="help-block"></span>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <button type="button" class="btn btn-danger" onclick="getyzm(this);">获取验证码</button>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="stu_change_btn">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="stu_change_btn">确定</button>
             </div>
         </div>
     </div>
@@ -602,34 +603,185 @@
             dataType: "json",
             success: function (result) {
                 if(result.code == 100){
-                    console.log(result)
+                    // console.log(result)
                     window.location.href="/";
                 }
             }
         });
     });
 
+    //清除表单数据和样式
+    function reset_form(ele) {
+        $(ele)[0].reset();
+        //清除表单样式
+        $(ele).find("*").removeClass("has-success has-error");
+        $(ele).find(".help-block").text("");
+    }
+
     <!--忘记密码，修改密码-->
     $("#wangjimima").click(function () {
         //1.关闭模态框
         $("#stulogin").modal('hide');
+        setTimeout(function(){
+            reset_form("#changePwd form");
+            $("#changePwd").modal({
+                backdrop:"static"
+            });
+        },600);
         //2打开修改密码的模态框
-        $("#changePwd").modal({
-            backdrop:"static"
-        });
     });
 <!--获取验证码-->
     function getyzm(obj) {
+
+
+
         var email=$("#sEmail").val();
-        alert(email);
-        $('#mimayzm').removeAttr('readonly');
-        $(obj).attr({'disabled': 'disabled'});
+        var pwd=$("#stupassword1").val();
+        var pwd2=$("#stupassword2").val();
+        var regPwd=/^([a-z0-9A-Z]{6,14})$/;
+        if(email==''){
+            show_validate_msg("#sEmail","error","请输入邮箱！");
+            return false;
+        }
+        if(pwd==''){
+            show_validate_msg("#stupassword1","error","请输入密码！");
+            return false;
+
+        }else if(!regPwd.test(pwd)){
+            show_validate_msg("#stupassword1","error","密码格式不对！");
+            return false;
+        }else{
+            show_validate_msg("#stupassword1","success","");
+        }
+
+        if(pwd2==''){
+            show_validate_msg("#stupassword2","error","请输入密码！");
+            return false;
+        }else if(pwd==pwd2){
+            show_validate_msg("#stupassword2","success","");
+        }else{
+            show_validate_msg("#stupassword2","error","两次密码不一致！");
+            return false;
+        }
+
+        var regEmail=/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+        if(!regEmail.test(email)){
+            //alert("邮箱格式不正确")
+            return  false;
+        }
+
+
+
+        changetime(obj);//倒计时60s
         $.ajax({
             type: 'get',
             url: '${staticPath}/user/sendyzm',
-           data: {"email":email},
+            dataType: "json",
+            data: {"email":email},
+            success: function (result) {
+                if(result.code==100){
+                    show_validate_msg("#sEmail","success","");
+                    $("#stu_change_btn").attr("ajax_va","success");
+                    window.setTimeout(show,60000);
+                    function show()
+                    {
+                        $.ajax ({
+                            type: 'get',
+                            data: {"email":email},
+                            url: '${staticPath}/user/checkoutyzm',
+                            dataType: "json",
+                            success: function (result) {
+                                if(result.code==100){
+                                    $('#mimayzm').attr({'readonly': 'readonly'});
+                                    $(obj).removeAttr('disabled');
+                                }
+                            }
+                        });
+                    }
+                }else{
+                    show_validate_msg("#sEmail","error",result.extend.va_msg);
+                    $("#stu_change_btn").attr("ajax_va","error");
+                    $('#mimayzm').attr({'readonly': 'readonly'});
+                    $(obj).removeAttr('disabled');
+                }
+            }
         });
     }
+
+    var countdown=60;
+
+    function  changetime(obj) {
+        if (countdown == 0) {
+            $('#mimayzm').attr({'readonly': 'readonly'});
+            $(obj).removeAttr('disabled');
+            $(obj).text("获取验证码");
+            countdown = 60;
+            return false;
+        } else {
+            $('#mimayzm').removeAttr('readonly');
+            $(obj).attr({'disabled': 'disabled'});
+            $(obj).text("重新发送(" + countdown + ")");
+            countdown--;
+        }
+        setTimeout(function() {
+            changetime(obj);
+        },1000);
+    }
+
+    //修改密码验证邮箱
+    $("#sEmail").change(function () {
+        var email=$("#sEmail").val();
+        if(email==''){
+            show_validate_msg("#sEmail","error","邮箱不能为空！");
+            $("#emp_save_btn").attr("ajax_va","success");
+        }
+
+        var regEmail=/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+        if(!regEmail.test(email)){
+            //alert("邮箱格式不正确")
+            show_validate_msg("#sEmail","error","邮箱格式不正确");
+
+        }else{
+            show_validate_msg("#sEmail","success"," ");
+        }
+    });
+
+    <!--确认修改密码-->
+    $("#stu_change_btn").click(function () {
+        var email=$("#sEmail").val();
+        var pwd2=$("#stupassword2").val();
+        var mimayzm=$("#mimayzm").val();
+        var regY=/^([0-9]{6})$/;
+        if(!regY.test(mimayzm)){
+            show_validate_msg("#mimayzm","error","格式错误，请重新输入！");
+            return false;
+        }else if(mimayzm ==''){
+            show_validate_msg("#mimayzm","error","请在60s内输入验证码！");
+            return false;
+        }else {
+            show_validate_msg("#mimayzm","success","");
+        }
+
+        if($(this).attr("ajax_va")=="error"){
+               return false;
+        }
+
+        $.ajax({
+                url:"${staticPath}/user/intoalterpassword",
+                type:"POST",
+                dataType: "json",
+                data: {"email":email,"password":pwd2,"yzm":mimayzm},
+                success:function (result) {
+                    if(result.code==100){
+                        alert("密码修改成功！");
+                        $("#changePwd").modal('hide');
+                    }else {
+                        alert(result.extend.erroryzm);
+                        $("#changePwd").modal('hide');
+                    }
+            }
+        });
+    });
 
     //弹出模态框
     $("#login").click(function(){
@@ -650,6 +802,8 @@
         });
     });
 
+
+
     //清除表单数据和样式
     function reset_form(ele) {
         $(ele)[0].reset();
@@ -659,17 +813,17 @@
     }
 
     //校验表单数据
-    function validate_add_form() {
+    function validate_add_form(eles) {
 
         //校验email
-        var empEmail=$("#stuEmail").val();
+        var empEmail= $(eles).val();
         var regEmail=/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
         if(!regEmail.test(empEmail)){
             //alert("邮箱格式不正确")
-            show_validate_msg("#stuEmail","error","邮箱格式不正确");
+            show_validate_msg(eles,"error","邮箱格式不正确");
             return false;
         }else{
-            show_validate_msg("#stuEmail","success","");
+            show_validate_msg(eles,"success","");
         }
         return true;
     }
@@ -687,12 +841,12 @@
     }
 
     $("#stuEmail").change(function () {
-        validate_add_form();
+        validate_add_form("#stuEmail");
     });
 
     $("#stu_login_btn").click(function () {
 
-        if(!validate_add_form()){
+        if(!validate_add_form("#stuEmail")){
             return false;
         }
 
