@@ -12,7 +12,15 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <mvc:annotation-driven>
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <list>
+                <bean class="com.stumesystem.util.DateConverter" />
+            </list>
+        </property>
+    </bean>
+
+    <mvc:annotation-driven conversion-service="conversionService">
         <mvc:message-converters register-defaults="true">
             <!-- 配置Fastjson支持 -->
             <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
@@ -31,7 +39,9 @@
             </bean>
         </mvc:message-converters>
 
-    </mvc:annotation-driven>
+
+
+    </mvc:annotation-driven >
 
     <mvc:default-servlet-handler/>
 

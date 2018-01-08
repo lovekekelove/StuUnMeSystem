@@ -10,12 +10,14 @@
     <result column="brith" jdbcType="DATE" property="brith" />
     <result column="age" jdbcType="INTEGER" property="age" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="state" jdbcType="CHAR" property="state" />
     <result column="docu_address" jdbcType="VARCHAR" property="docuAddress" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="img_heah" jdbcType="VARCHAR" property="imgHeah" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, nickname, password, sex, brith, age, phone, docu_address, email, img_heah
+    id, name, nickname, password, sex, brith, age, phone, state, docu_address, email, 
+    img_heah
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -23,14 +25,19 @@
     from stu_user
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <!--StuUser selectByEmail(String email);-->
-  <select id="selectByEmail"  resultMap="BaseResultMap">
+  <select id="selectByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from stu_user
-    where email = #{email}
+    where email = #{email,jdbcType=VARCHAR}
   </select>
 
+  <select id="selectBynickname" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from stu_user
+    where nickname = #{nickname,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from stu_user
     where id = #{id,jdbcType=INTEGER}
@@ -38,12 +45,12 @@
   <insert id="insert" parameterType="com.stumesystem.bean.StuUser">
     insert into stu_user (id, name, nickname, 
       password, sex, brith, age, 
-      phone, docu_address, email, 
-      img_heah)
+      phone, state, docu_address, 
+      email, img_heah)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{sex,jdbcType=CHAR}, #{brith,jdbcType=DATE}, #{age,jdbcType=INTEGER}, 
-      #{phone,jdbcType=VARCHAR}, #{docuAddress,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{imgHeah,jdbcType=VARCHAR})
+      #{phone,jdbcType=VARCHAR}, #{state,jdbcType=CHAR}, #{docuAddress,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{imgHeah,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.stumesystem.bean.StuUser">
     insert into stu_user
@@ -71,6 +78,9 @@
       </if>
       <if test="phone != null">
         phone,
+      </if>
+      <if test="state != null">
+        state,
       </if>
       <if test="docuAddress != null">
         docu_address,
@@ -107,6 +117,9 @@
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
       </if>
+      <if test="state != null">
+        #{state,jdbcType=CHAR},
+      </if>
       <if test="docuAddress != null">
         #{docuAddress,jdbcType=VARCHAR},
       </if>
@@ -142,6 +155,9 @@
       <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
       </if>
+      <if test="state != null">
+        state = #{state,jdbcType=CHAR},
+      </if>
       <if test="docuAddress != null">
         docu_address = #{docuAddress,jdbcType=VARCHAR},
       </if>
@@ -154,6 +170,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <update id="updateByEmailSelective" parameterType="com.stumesystem.bean.StuUser">
     update stu_user
     <set>
@@ -178,6 +195,9 @@
       <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
       </if>
+      <if test="state != null">
+        state = #{state,jdbcType=CHAR},
+      </if>
       <if test="docuAddress != null">
         docu_address = #{docuAddress,jdbcType=VARCHAR},
       </if>
@@ -190,6 +210,7 @@
     </set>
     where email = #{email,jdbcType=VARCHAR}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="com.stumesystem.bean.StuUser">
     update stu_user
     set name = #{name,jdbcType=VARCHAR},
@@ -199,10 +220,10 @@
       brith = #{brith,jdbcType=DATE},
       age = #{age,jdbcType=INTEGER},
       phone = #{phone,jdbcType=VARCHAR},
+      state = #{state,jdbcType=CHAR},
       docu_address = #{docuAddress,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       img_heah = #{imgHeah,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
 </mapper>

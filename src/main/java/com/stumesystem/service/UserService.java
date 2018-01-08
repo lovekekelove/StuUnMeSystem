@@ -23,5 +23,11 @@ public class UserService {
     public Boolean updatePwd(StuUser stu){
         return stuUserMapper.updateByEmailSelective(stu)>0;
     }
+    public Boolean regUser(StuUser stu){
+        return stuUserMapper.insertSelective(stu)>0;
+    }
 
+    public StuUser getUserYZniC(String nickname){
+        return stuUserMapper.selectBynickname(nickname);
+    }
 }

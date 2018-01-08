@@ -8,20 +8,22 @@ import com.stumesystem.util.MD5Utils;
 import com.stumesystem.util.MailUtil;
 import com.stumesystem.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,8 +53,13 @@ public class UserController {
         if(user!=null){
             if(MD5Util.checkPassword(pwd,user.getPassword())){
                //校验成功  设置session
-               request.getSession().setAttribute("userinfo",user);
-               return Msg.success();
+                if("1".equals(user.getState())){
+                    request.getSession().setAttribute("userinfo",user);
+                    return Msg.success();
+                }else{
+                    return Msg.fail().add("errors","未通过审核！");
+                }
+
            }else{
                // 校验失败  返回校验失败signal
                 return Msg.fail().add("errors","密码错误");
@@ -76,6 +83,57 @@ public class UserController {
     }
 
     /**
+     * 用户注册
+     * @param stu
+     * @param request
+     * @return
+     * @throws UnsupportedEncodingException
+     * @throws NoSuchAlgorithmException
+     */
+    @RequestMapping(value = "/reg",method = RequestMethod.POST)
+    @ResponseBody
+   public Msg registerUser(StuUser stu, HttpServletRequest request) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        String imgHeah="img/a1.jpg";
+        stu.setImgHeah(imgHeah);
+        stu.setState("2");
+        stu.setPassword(MD5Util.EncoderByMd5(stu.getPassword()));
+        if(userService.regUser(stu)){
+            return Msg.success();
+        }
+
+        return Msg.fail().add("errors","注册失败");
+    }
+
+    /**
+     * 验证昵称是否存在
+     * @param nickname
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/nicheng")
+    public Msg yzNiChen(@RequestParam("nickname") String nickname){
+        if (userService.getUserYZniC(nickname)==null){
+            return Msg.success();
+        }
+        return Msg.fail();
+    }
+
+    /**
+     * 验证邮箱是否存在
+     * @param email
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/yemail")
+    public Msg yzEmail(@RequestParam("email") String email){
+        if (userService.getUser(email)==null){
+            return Msg.success();
+        }
+        return Msg.fail();
+    }
+
+
+    /**
      * 获取验证码
      * @param request
      */
@@ -97,6 +155,17 @@ public class UserController {
         request.getSession().getServletContext().setAttribute(uemail, yzm);
         return Msg.success();
     }
+
+    /**
+     * 需改密码
+     * @param email
+     * @param password
+     * @param yzm
+     * @param request
+     * @return
+     * @throws UnsupportedEncodingException
+     * @throws NoSuchAlgorithmException
+     */
     @ResponseBody
     @RequestMapping("/intoalterpassword")
     public Msg changePWD(@RequestParam("email") String email,

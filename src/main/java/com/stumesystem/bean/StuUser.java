@@ -1,6 +1,5 @@
 package com.stumesystem.bean;
 
-import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 public class StuUser {
@@ -20,13 +19,23 @@ public class StuUser {
 
     private String phone;
 
+    private String state;
+
     private String docuAddress;
 
-    @Pattern(regexp = "^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]{2,6})$"
-            ,message = "邮箱格式错误")
     private String email;
 
     private String imgHeah;
+
+    private String yzm;
+
+    public String getYzm() {
+        return yzm;
+    }
+
+    public void setYzm(String yzm) {
+        this.yzm = yzm;
+    }
 
     public Integer getId() {
         return id;
@@ -90,6 +99,14 @@ public class StuUser {
 
     public void setPhone(String phone) {
         this.phone = phone == null ? null : phone.trim();
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state == null ? null : state.trim();
     }
 
     public String getDocuAddress() {

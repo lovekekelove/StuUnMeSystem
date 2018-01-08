@@ -11,11 +11,16 @@ public interface StuUserMapper {
 
     StuUser selectByPrimaryKey(Integer id);
 
+
     StuUser selectByEmail(String email);
 
+    StuUser selectBynickname(String email);
+
     int updateByPrimaryKeySelective(StuUser record);
+
 
     int updateByEmailSelective(StuUser record);
 
     int updateByPrimaryKey(StuUser record);
+
 }
