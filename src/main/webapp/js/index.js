@@ -22,6 +22,13 @@ $("#user_save_btn").click(function () {
         return false;
     }
 
+    if($(this).attr("ajax_va1")=="error" ||
+        $(this).attr("ajax_va")=="error" ||
+        $(this).attr("ajax_va2")=="error"){
+      return  false;
+    }
+
+
    var arr=$("#stuAdd form").serialize();
     $.ajax({
         url:"/user/reg",
@@ -31,12 +38,25 @@ $("#user_save_btn").click(function () {
         success:function (result) {
             //员工保存成功
             if(result.code == 100) {
+                alert("注册成功！");
                 //1.关闭模态框
                 $('#stuAdd').modal('hide')
-
             }else{
+                if(result.code == 200){
 
-
+                    if(result.extend.errors == 'email'){
+                        show_validate_msg("#iemail","error","邮箱已存在！");
+                    }
+                    if(result.extend.errors == 'niname'){
+                        show_validate_msg("#niname","error","昵称已存在！");
+                    }
+                    if(result.extend.errors == 'error'){
+                        show_validate_msg("#iyzm","error","验证码输入错误！");
+                    }
+                    else {
+                        show_validate_msg("#iemail", "error", result.extend.errorFileds.email);
+                    }
+                }
             }
         }
     });
@@ -108,7 +128,7 @@ function getyzm(obj) {
         return false;
     }
 
-    changetime(obj);//倒计时60s
+    changetime(obj,'#mimayzm');//倒计时60s
     $.ajax({
         type: 'get',
         url: '/user/sendyzm',
@@ -146,15 +166,15 @@ function getyzm(obj) {
 
 var countdown=60;
 
-function  changetime(obj) {
+function  changetime(obj,ele) {
     if (countdown == 0) {
-        yzmre('#mimayzm');
+        yzmre(ele);
         $(obj).removeAttr('disabled');
         $(obj).text("获取验证码");
         countdown = 60;
         return false;
     } else {
-        yzmzt('#mimayzm');
+        yzmzt(ele);
         $(obj).attr({'disabled': 'disabled'});
         $(obj).text("重新发送(" + countdown + ")");
         countdown--;
@@ -366,10 +386,18 @@ $("#niname").change(function () {
                 }else {
                     show_validate_msg("#niname","error","昵称已经被使用！");
                      $("#user_save_btn").attr("ajax_va1","error");
+                    validate_yz_button();
                 }
             }
         });
     });
+function validate_yz_button(ele) {
+    if(ele=='error') {
+        $("#make_yz_btn").attr({'disabled': 'disabled'});
+    }else if(ele='success'){
+        $("#make_yz_btn").removeAttr('disabled');
+    }
+}
 
 $("#iemail").change(function () {
     var email = $('#iemail').val().trim();
@@ -385,16 +413,20 @@ $("#iemail").change(function () {
                 if (email == null || email == '') {
                     show_validate_msg("#iemail","error","邮箱不能为空！");
                     $("#user_save_btn").attr("ajax_va","error");
+                    validate_yz_button('error');
                 } else if(!remail.test(email)){
                     show_validate_msg("#iemail","error","邮箱格式不对！");
                     $("#user_save_btn").attr("ajax_va","error");
+                    validate_yz_button('error');
                 } else {
                     show_validate_msg("#iemail","success","邮箱可以注册使用！");
                     $("#user_save_btn").attr("ajax_va","success");
+                    validate_yz_button('success');
                 }
             }else {
                 show_validate_msg("#iemail","error","邮箱已经被使用！");
                 $("#user_save_btn").attr("ajax_va","error");
+                validate_yz_button('error');
             }
         }
     });
@@ -416,6 +448,7 @@ function check() {
     var rphone=/^1[3|4|5|7|8|9][0-9]\d{8}$/;
     var rpwd=/^([a-zA-Z0-9]{6,16})$/;
     var raddress=/^(([1|2][0-9])|[1-9])-([1-6][0-2][1-9]|[1-6][3][1-5])$/;
+    var ryzm=/^[0-9]{6}$/;
     //验证姓名
     if(name == null || name == ''){
         show_validate_msg("#iname","error","姓名不能为空！");
@@ -437,16 +470,13 @@ function check() {
         show_validate_msg("#iage","success","");
     }
 
-    // //验证出生年月
-    // if(brith == null || brith == ''){
-    //     show_validate_msg("#ibrith","error","年龄不能为空！");
-    //     return false;
-    // }else if (!rbrith.test(brith)) {
-    //     show_validate_msg("#ibrith","error","格式应该为xxxx-xx-xx!");
-    //     return false;
-    // } else {
-    //     show_validate_msg("#ibrith","success","");
-    // }
+    //验证出生年月
+    if(brith == null || brith == ''){
+        show_validate_msg("#ibrith","error","年龄不能为空！");
+        return false;
+    }else {
+        show_validate_msg("#ibrith","success","");
+    }
     //验证手机号
     if(phone == null || phone == ''){
         show_validate_msg("#iphone","error","手机不能为空！");
@@ -480,8 +510,16 @@ function check() {
         return true;
     }
 
-
-
+    if (yzm == null || yzm == '') {
+        show_validate_msg("#iyzm","error","验证码不能为空！");
+        return false;
+    } else if (!ryzm.test(yzm)) {
+        show_validate_msg("#iyzm","error","验证码格式不正确！");
+        return false;
+    } else {
+        show_validate_msg("#iyzm","success","");
+        return true;
+    }
 }
 
 <!--获取注册验证码-->
@@ -498,14 +536,16 @@ function getyzm2(obj) {
         show_validate_msg("#iemail","success","");
     }
 
-    if($("#user_save_btn").attr("ajax_va")=="error"){
+
+    if(!check()){
         return false;
     }
 
-    changetime(obj);//倒计时60s
+    changetime(obj,'#iyzm');//倒计时60s
+
     $.ajax({
         type: 'get',
-        url: '/user/sendyzm',
+        url: '/user/sendyzm2',
         dataType: "json",
         data: {"email":email},
         success: function (result) {
@@ -536,41 +576,5 @@ function getyzm2(obj) {
             }
         }
     });
-}
-
-function submitf2() {
-    var email = $('#email').val().trim();
-    var nickname = $('#nickname').val().trim();
-    var password = $('#password').val().trim();
-    var yzm = $('#yzm').val().trim();
-    //alert(email + ":" + nickname + ":" + password);
-    if (check()) {
-        //alert(email);
-        $.ajax({
-            type: 'post',
-            url: "/user/checkRegister",
-            dataType: "text",
-            data: {uemail: email, unickname: nickname, upassword: password, yzm: yzm},
-            success: function (data) {
-                if (data == "success") {
-                    layer.msg("注册成功");
-                    setTimeout(function () {
-                        location.href = "/login.html";
-                    }, 1000);
-                } else if (data == "busy") {
-                    layer.msg("服务器繁忙");
-                } else if (data == "has") {
-                    layer.tips("此邮箱已被注册！", $("#email"));
-                } else if (data == 'error_yzm') {
-                    layer.tips("验证码错误！", $("#yzm"));
-                } else if (data == 'unknowerr') {
-                    layer.msg("未知错误！");
-                } else {
-                    layer.msg("请不要修改客户端！");
-                }
-
-            }
-        });
-    }
 }
 

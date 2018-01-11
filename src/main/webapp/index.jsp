@@ -13,6 +13,7 @@
     <!-- Bootstrap core CSS -->
 
     <script src="js/jquery-1.12.4.js"></script>
+
     <script src="js/bootstrap.min.js"></script>
     <script src="js/SmoothScroll.js"></script>
     <script src="js/theme-scripts.js"></script>
@@ -26,6 +27,8 @@
     <script src="${staticPath}/js/plugins/layer/laypage/laypage.js"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/font-awesome.min.css">
+
+
     <!-- Custom styles for this template -->
     <link href="css/style.css" rel="stylesheet">
 </head>
@@ -40,7 +43,7 @@
                 <h4 class="modal-title">修改密码</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal">
+                <form class="form-horizontal jqtransformdone">
                     <br>
                     <div class="form-group">
                         <label for="stuEmail" class="col-sm-2 control-label">邮箱:</label>
@@ -182,7 +185,7 @@
                     <div class="form-group">
                         <label for="iaddress" class="col-sm-2 control-label">寝室住址:</label>
                         <div class="col-sm-9">
-                            <input type="text" name="docuAddress" class="form-control" id="iaddress" placeholder="请输入您的寝室住址（几号楼/几号房间）">
+                            <input type="text" name="docuAddress" class="form-control" id="iaddress" placeholder="请输入您的寝室住址（几号楼-几号房间）">
                             <span  class="help-block"></span>
                         </div>
                     </div>
@@ -190,14 +193,14 @@
                     <div class="form-group">
                         <label for="iemail" class="col-sm-2 control-label">邮箱:</label>
                         <div class="col-sm-9">
-                            <input type="text" name="email" class="form-control" id="iemail" placeholder="请输入您的邮箱">
+                            <input type="text" name="email" class="form-control " id="iemail" placeholder="请输入您的邮箱">
                             <span  class="help-block"></span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="ipwd" class="col-sm-2 control-label">密码:</label>
                         <div class="col-sm-9">
-                            <input type="text" name="password" class="form-control" id="ipwd" placeholder="请输入您的密码">
+                            <input type="password" name="password" class="form-control" id="ipwd" placeholder="请输入您的密码">
                             <span  class="help-block"></span>
                         </div>
                     </div>
@@ -208,7 +211,7 @@
                             <span  class="help-block"></span>
                         </div>
                         <div class="col-sm-3">
-                            <button type="button" class="btn btn-danger" onclick="getyzm2(this);">获取验证码</button>
+                            <button type="button" id="make_yz_btn" class="btn btn-danger" onclick="getyzm2(this);">获取验证码</button>
                         </div>
                     </div>
                 </form>

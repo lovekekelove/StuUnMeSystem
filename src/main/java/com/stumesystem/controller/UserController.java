@@ -10,6 +10,8 @@ import com.stumesystem.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping("user")
@@ -92,16 +95,35 @@ public class UserController {
      */
     @RequestMapping(value = "/reg",method = RequestMethod.POST)
     @ResponseBody
-   public Msg registerUser(StuUser stu, HttpServletRequest request) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+   public Msg registerUser(@Valid StuUser stu, HttpServletRequest request ,BindingResult result) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         String imgHeah="img/a1.jpg";
         stu.setImgHeah(imgHeah);
         stu.setState("2");
         stu.setPassword(MD5Util.EncoderByMd5(stu.getPassword()));
-        if(userService.regUser(stu)){
-            return Msg.success();
-        }
+        String  yanzhenma=String.valueOf(request.getSession().getServletContext().getAttribute(stu.getEmail()));
 
-        return Msg.fail().add("errors","注册失败");
+        if(result.hasErrors()){
+            Map<String,Object> map=new HashMap<String,Object>();
+            List<FieldError> fieldErrors = result.getFieldErrors();
+            for (FieldError fieldError:fieldErrors) {
+                System.out.println("错误字段名："+fieldError.getField());
+                System.out.println("错误字信息："+fieldError.getDefaultMessage());
+                map.put(fieldError.getField(),fieldError.getDefaultMessage());
+            }
+              return Msg.fail().add("errorFileds",map);
+        }else if(stu.getYzm().equals(yanzhenma)){
+                if(userService.getUser(stu.getEmail())!=null){
+                    return Msg.fail().add("errors","email");
+            }
+
+            if(userService.getUserYZniC(stu.getNickname())!=null){
+                return Msg.fail().add("errors","niname");
+            }
+            if(userService.regUser(stu)){
+                return Msg.success();
+            }
+        }
+            return Msg.fail().add("errors", "error");
     }
 
     /**
@@ -148,7 +170,30 @@ public class UserController {
         }
         MailUtil mailUtil = new MailUtil();
         String yzm = RandomUtil.getyzm(6);
-        String content = "您的验证码为：" + yzm + "(请在60s内完成验证)--修改密码<br/>" +
+        String content = "您的验证码为：" + yzm + "(请在60s内完成验证)--修改密码" +
+                "请勿告诉他人！";
+        mailUtil.sendSimpleMail(uemail, "成功学院学生会", content.trim());
+        //存放到application,当验证完清除
+        request.getSession().getServletContext().setAttribute(uemail, yzm);
+        return Msg.success();
+    }
+
+    /**
+     * 获取验证码
+     * @param request
+     */
+    @ResponseBody
+    @RequestMapping("/sendyzm2")
+    public Msg sendzceyzm(HttpServletRequest request) {
+        String email = request.getParameter("email");
+        String uemail = email.trim();
+//        String regx="(^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]{2,6})$)";
+        if (userService.getUser(email)!=null){
+            return Msg.fail().add("va_msg","用户已存在！");
+        }
+        MailUtil mailUtil = new MailUtil();
+        String yzm = RandomUtil.getyzm(6);
+        String content = "您的验证码为：" + yzm + "(请在60s内完成验证)--注册信息" +
                 "请勿告诉他人！";
         mailUtil.sendSimpleMail(uemail, "成功学院学生会", content.trim());
         //存放到application,当验证完清除
