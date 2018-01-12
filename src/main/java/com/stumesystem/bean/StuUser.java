@@ -2,6 +2,7 @@ package com.stumesystem.bean;
 
 import javax.validation.constraints.Pattern;
 import java.util.Date;
+import java.util.List;
 
 public class StuUser {
     private Integer id;
@@ -31,6 +32,16 @@ public class StuUser {
     private String imgHeah;
 
     private String yzm;
+
+    private List<StuRose> roseList;
+
+    public List<StuRose> getRoseList() {
+        return roseList;
+    }
+
+    public void setRoseList(List<StuRose> roseList) {
+        this.roseList = roseList;
+    }
 
     public String getYzm() {
         return yzm;

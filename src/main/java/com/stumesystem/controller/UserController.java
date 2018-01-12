@@ -1,12 +1,16 @@
 package com.stumesystem.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.stumesystem.bean.Msg;
+import com.stumesystem.bean.StuRight;
 import com.stumesystem.bean.StuUser;
 import com.stumesystem.service.UserService;
 import com.stumesystem.util.MD5Util;
 import com.stumesystem.util.MD5Utils;
 import com.stumesystem.util.MailUtil;
 import com.stumesystem.util.RandomUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -25,10 +29,8 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 
 @RequestMapping("user")
 @Controller
@@ -86,6 +88,17 @@ public class UserController {
     }
 
     /**
+     * 退出系统
+     * @param session
+     * @return
+     */
+    @RequestMapping("/logout2")
+    public String logout2(HttpSession session){
+        session.invalidate();
+        return "redirect:/index.jsp";
+    }
+
+    /**
      * 用户注册
      * @param stu
      * @param request
@@ -96,7 +109,7 @@ public class UserController {
     @RequestMapping(value = "/reg",method = RequestMethod.POST)
     @ResponseBody
    public Msg registerUser(@Valid StuUser stu, HttpServletRequest request ,BindingResult result) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        String imgHeah="img/a1.jpg";
+        String imgHeah="/img/a1.jpg";
         stu.setImgHeah(imgHeah);
         stu.setState("2");
         stu.setPassword(MD5Util.EncoderByMd5(stu.getPassword()));
@@ -272,4 +285,34 @@ public class UserController {
             request.getSession().getServletContext().setAttribute(email, yzm);
         }
     }
+//    private static Logger logger = LoggerFactory.getLogger(UserController.class);
+    /**
+     * 获取菜单栏
+     * @param request
+     * @return
+     */
+    @RequestMapping("/personCon")
+    public String sendPerson(HttpServletRequest request){
+        StuUser user= (StuUser) request.getSession(false).getAttribute("userinfo");
+        List<StuRight> rights=new ArrayList<StuRight>();
+        rights=userService.getRoseAndRightByUid(user.getId());
+        if(rights!=null){
+            request.setAttribute("rights",rights);
+            return "home";
+        }
+        return "index";
+    }
+
+    @RequestMapping("/personCon2")
+    @ResponseBody
+    public List<StuRight> sendPerson2(HttpServletRequest request){
+        StuUser user= (StuUser) request.getSession(false).getAttribute("userinfo");
+        List<StuRight> rights=new ArrayList<StuRight>();
+        rights=userService.getRoseAndRightByUid(user.getId());
+        if(rights!=null){
+          return rights;
+        }
+         return null;
+    }
+
 }

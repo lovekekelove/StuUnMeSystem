@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="${staticPath}/css/plugins/bootstrap-table/bootstrap-table.min.css">
 
 <!-- 全局js -->
-<script src="${staticPath}/js/jquery-1.12.4.min.js"></script>
+<script src="${staticPath}/js/jquery-1.12.4.js"></script>
 <script src="${staticPath}/js/jquery-migrate-1.4.1.js"></script>
 <script src="${staticPath}/js/bootstrap.min.js?v=3.3.6"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>

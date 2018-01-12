@@ -2,6 +2,8 @@ package com.stumesystem.mapper;
 
 import com.stumesystem.bean.StuRight;
 
+import java.util.List;
+
 public interface StuRightMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -10,6 +12,8 @@ public interface StuRightMapper {
     int insertSelective(StuRight record);
 
     StuRight selectByPrimaryKey(Integer id);
+
+    List<StuRight> selectByUserId(Integer id);
 
     int updateByPrimaryKeySelective(StuRight record);
 

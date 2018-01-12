@@ -5,10 +5,21 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="r_right" jdbcType="VARCHAR" property="rRight" />
     <result column="fid" jdbcType="INTEGER" property="fid" />
+      <result column="url" jdbcType="VARCHAR" property="url" />
   </resultMap>
+
   <sql id="Base_Column_List">
-    id, r_right, fid
+    id, r_right, fid,url
   </sql>
+
+  <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    FROM
+    (SELECT rg_id FROM rose_right WHERE r_id=
+    (SELECT r_id FROM user_rose WHERE u_id=#{id,jdbcType=INTEGER})) a  LEFT JOIN stu_right b on a.rg_id=b.id
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -20,9 +31,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.stumesystem.bean.StuRight">
-    insert into stu_right (id, r_right, fid
+    insert into stu_right (id, r_right, fid,url
       )
-    values (#{id,jdbcType=INTEGER}, #{rRight,jdbcType=VARCHAR}, #{fid,jdbcType=INTEGER}
+    values (#{id,jdbcType=INTEGER}, #{rRight,jdbcType=VARCHAR}, #{fid,jdbcType=INTEGER},#{url,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.stumesystem.bean.StuRight">
@@ -36,7 +47,9 @@
       </if>
       <if test="fid != null">
         fid,
-      </if>
+      </if><if test="url != null">
+           url,
+       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -48,6 +61,9 @@
       <if test="fid != null">
         #{fid,jdbcType=INTEGER},
       </if>
+        <if test="fid != null">
+            #{url,jdbcType=VARCHAR},
+        </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.stumesystem.bean.StuRight">
@@ -59,6 +75,9 @@
       <if test="fid != null">
         fid = #{fid,jdbcType=INTEGER},
       </if>
+        <if test="rRight != null">
+            url = #{url,jdbcType=VARCHAR},
+        </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>

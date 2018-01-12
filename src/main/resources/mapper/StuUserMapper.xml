@@ -14,32 +14,65 @@
     <result column="docu_address" jdbcType="VARCHAR" property="docuAddress" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="img_heah" jdbcType="VARCHAR" property="imgHeah" />
+    <collection property="roseList" resultMap="RoleResultMap"/>
   </resultMap>
+  <resultMap id="RoleResultMap" type="com.stumesystem.bean.StuRose" >
+    <id column="r_id" property="id" jdbcType="INTEGER" />
+    <result column="r_rose" property="rRose" jdbcType="VARCHAR" />
+    <collection property="rightList" resultMap="PermissionResultMap"/>
+  </resultMap>
+  <resultMap id="PermissionResultMap" type="com.stumesystem.bean.StuRight" >
+    <id column="rg_id" property="id" jdbcType="INTEGER" />
+    <result column="r_right" property="rRight" jdbcType="VARCHAR" />
+    <result column="fid" property="fid" jdbcType="INTEGER" />
+  </resultMap>
+
   <sql id="Base_Column_List">
-    id, name, nickname, password, sex, brith, age, phone, state, docu_address, email, 
+    u.id , name, nickname, password, sex, brith, age, phone, state, docu_address, email,
     img_heah
   </sql>
+
+  <sql id="Role_Column_List">
+    r.id as r_id, r_rose
+  </sql>
+
+  <sql id="Permission_Column_List">
+    rg.id as rg_id, r_right, fid
+  </sql>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from stu_user
+    from stu_user u
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from stu_user
+    from stu_user u
     where email = #{email,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectRoseAndRightByEmail" parameterType="java.lang.String"  resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />, <include refid="Role_Column_List" />,
+    <include refid="Permission_Column_List" />
+    FROM stu_user u
+    LEFT JOIN user_rose ur ON  ur.u_id = u.id
+    LEFT JOIN stu_rose r ON ur.r_id=r.id
+    LEFT JOIN rose_right rp ON rp.r_id=r.id
+    LEFT JOIN stu_right rg ON rg.id = rp.rg_id
+    WHERE email = #{email,jdbcType=VARCHAR}
   </select>
 
   <select id="selectBynickname" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from stu_user
+    from stu_user u
     where nickname = #{nickname,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from stu_user
+    delete from stu_user u
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.stumesystem.bean.StuUser">
@@ -52,8 +85,15 @@
       #{phone,jdbcType=VARCHAR}, #{state,jdbcType=CHAR}, #{docuAddress,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{imgHeah,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.stumesystem.bean.StuUser">
-    insert into stu_user
+
+  <insert id="insert_Rose" parameterType="java.lang.Integer">
+    insert into user_rose u(
+    u_id,r_id
+    ) values (#{id},#{r_id})
+  </insert>
+
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.stumesystem.bean.StuUser">
+    insert into stu_user u
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -132,7 +172,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.stumesystem.bean.StuUser">
-    update stu_user
+    update stu_user u
     <set>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -172,7 +212,7 @@
   </update>
 
   <update id="updateByEmailSelective" parameterType="com.stumesystem.bean.StuUser">
-    update stu_user
+    update stu_user u
     <set>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -212,7 +252,7 @@
   </update>
 
   <update id="updateByPrimaryKey" parameterType="com.stumesystem.bean.StuUser">
-    update stu_user
+    update stu_user u
     set name = #{name,jdbcType=VARCHAR},
       nickname = #{nickname,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},

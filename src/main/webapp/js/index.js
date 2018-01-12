@@ -18,6 +18,8 @@ $("#logout").click(function () {
 
 $("#user_save_btn").click(function () {
 
+
+
     if(!check()){
         return false;
     }
@@ -577,4 +579,8 @@ function getyzm2(obj) {
         }
     });
 }
+
+$("#peocenter").click(function () {
+    window.location.href="/user/personCon";
+});
 

@@ -12,7 +12,7 @@
     <title>成功学院学生会</title>
     <!-- Bootstrap core CSS -->
 
-    <script src="js/jquery-1.12.4.js"></script>
+    <script src="js/jquery-3.2.1.js"></script>
 
     <script src="js/bootstrap.min.js"></script>
     <script src="js/SmoothScroll.js"></script>
@@ -236,7 +236,7 @@
             </button>
             <span class="navbar-brand page-scroll">
                 <div>
-                    <img src="img/aa.png"  width="70" height="70"><a>郑州成功财经学院学生会</a>
+                    <img src="img/aa.png"  width="70" height="70">&nbsp;&nbsp;<a>郑州成功财经学院学生会</a>
                 </div>
                </span>
         </div>
