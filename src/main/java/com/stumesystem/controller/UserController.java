@@ -1,34 +1,26 @@
 package com.stumesystem.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.stumesystem.bean.Msg;
 import com.stumesystem.bean.StuRight;
 import com.stumesystem.bean.StuUser;
 import com.stumesystem.service.UserService;
+import com.stumesystem.util.DateUtil;
 import com.stumesystem.util.MD5Util;
-import com.stumesystem.util.MD5Utils;
 import com.stumesystem.util.MailUtil;
 import com.stumesystem.util.RandomUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import sun.misc.BASE64Decoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -215,7 +207,7 @@ public class UserController {
     }
 
     /**
-     * 需改密码
+     * 忘记密码，修改密码
      * @param email
      * @param password
      * @param yzm
@@ -240,6 +232,26 @@ public class UserController {
          }else {
              return Msg.fail().add("erroryzm","验证码错误！");
          }
+    }
+
+    /**
+     * 登录后，修改密码
+     * @param password
+     * @return
+     * @throws UnsupportedEncodingException
+     * @throws NoSuchAlgorithmException
+     */
+    @ResponseBody
+    @RequestMapping("/updatePwd")
+    public Msg changePwd(@RequestParam("password") String password,HttpServletRequest request) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        StuUser stuUser= (StuUser) request.getSession().getAttribute("userinfo");
+        stuUser.setPassword(MD5Util.EncoderByMd5(password.trim()));
+        if (password !=null){
+            userService.updatePwd(stuUser);
+            return Msg.success();
+        }else {
+            return Msg.fail();
+        }
     }
 
     /**
@@ -295,7 +307,9 @@ public class UserController {
     public String sendPerson(HttpServletRequest request){
         StuUser user= (StuUser) request.getSession(false).getAttribute("userinfo");
         List<StuRight> rights=new ArrayList<StuRight>();
-        rights=userService.getRoseAndRightByUid(user.getId());
+        if(user!=null) {
+            rights = userService.getRoseAndRightByUid(user.getId());
+        }
         if(rights!=null){
             request.setAttribute("rights",rights);
             return "home";
@@ -303,16 +317,100 @@ public class UserController {
         return "index";
     }
 
-    @RequestMapping("/personCon2")
-    @ResponseBody
-    public List<StuRight> sendPerson2(HttpServletRequest request){
-        StuUser user= (StuUser) request.getSession(false).getAttribute("userinfo");
-        List<StuRight> rights=new ArrayList<StuRight>();
-        rights=userService.getRoseAndRightByUid(user.getId());
-        if(rights!=null){
-          return rights;
-        }
-         return null;
+    /**
+     * 跳转修改页码
+     * @return
+     */
+    @RequestMapping("/changeinfo")
+    public String changeInfo(){
+        return "changeInfo";
     }
 
+    @RequestMapping("/changePwd")
+    public String changePwd(){
+        return "alertPwd";
+    }
+
+    @RequestMapping("/complInfo")
+    public String complInfo(){
+        return "complInfo";
+    }
+
+//    @ModelAttribute
+//    public void getUser(@RequestParam(value="email",required=false) String email,
+//                        Map<String, Object> map){
+//
+//        if(email != null){
+//          StuUser stu= userService.getUser(email);
+//            map.put("stu", stu);
+//        }
+//    }
+
+    @ResponseBody
+    @RequestMapping(value = "/alterInfo" ,method = RequestMethod.POST)
+    public Msg alterinfo(@RequestParam("nickname") String nickname,
+                         @RequestParam("name") String name,
+                         @RequestParam("phone") String phone,
+                         @RequestParam("age") Integer age,
+                         @RequestParam(value = "sex") String sex,
+                         @RequestParam(value = "brith") Date brith,
+                         @RequestParam(value = "imgHeah") String imgHeah,
+                         @RequestParam("flag") int type,
+                         @RequestParam(value = "docuAddress") String docuAddress,
+                         HttpServletRequest request) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+      StuUser user = (StuUser) request.getSession(false).getAttribute("userinfo");
+      StuUser stu=userService.getUser(user.getEmail());
+      stu.setBrith(brith);
+      stu.setSex(sex);
+      stu.setAge(age);
+      stu.setPhone(phone);
+      stu.setDocuAddress(docuAddress);
+      stu.setNickname(nickname);
+      stu.setName(name);
+
+        int flag = 0;
+        if (type== 0) {    //不改头像
+            if(userService.updatePwd(stu)) {
+                flag=1;
+            }
+        } else if (type == 1) {  //改头像
+            String dbpath = uploadheadimg(imgHeah, user, request);
+            if (dbpath == null) {
+                flag = 0;
+            } else {
+                stu.setImgHeah("/img/"+dbpath);
+                if(userService.updatePwd(stu)) {
+                    flag=1;
+                }
+            }
+        }
+
+        if (flag == 1) {
+            request.getSession().removeAttribute("userinfo");
+            request.getSession().setAttribute("userinfo",stu);
+            return Msg.success();
+        } else {
+            return Msg.fail();
+        }
+
+    }
+
+    private String uploadheadimg(String data, StuUser user, HttpServletRequest request) {
+        String imgdata = data.split(",")[1];
+        BASE64Decoder base64Decoder = new BASE64Decoder();
+        String path = user.getId() + DateUtil.toDay_Format(new Date()) + ".jpg";
+        String filepath = request.getServletContext().getRealPath("/") + "img" + File.separator + path;//项目地址
+        System.out.println(filepath);
+        File file = new File(filepath);
+        try {
+            byte[] decoderbyte = base64Decoder.decodeBuffer(imgdata);
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(decoderbyte);
+            fos.close();
+            return path;
+        } catch (IOException e) {
+            System.out.println("上传失败" + e.getMessage());
+        }
+        return null;
+    }
 }

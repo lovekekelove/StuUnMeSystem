@@ -13,13 +13,13 @@
 <link rel="stylesheet" href="${staticPath}/css/plugins/bootstrap-table/bootstrap-table.min.css">
 
 <!-- 全局js -->
-<script src="${staticPath}/js/jquery-1.12.4.js"></script>
+<script src="${staticPath}/static/jquery/jquery-2.2.3.min.js"></script>
 <script src="${staticPath}/js/jquery-migrate-1.4.1.js"></script>
 <script src="${staticPath}/js/bootstrap.min.js?v=3.3.6"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
 <script src="${staticPath}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="${staticPath}/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-<script src="${staticPath}/js/plugins/layer/layer.min.js"></script>
+<script src="${staticPath}/js/plugins/layer/layer.js"></script>
 <script src="${staticPath}/js/plugins/layer/laypage/laypage.js"></script>
 <script src="${staticPath}/js/plugins/qqface/jquery.qqFace.js"></script>
 <script src="${staticPath}/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
@@ -33,7 +33,7 @@
 <script src="${staticPath}/js/demo/peity-demo.js"></script>
 <!-- 自定义js -->
 <script src="${staticPath}/js/hAdmin.js?v=4.1.0"></script>
-<script src="${staticPath}/js/index.js"></script>
+
 <script src="${staticPath}/js/content.js?v=1.0.0"></script>
 <!-- Image cropper -->
 <script src="${staticPath}/js/plugins/cropper/cropper.min.js"></script>

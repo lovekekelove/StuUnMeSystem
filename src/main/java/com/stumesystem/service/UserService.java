@@ -27,6 +27,11 @@ public class UserService {
        return stuUserMapper.selectByEmail(email);
     }
 
+    /**
+     * 更新用户
+     * @param stu
+     * @return
+     */
     public Boolean updatePwd(StuUser stu){
         return stuUserMapper.updateByEmailSelective(stu)>0;
     }

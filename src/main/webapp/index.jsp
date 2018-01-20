@@ -11,21 +11,14 @@
     <link rel="icon" href="img/bb.ico">
     <title>成功学院学生会</title>
     <!-- Bootstrap core CSS -->
+    <%@ include file="common/commons.jsp" %>
+    <%--<script src="js/jquery-3.2.1.js"></script>--%>
+    <script src="${staticPath}/js/jquery-3.2.1.js"></script>
+    <link href="${staticPath}/js/datatime/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <script src="${staticPath}/js/datatime/moment-with-locales.js"></script>
+    <script src="${staticPath}/js/datatime/bootstrap-datetimepicker.min.js"></script>
+    <script src="${staticPath}/js/datatime/bootstrap-datetimepicker.zh-CN.js"></script>
 
-    <script src="js/jquery-3.2.1.js"></script>
-
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/SmoothScroll.js"></script>
-    <script src="js/theme-scripts.js"></script>
-
-    <link href="js/datatime/bootstrap-datetimepicker.min.css" rel="stylesheet" />
-    <script src="js/datatime/moment-with-locales.js"></script>
-    <script src="js/datatime/bootstrap-datetimepicker.min.js"></script>
-    <script src="js/datatime/bootstrap-datetimepicker.zh-CN.js"></script>
-
-    <script src="${staticPath}/js/plugins/layer/layer.min.js"></script>
-    <script src="${staticPath}/js/plugins/layer/laypage/laypage.js"></script>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/font-awesome.min.css">
 
 
@@ -82,6 +75,17 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 <button type="button" class="btn btn-primary" id="stu_change_btn">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--修改密码-->
+<div class="modal fade" id="msg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+              <h2>密码修改成功！</h2>
             </div>
         </div>
     </div>
@@ -610,6 +614,10 @@
     ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <!--引入jqury-->
-<script src="js/index.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/SmoothScroll.js"></script>
+<script src="js/theme-scripts.js"></script>
+
+<script src="${staticPath}/js/index.js"></script>
 </body>
 </html>

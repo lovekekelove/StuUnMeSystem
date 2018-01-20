@@ -140,7 +140,7 @@ function getyzm(obj) {
             if(result.code==100){
                 show_validate_msg("#sEmail","success","");
                 $("#stu_change_btn").attr("ajax_va","success");
-                window.setTimeout(show,60000);
+                window.setTimeout(show,65000);
                 function show()
                 {
                     $.ajax ({
@@ -233,17 +233,17 @@ $("#stu_change_btn").click(function () {
     }
 
     $.ajax({
-        url:"${staticPath}/user/intoalterpassword",
+        url:"/user/intoalterpassword",
         type:"POST",
         dataType: "json",
+        cache: false,
         data: {"email":email,"password":pwd2,"yzm":mimayzm},
         success:function (result) {
             if(result.code==100){
                 alert("密码修改成功！");
                 $("#changePwd").modal('hide');
             }else {
-                alert(result.extend.erroryzm);
-                $("#changePwd").modal('hide');
+                 $("#changePwd").modal('hide');
             }
         }
     });
@@ -474,7 +474,7 @@ function check() {
 
     //验证出生年月
     if(brith == null || brith == ''){
-        show_validate_msg("#ibrith","error","年龄不能为空！");
+        show_validate_msg("#ibrith","error","出生年月不能为空！");
         return false;
     }else {
         show_validate_msg("#ibrith","success","");
@@ -495,7 +495,7 @@ function check() {
         show_validate_msg("#iaddress","error","住址不能为空！");
         return false;
     } else if (!raddress.test(docuaddress)) {
-        show_validate_msg("#iaddress","error","住址格式为xx-xxx！");
+        show_validate_msg("#iaddress","error","请输入正确的寝室住址！");
         return false;
     } else {
         show_validate_msg("#iaddress","success","");

@@ -2,6 +2,10 @@ $(function () {
     $(".J_menuItem").on('click', function () {
         var url = $(this).attr('href');
         $("#J_iframe").attr('src', url);
+        setTimeout(function () {
+            $("body").removeClass("sidebar-open");
+            $("body").addClass("sidebar-collapse");
+        },500);
         return false;
     });
 
@@ -22,5 +26,5 @@ $(function () {
 //            }
 //        }
 
-    })
+
 });

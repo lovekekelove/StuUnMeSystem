@@ -9,8 +9,6 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.6 -->
-
-    <script src="/js/home.js"></script>
     <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="/static/css/caidan.css">
@@ -30,14 +28,14 @@
     <![endif]-->
 
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="skin-blue sidebar-collapse sidebar-mini">
 <div class="wrapper">
 
     <!-- Main Header -->
     <header class="main-header">
 
         <!-- Logo -->
-        <a href="/user/home" class="logo">
+        <a href="#" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"></span>
             <!-- logo for regular state and mobile devices -->
@@ -50,6 +48,7 @@
             <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                 <span class="sr-only">Toggle navigation</span>
             </a>
+
             <!-- Navbar Right Menu -->
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
@@ -135,7 +134,7 @@
                     <c:forEach items="${requestScope.rights}" var="s">
                         <c:if test="${s.fid==r.id}">
                     <ul class="treeview-menu">
-                        <li><a class="J_menuItem" href="${staticPath}${s.url}">${s.rRight}</a></li>
+                        <li><a class="J_menuItem" href="${staticPath}/${s.url}">${s.rRight}</a></li>
                     </ul>
                         </c:if>
                     </c:forEach>
@@ -181,27 +180,7 @@
 <!-- REQUIRED JS SCRIPTS -->
 <!-- jQuery 2.2.3 -->
 <script src="/static/jquery/jquery-2.2.3.min.js"></script>
-<script>
-    $(function(){
-        alert(1);
-        $.ajax({
-            type: 'get',
-            url: '/user/personCon2',
-            dataType: "json",
-            success:function (result) {
-                    $.each(result,function (index,rs) {
-                        if(rs.fid==null){
-                            var empTd=$("<span></span>").append(rs.rRight);
-                        }
-                        $.each(result.extend.rights,function (index,s) {
 
-
-                        });
-                    });
-                }
-        });
-    });
-</script>
 
 <!-- Bootstrap 3.3.6 -->
 <script src="/static/bootstrap/js/bootstrap.min.js"></script>

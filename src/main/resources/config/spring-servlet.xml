@@ -12,6 +12,25 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
+
+    <mvc:annotation-driven conversion-service="conversionService">
+
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/html;charset=UTF-8</value>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+
+    </mvc:annotation-driven >
+
+    <mvc:default-servlet-handler/>
+
     <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
         <property name="converters">
             <list>
@@ -19,31 +38,6 @@
             </list>
         </property>
     </bean>
-
-    <mvc:annotation-driven conversion-service="conversionService">
-        <mvc:message-converters register-defaults="true">
-            <!-- 配置Fastjson支持 -->
-            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
-                <property name="supportedMediaTypes">
-                    <list>
-                        <value>text/html;charset=UTF-8</value>
-                        <value>application/json</value>
-                    </list>
-                </property>
-                <property name="features">
-                    <list>
-                        <value>WriteMapNullValue</value>
-                        <value>QuoteFieldNames</value>
-                    </list>
-                </property>
-            </bean>
-        </mvc:message-converters>
-
-
-
-    </mvc:annotation-driven >
-
-    <mvc:default-servlet-handler/>
 
     <!--文件上传设置-->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

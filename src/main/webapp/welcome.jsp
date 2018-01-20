@@ -29,7 +29,7 @@
 <body id="page-top">
 
 <!-- Navigation -->
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default" style="height: 500px">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header page-scroll">
@@ -48,7 +48,7 @@
     </div>
 
     <section id="portfolio" class="text-center">
-        <img src="/img/timg.jpg" width="70%" height="75%">
+        <img src="/img/timg.jpg" width="60%" height="78%">
     </section>
 </nav>
 

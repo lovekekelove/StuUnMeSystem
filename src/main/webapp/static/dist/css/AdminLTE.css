@@ -269,6 +269,9 @@ a:focus {
 .main-header .sidebar-toggle .icon-bar {
   display: none;
 }
+
+
+
 .main-header .navbar .nav > li.user > a > .fa,
 .main-header .navbar .nav > li.user > a > .glyphicon,
 .main-header .navbar .nav > li.user > a > .ion {

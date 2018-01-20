@@ -33,6 +33,16 @@ public class StuUser {
 
     private String yzm;
 
+    private Integer flag;
+
+    public Integer getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Integer flag) {
+        this.flag = flag;
+    }
+
     private List<StuRose> roseList;
 
     public List<StuRose> getRoseList() {
