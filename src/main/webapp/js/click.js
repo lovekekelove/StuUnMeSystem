@@ -5,7 +5,7 @@ $(function () {
         setTimeout(function () {
             $("body").removeClass("sidebar-open");
             $("body").addClass("sidebar-collapse");
-        },500);
+        },1000);
         return false;
     });
 

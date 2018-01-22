@@ -124,6 +124,12 @@
             <version>${log4j.version}</version>
         </dependency>
 
+        <!--引入pageHelper分页插件 -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>5.0.0</version>
+        </dependency>
 
         <!-- 格式化对象，方便输出日志 -->
         <dependency>
