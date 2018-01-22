@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stumesystem.mapper.DeptMapper">
+  <resultMap id="BaseResultMap" type="com.stumesystem.bean.Dept">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="d_id" jdbcType="INTEGER" property="dId" />
+    <result column="dept_id" jdbcType="INTEGER" property="deptId" />
+    <result column="class_id" jdbcType="INTEGER" property="classId" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="jiid" jdbcType="INTEGER" property="jiid" />
+    <result column="stu_id" jdbcType="VARCHAR" property="stuId" />
+    <result column="political" jdbcType="VARCHAR" property="political" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, d_id, dept_id, class_id, uid, jiid, stu_id, political
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dept
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dept
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.stumesystem.bean.Dept">
+    insert into dept (id, d_id, dept_id, 
+      class_id, uid, jiid, 
+      stu_id, political)
+    values (#{id,jdbcType=INTEGER}, #{dId,jdbcType=INTEGER}, #{deptId,jdbcType=INTEGER}, 
+      #{classId,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{jiid,jdbcType=INTEGER}, 
+      #{stuId,jdbcType=VARCHAR}, #{political,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.stumesystem.bean.Dept">
+    insert into dept
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="dId != null">
+        d_id,
+      </if>
+      <if test="deptId != null">
+        dept_id,
+      </if>
+      <if test="classId != null">
+        class_id,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="jiid != null">
+        jiid,
+      </if>
+      <if test="stuId != null">
+        stu_id,
+      </if>
+      <if test="political != null">
+        political,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dId != null">
+        #{dId,jdbcType=INTEGER},
+      </if>
+      <if test="deptId != null">
+        #{deptId,jdbcType=INTEGER},
+      </if>
+      <if test="classId != null">
+        #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="jiid != null">
+        #{jiid,jdbcType=INTEGER},
+      </if>
+      <if test="stuId != null">
+        #{stuId,jdbcType=VARCHAR},
+      </if>
+      <if test="political != null">
+        #{political,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stumesystem.bean.Dept">
+    update dept
+    <set>
+      <if test="dId != null">
+        d_id = #{dId,jdbcType=INTEGER},
+      </if>
+      <if test="deptId != null">
+        dept_id = #{deptId,jdbcType=INTEGER},
+      </if>
+      <if test="classId != null">
+        class_id = #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="jiid != null">
+        jiid = #{jiid,jdbcType=INTEGER},
+      </if>
+      <if test="stuId != null">
+        stu_id = #{stuId,jdbcType=VARCHAR},
+      </if>
+      <if test="political != null">
+        political = #{political,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stumesystem.bean.Dept">
+    update dept
+    set d_id = #{dId,jdbcType=INTEGER},
+      dept_id = #{deptId,jdbcType=INTEGER},
+      class_id = #{classId,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=INTEGER},
+      jiid = #{jiid,jdbcType=INTEGER},
+      stu_id = #{stuId,jdbcType=VARCHAR},
+      political = #{political,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

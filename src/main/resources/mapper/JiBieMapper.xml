@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stumesystem.mapper.JiBieMapper">
+  <resultMap id="BaseResultMap" type="com.stumesystem.bean.JiBie">
+    <id column="jid" jdbcType="INTEGER" property="jid" />
+    <result column="dengji" jdbcType="VARCHAR" property="dengji" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    jid, dengji
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jibie
+    where jid = #{jid,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByDengJi" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from jibie
+    where dengji = #{dengji,jdbcType=INTEGER}
+  </select>
+
+  <select id="getJiBie" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from jibie
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from jibie
+    where jid = #{jid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.stumesystem.bean.JiBie">
+    insert into jibie (jid, dengji)
+    values (#{jid,jdbcType=INTEGER}, #{dengji,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.stumesystem.bean.JiBie">
+    insert into jibie
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="jid != null">
+        jid,
+      </if>
+      <if test="dengji != null">
+        dengji,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="jid != null">
+        #{jid,jdbcType=INTEGER},
+      </if>
+      <if test="dengji != null">
+        #{dengji,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stumesystem.bean.JiBie">
+    update jibie
+    <set>
+      <if test="dengji != null">
+        dengji = #{dengji,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where jid = #{jid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stumesystem.bean.JiBie">
+    update jibie
+    set dengji = #{dengji,jdbcType=VARCHAR}
+    where jid = #{jid,jdbcType=INTEGER}
+  </update>
+</mapper>

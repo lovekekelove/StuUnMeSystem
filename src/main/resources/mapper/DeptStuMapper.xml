@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stumesystem.mapper.DeptStuMapper">
+  <resultMap id="BaseResultMap" type="com.stumesystem.bean.DeptStu">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="dept_stu_name" jdbcType="VARCHAR" property="deptStuName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    b.id, dept_stu_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dept_stu b
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectBydeptStuName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from dept_stu b
+    where dept_stu_name = #{dept_stu_name,jdbcType=INTEGER}
+  </select>
+
+  <select id="getDeptStus" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from dept_stu b
+  </select>
+
+  <select id="selectByDeptNameId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from dept_name AS a LEFT JOIN deptName_dept as c  ON a.id=c.deptNameId LEFT JOIN dept_stu as b on b.id=c.deptId
+    where a.id = #{id,jdbcType=VARCHAR}
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dept_stu
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.stumesystem.bean.DeptStu">
+    insert into dept_stu (id, dept_stu_name)
+    values (#{id,jdbcType=INTEGER}, #{deptStuName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.stumesystem.bean.DeptStu">
+    insert into dept_stu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="deptStuName != null">
+        dept_stu_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="deptStuName != null">
+        #{deptStuName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.stumesystem.bean.DeptStu">
+    update dept_stu
+    <set>
+      <if test="deptStuName != null">
+        dept_stu_name = #{deptStuName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.stumesystem.bean.DeptStu">
+    update dept_stu
+    set dept_stu_name = #{deptStuName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
