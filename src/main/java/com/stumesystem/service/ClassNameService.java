@@ -32,6 +32,24 @@ public class ClassNameService {
         return classNameMapper.insertSelective(className);
     }
 
+    /**
+     * 通过年级id和系部Id获取班级
+     *
+     * @param DeptId
+     * @param Jiid
+     * @return
+     */
+    public List<ClassName> getClassName(Integer DeptId, Integer Jiid) {
+        return classNameMapper.selectBYJiidAndDeptId(DeptId, Jiid);
+    }
 
+    /**
+     * 获取全部的班级
+     *
+     * @return
+     */
+    public List<ClassName> getClassNames() {
+        return classNameMapper.getClassNames();
+    }
 
 }

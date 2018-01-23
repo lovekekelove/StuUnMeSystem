@@ -57,7 +57,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" id="classs">
             <label class="col-sm-5 control-label">班级:</label>
             <div class="col-sm-3">
                 <select class="form-control" name="dId">
@@ -101,7 +101,7 @@
             dataType: "json",
             success:function (result) {
                 $.each(result.extend.jibies,function(){
-                    var optionEle=$("<option></option>").append(this.dengji).attr("value",this.id);
+                    var optionEle = $("<option></option>").append(this.dengji).attr("value", this.jid);
                     optionEle.appendTo("#jibie select");
                 });
             }
@@ -109,8 +109,10 @@
     });
  //显示部门
     $("#deptName select").change(function () {
-        $("#dept select").empty();
+        $("#dept select ").empty();
+        $("#classs select").empty();
         var deptNameId=$("#deptName select").val();
+        var jiid = $("#jibie select").val();
         $.ajax({
             url:"${staticPath}/depts",
             type:"GET",
@@ -125,14 +127,35 @@
         });
 
         $.ajax({
-            url:"${staticPath}/depts",
+            url: "${staticPath}/classs",
             type:"GET",
-            data: {"deptNameId":deptNameId},
+            data: {"deptNameId": deptNameId, "jiid": jiid},
             dataType: "json",
             success:function (result) {
                 $.each(result.extend.list,function(){
-                    var optionEle=$("<option></option>").append(this.deptStuName).attr("value",this.id);
-                    optionEle.appendTo("#dept select");
+                    var optionEle = $("<option></option>").append(this.className).attr("value", this.id);
+                    optionEle.appendTo("#classs select");
+                });
+            }
+        });
+
+    });
+
+    //显示部门
+    $("#jibie select").change(function () {
+
+        $("#classs select").empty();
+        var deptNameId = $("#deptName select").val();
+        var jiid = $("#jibie select").val();
+        $.ajax({
+            url: "${staticPath}/classs",
+            type: "GET",
+            data: {"deptNameId": deptNameId, "jiid": jiid},
+            dataType: "json",
+            success: function (result) {
+                $.each(result.extend.list, function () {
+                    var optionEle = $("<option></option>").append(this.className).attr("value", this.id);
+                    optionEle.appendTo("#classs select");
                 });
             }
         });

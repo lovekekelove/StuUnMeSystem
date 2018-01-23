@@ -3,6 +3,8 @@ package com.stumesystem.mapper;
 import com.stumesystem.bean.ClassName;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface ClassNameMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -15,6 +17,11 @@ public interface ClassNameMapper {
     ClassName selectBYClassName(@Param("className") String className,
                                 @Param("deptNameId") Integer deptNameId,
                                 @Param("jiid") Integer jiid);
+
+    List<ClassName> selectBYJiidAndDeptId(@Param("deptNameId") Integer deptNameId,
+                                          @Param("jiid") Integer jiid);
+
+    List<ClassName> getClassNames();
 
     int updateByPrimaryKeySelective(ClassName record);
 

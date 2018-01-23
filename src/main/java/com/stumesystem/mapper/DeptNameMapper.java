@@ -24,7 +24,6 @@ public interface DeptNameMapper {
 
     List<DeptName> selectByDeptStuName(String deptStuName);
 
-    List<DeptName> selectByDeptNameId(Integer id);
 
     int insertDeptNameAndDeptStuName(@Param("deptId")int deptId, @Param("deptStuId")int deptStuId);
 }

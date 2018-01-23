@@ -20,20 +20,41 @@
 
   <select id="selectBYClassName"  resultMap="BaseResultMap">
     select
+    <include refid="Base_Column_List"/>
+    from class_name
+    <where>
+      <if test="className != null">
+        class_name = #{className}
+      </if>
+      <if test="deptNameId != null">
+        AND dept_name_id = #{deptNameId}
+      </if>
+      <if test="jiid != null">
+        AND jiid = #{jiid}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectBYJiidAndDeptId" resultMap="BaseResultMap">
+    select
     <include refid="Base_Column_List" />
     from class_name
     <where>
-    <if test="className != null">
-      class_name = #{className}
-    </if>
-    <if test="deptNameId != null">
-      AND dept_name_id = #{deptNameId}
-    </if>
-    <if test="jiid != null">
-      AND jiid = #{jiid}
-    </if>
+      <if test="deptNameId != null">
+        AND dept_name_id = #{deptNameId}
+      </if>
+      <if test="jiid != null">
+        AND jiid = #{jiid}
+      </if>
     </where>
   </select>
+
+  <select id="getClassNames" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from class_name
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from class_name
     where id = #{id,jdbcType=INTEGER}
