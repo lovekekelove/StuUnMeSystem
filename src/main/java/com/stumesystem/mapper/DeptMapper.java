@@ -11,6 +11,10 @@ public interface DeptMapper {
 
     Dept selectByPrimaryKey(Integer id);
 
+    Dept selectByUId(Integer uid);
+
+    Dept selectWithByUId(Integer uid);
+
     int updateByPrimaryKeySelective(Dept record);
 
     int updateByPrimaryKey(Dept record);

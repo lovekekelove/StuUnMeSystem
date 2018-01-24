@@ -107,7 +107,7 @@
         var jiid=$("#jibie select").val();
 
         if(className == '' || deptNameId == '' || jiid == ''){
-            layer.msg("名称不能为空！",{anim:6}) ;
+            layer.msg("名称不能为空！", {anim: 6, icon: 5});
             return false;
         }
 
@@ -120,7 +120,7 @@
                 if(result.code==100){
                     layer.load(0,{time:2000});
                     setTimeout(function (args) {
-                        layer.msg("添加成功！");
+                        layer.msg("添加成功！", {anim: 2, icon: 6});
                     },2000);
                     setTimeout(function () {
                         $('#empAdd').modal('hide');
@@ -129,7 +129,7 @@
                 }else {
                     layer.load(0,{time:2000});
                     setTimeout(function (args) {
-                        layer.msg("添加失败！班级存在！");
+                        layer.msg("添加失败！班级存在！", {anim: 6, icon: 5});
                     },2000);
                     setTimeout(function () {
                         $('#empAdd').modal('hide');

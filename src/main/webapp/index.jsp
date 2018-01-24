@@ -337,46 +337,17 @@
             <div class="col-md-6 col-0-gutter">
                 <div class="ot-portfolio-item">
                     <figure class="effect-bubba">
-                        <img src="img/demo/portfolio-4.jpg" alt="img02" class="img-responsive" />
+                        <img src="img/demo/portfolio-4.jpg" alt="img02" class="img-responsive"/>
                         <figcaption>
-                            <h2>Smart Name</h2>
-                            <p>Branding, Design</p>
-                            <a href="#" data-toggle="modal" data-target="#Modal-4">View more</a>
+                            <h2>留言区</h2>
+                            <p>请大声说出来</p>
+                            <a href="#" data-toggle="modal" data-target="#Modal-4" id="leaveMSG">View more</a>
                         </figcaption>
                     </figure>
                 </div>
             </div>
             <!-- end portfolio item -->
-        </div>
-        <div class="row row-0-gutter">
-            <!-- start portfolio item -->
-            <div class="col-md-6 col-0-gutter">
-                <div class="ot-portfolio-item">
-                    <figure class="effect-bubba">
-                        <img src="img/demo/portfolio-5.jpg" alt="img02" class="img-responsive" />
-                        <figcaption>
-                            <h2>Fast People</h2>
-                            <p>Branding, Web Design</p>
-                            <a href="#" data-toggle="modal" data-target="#Modal-5">View more</a>
-                        </figcaption>
-                    </figure>
-                </div>
-            </div>
-            <!-- end portfolio item -->
-            <!-- start portfolio item -->
-            <div class="col-md-6 col-0-gutter">
-                <div class="ot-portfolio-item">
-                    <figure class="effect-bubba">
-                        <img src="img/demo/portfolio-6.jpg" alt="img02" class="img-responsive" />
-                        <figcaption>
-                            <h2>Kites & Stars</h2>
-                            <p>Branding, Web Design</p>
-                            <a href="#" data-toggle="modal" data-target="#Modal-2">View more</a>
-                        </figcaption>
-                    </figure>
-                </div>
-            </div>
-            <!-- end portfolio item -->
+        </div><!-- end portfolio item -->
         </div>
     </div><!-- container -->
 </section>
@@ -444,63 +415,6 @@
     <!-- /.container -->
 </section>
 
-<section id="team">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <div class="section-title">
-                    <h2>Our Team</h2>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <!-- team member item -->
-            <div class="col-md-4">
-                <div class="team-item">
-                    <div class="team-image">
-                        <img src="img/1.jpg" class="img-responsive" alt="author">
-                    </div>
-                    <div class="team-text">
-                        <h3>TOM BEKERS</h3>
-                        <div class="team-position">CEO & Web Design</div>
-                        <p>Mida sit una namet, cons uectetur adipiscing adon elit. Aliquam vitae barasa droma.</p>
-                    </div>
-                </div>
-            </div>
-            <!-- end team member item -->
-            <!-- team member item -->
-            <div class="col-md-4">
-                <div class="team-item">
-                    <div class="team-image">
-                        <img src="img/1.jpg" class="img-responsive" alt="author">
-                    </div>
-                    <div class="team-text">
-                        <h3>LINA GOSATA</h3>
-                        <div class="team-position">Photography</div>
-                        <p>Worsa dona namet, cons uectetur dipiscing adon elit. Aliquam vitae fringilla unda mir.</p>
-                    </div>
-                </div>
-            </div>
-            <!-- end team member item -->
-            <!-- team member item -->
-            <div class="col-md-4">
-                <div class="team-item">
-                    <div class="team-image">
-                        <img src="img/1.jpg" class="img-responsive" alt="author">
-                    </div>
-                    <div class="team-text">
-                        <h3>John BEKERS</h3>
-                        <div class="team-position">Marketing</div>
-                        <p>Dolor sit don namet, cons uectetur beriscing adon elit. Aliquam vitae fringilla unda.</p>
-                    </div>
-                </div>
-            </div>
-            <!-- end team member item -->
-        </div>
-    </div>
-</section>
-
-
 <p id="back-top">
     <a href="#top"><i class="fa fa-angle-up"></i></a>
 </p>
@@ -510,105 +424,7 @@
     </div>
 </footer>
 
-<!-- Modal for portfolio item 1 -->
-<div class="modal fade" id="Modal-1" tabindex="-1" role="dialog" aria-labelledby="Modal-label-1">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="Modal-label-1">Dean & Letter</h4>
-            </div>
-            <div class="modal-body">
-                <img src="img/demo/portfolio-1.jpg" alt="img01" class="img-responsive" />
-                <div class="modal-works"><span>Branding</span><span>Web Design</span></div>
-                <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- Modal for portfolio item 2 -->
-<div class="modal fade" id="Modal-2" tabindex="-1" role="dialog" aria-labelledby="Modal-label-2">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="Modal-label-2">Startup Framework</h4>
-            </div>
-            <div class="modal-body">
-                <img src="img/demo/portfolio-2.jpg" alt="img01" class="img-responsive" />
-                <div class="modal-works"><span>Branding</span><span>Web Design</span></div>
-                <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal for portfolio item 3 -->
-<div class="modal fade" id="Modal-3" tabindex="-1" role="dialog" aria-labelledby="Modal-label-3">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="Modal-label-3">Lamp & Velvet</h4>
-            </div>
-            <div class="modal-body">
-                <img src="img/demo/portfolio-3.jpg" alt="img01" class="img-responsive" />
-                <div class="modal-works"><span>Branding</span><span>Web Design</span></div>
-                <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal for portfolio item 4 -->
-<div class="modal fade" id="Modal-4" tabindex="-1" role="dialog" aria-labelledby="Modal-label-4">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="Modal-label-4">Smart Name</h4>
-            </div>
-            <div class="modal-body">
-                <img src="img/demo/portfolio-4.jpg" alt="img01" class="img-responsive" />
-                <div class="modal-works"><span>Branding</span><span>Web Design</span></div>
-                <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal for portfolio item 5 -->
-<div class="modal fade" id="Modal-5" tabindex="-1" role="dialog" aria-labelledby="Modal-label-5">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="Modal-label-5">Fast People</h4>
-            </div>
-            <div class="modal-body">
-                <img src="img/demo/portfolio-5.jpg" alt="img01" class="img-responsive" />
-                <div class="modal-works"><span>Branding</span><span>Web Design</span></div>
-                <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- Bootstrap core JavaScript
     ================================================== -->

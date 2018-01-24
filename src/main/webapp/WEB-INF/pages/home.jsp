@@ -154,7 +154,8 @@
         <!-- Main content -->
         <section class="center" >
             <div class="row J_mainContent" id="content-main">
-                <iframe id="J_iframe"  width="100%" height="550" src="${staticPath}/welcome.jsp" frameborder="0" scrolling="auto" >
+                <iframe id="J_iframe" width="100%" height="550" src="${staticPath}/user/welcome" frameborder="0"
+                        scrolling="auto">
                 </iframe>
             </div>
             <!-- Your Page Content Here -->

@@ -7,26 +7,26 @@
     <title>完善资料</title>
 </head>
 <body style="width: 90%">
-<div class="tab-pane" id="updata_id">
+<div class="tab-pane" id="complInfo">
     <form class="form-horizontal">
         <div class="form-group">
         </div>
         <div class="form-group">
             <label  class="col-sm-5 control-label">学号:</label>
             <div class="col-sm-3">
-                <input type="password"  name="stuId"    class="form-control" id="pwd1" placeholder="请输入您的学号">
+                <input type="text" name="stuId" class="form-control" id="stuNum" placeholder="请输入您的学号">
                 <span  class="help-block"></span>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" id="political">
             <label  class="col-sm-5 control-label">政治面貌:</label>
             <div class="col-sm-3">
             <select class=" form-control"  name="political" id="poli">
                 <option value="">请选择：</option>
-                <option value="">中共党员</option>
-                <option value="">中共预备党员</option>
-                <option value="">共青团员</option>
-                <option value="">群众</option>
+                <option value="中共党员">中共党员</option>
+                <option value="中共预备党员">中共预备党员</option>
+                <option value="共青团员">共青团员</option>
+                <option value="群众">群众</option>
             </select>
             </div>
         </div>
@@ -77,7 +77,49 @@
 </body>
 <script>
     function comInfo() {
+        var stuNum = $("#stuNum").val();//学号
+        var political = $("#political select").val();//面貌
+        var deptNameId = $("#deptName select").val();//系部id
+        var jiid = $("#jibie select").val();//年级
+        var deptid = $("#dept select").val();//部门
+        var classs = $("#classs select").val();//班级
 
+        var regStuNum = /^([2-9][0-9][1-9][0-9]\d{6})$/;
+
+        if (!regStuNum.test(stuNum)) {
+            layer.msg("学号格式不正确！", {anim: 6, icon: 5});
+            return false;
+        }
+
+        if (stuNum == '' || political == '' || classs == '' || deptNameId == '' || jiid == '' || deptid == '') {
+            layer.msg("内容不能为空！", {anim: 6, icon: 5});
+            return false;
+        }
+        $.ajax({
+            url: "${staticPath}/compl",
+            type: "post",
+            dataType: "json",
+            data: {
+                "stuId": stuNum, "political": political, "dId": deptNameId,
+                "jiid": jiid, "deptId": deptid, "classId": classs
+            },
+            success: function (result) {
+                if (result.code == 100) {
+                    layer.load(0, {time: 2000});
+                    setTimeout(function (args) {
+                        layer.msg("资料完善成功！", {anim: 2, icon: 6});
+                    }, 2000);
+                } else {
+                    layer.load(0, {time: 2000});
+                    setTimeout(function () {
+                        layer.msg("资料完善失败！", {anim: 6, icon: 5});
+                    }, 2000);
+                }
+                setTimeout(function () {
+                    window.location.href = "/user/complInfo";
+                }, 3000);
+            }
+        });
     }
 //显示系部
     $(function () {

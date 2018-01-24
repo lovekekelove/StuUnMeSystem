@@ -38,12 +38,18 @@ public class DeptNameController {
             DeptStu deptStu=deptStuService.getDeptStuKey(deptStuId);
             DeptName deptName=deptNameService.getDeptName(deptNameId);
             List<DeptName>  depts=deptNameService.getDeptNameByDeptStuName(deptStu.getDeptStuName());
-        for (DeptName d:depts) {
-            if(!d.getDeptname().equals(deptName.getDeptname())){
-                deptNameService.insertDeptAndDeptStu(deptNameId,deptStuId);
+        if (depts.size() > 0) {
+            for (DeptName d : depts) {
+                if (d.getDeptname() == null || (!d.getDeptname().equals(deptName.getDeptname()))) {
+                    deptNameService.insertDeptAndDeptStu(deptNameId, deptStuId);
+                    return Msg.success();
+                }
+            }
+        } else {
+            if (deptNameId != null && deptStuId != null) {
+                deptNameService.insertDeptAndDeptStu(deptNameId, deptStuId);
                 return Msg.success();
             }
-            return Msg.fail();
         }
         return Msg.fail();
     }

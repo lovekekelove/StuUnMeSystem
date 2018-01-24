@@ -1,8 +1,11 @@
 package com.stumesystem.controller;
 
+import com.stumesystem.bean.Dept;
 import com.stumesystem.bean.Msg;
 import com.stumesystem.bean.StuRight;
 import com.stumesystem.bean.StuUser;
+import com.stumesystem.listener.Online;
+import com.stumesystem.service.DeptService;
 import com.stumesystem.service.UserService;
 import com.stumesystem.util.DateUtil;
 import com.stumesystem.util.MD5Util;
@@ -31,6 +34,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private DeptService deptService;
+
 
     /**
      * 用户登录
@@ -51,8 +57,17 @@ public class UserController {
             if(MD5Util.checkPassword(pwd,user.getPassword())){
                //校验成功  设置session
                 if("1".equals(user.getState())){
-                    request.getSession().setAttribute("userinfo",user);
-                    return Msg.success();
+                    Dept dept = deptService.getDeptWith(user.getId());
+                    if (dept != null) {
+                        request.getSession().setAttribute("dept", dept);
+                        request.getSession().setAttribute("userinfo", user);
+                        Online.add();
+                        return Msg.success();
+                    } else {
+                        request.getSession().setAttribute("userinfo", user);
+                        Online.add();
+                        return Msg.success();
+                    }
                 }else{
                     return Msg.fail().add("errors","未通过审核！");
                 }
@@ -76,6 +91,7 @@ public class UserController {
     @ResponseBody
     public Msg logout(HttpSession session){
         session.invalidate();
+        Online.delete();
         return Msg.success();
     }
 
@@ -87,6 +103,7 @@ public class UserController {
     @RequestMapping("/logout2")
     public String logout2(HttpSession session){
         session.invalidate();
+        Online.delete();
         return "redirect:/index.jsp";
     }
 
@@ -317,6 +334,12 @@ public class UserController {
         return "index";
     }
 
+    @RequestMapping("/welcome")
+    public String welcome(HttpServletRequest request) {
+        request.setAttribute("PersonCount", Online.getCount());
+        return "welcome";
+    }
+
     /**
      * 跳转修改页码
      * @return
@@ -336,6 +359,11 @@ public class UserController {
         return "complInfo";
     }
 
+    @RequestMapping("/personInfo")
+    public String personInfo() {
+        return "myplace";
+    }
+
 //    @ModelAttribute
 //    public void getUser(@RequestParam(value="email",required=false) String email,
 //                        Map<String, Object> map){
@@ -346,6 +374,23 @@ public class UserController {
 //        }
 //    }
 
+    /**
+     * 修改资料
+     *
+     * @param nickname
+     * @param name
+     * @param phone
+     * @param age
+     * @param sex
+     * @param brith
+     * @param imgHeah
+     * @param type
+     * @param docuAddress
+     * @param request
+     * @return
+     * @throws UnsupportedEncodingException
+     * @throws NoSuchAlgorithmException
+     */
     @ResponseBody
     @RequestMapping(value = "/alterInfo" ,method = RequestMethod.POST)
     public Msg alterinfo(@RequestParam("nickname") String nickname,
@@ -358,15 +403,15 @@ public class UserController {
                          @RequestParam("flag") int type,
                          @RequestParam(value = "docuAddress") String docuAddress,
                          HttpServletRequest request) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-      StuUser user = (StuUser) request.getSession(false).getAttribute("userinfo");
-      StuUser stu=userService.getUser(user.getEmail());
-      stu.setBrith(brith);
-      stu.setSex(sex);
-      stu.setAge(age);
-      stu.setPhone(phone);
-      stu.setDocuAddress(docuAddress);
-      stu.setNickname(nickname);
-      stu.setName(name);
+        StuUser user = (StuUser) request.getSession(false).getAttribute("userinfo");
+        StuUser stu=userService.getUser(user.getEmail());
+        stu.setBrith(brith);
+        stu.setSex(sex);
+        stu.setAge(age);
+        stu.setPhone(phone);
+        stu.setDocuAddress(docuAddress);
+        stu.setNickname(nickname);
+        stu.setName(name);
 
         int flag = 0;
         if (type== 0) {    //不改头像

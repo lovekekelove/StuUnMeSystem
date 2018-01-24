@@ -88,8 +88,12 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
+    <listener>
+        <listener-class>com.stumesystem.listener.OnlineListener</listener-class>
+    </listener>
 
-  <context-param>
+
+    <context-param>
     <param-name>log4jConfigLocation</param-name>
     <param-value>classpath:log4j.properties</param-value>
   </context-param>

@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="common/base.jsp" %>
+<%@ include file="../../common/base.jsp" %>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -8,22 +8,22 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="img/bb.ico">
+    <link rel="icon" href="../../img/bb.ico">
     <title>成功学院学生会</title>
     <!-- Bootstrap core CSS -->
 
-    <script src="js/jquery-3.2.1.js"></script>
+    <script src="../../js/jquery-3.2.1.js"></script>
 
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/SmoothScroll.js"></script>
-    <script src="js/theme-scripts.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/SmoothScroll.js"></script>
+    <script src="../../js/theme-scripts.js"></script>
 
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/font-awesome.min.css">
 
 
     <!-- Custom styles for this template -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -40,9 +40,20 @@
             </button>
             <span class="navbar-brand page-scroll">
                 <div>
-                    <img src="img/aa.png"  width="70" height="70">&nbsp;&nbsp;<a>郑州成功财经学院学生会管理系统</a>
+                    <img src="../../img/aa.png" width="70" height="70">&nbsp;&nbsp;<a>郑州成功财经学院学生会管理系统</a>
                 </div>
+
                </span>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="hidden">
+                    <a href="#page-top"></a>
+                </li>
+                <li>
+                    <h4>在线人数:&nbsp;<span style="color: #f00b03" id="online">${PersonCount}</span>&nbsp;人</h4>
+                </li>
+            </ul>
         </div>
 
     </div>

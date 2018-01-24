@@ -584,3 +584,21 @@ $("#peocenter").click(function () {
     window.location.href="/user/personCon";
 });
 
+////////////////////////////评论区////////////////////////////
+
+
+$("#leaveMSG").click(function () {
+    var msg = layer.open({
+        type: 2,
+        title: '用户登录',
+        shadeClose: false,
+        shade: false,
+        // maxmin: true, //开启最大化最小化按钮
+        area: ['600px', '600px'],
+        content: '/leaveMsg'
+    });
+    layer.full(msg);
+});
+
+
+

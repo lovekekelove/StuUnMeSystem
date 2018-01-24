@@ -17,6 +17,46 @@ public class Dept {
 
     private String political;
 
+    private String className;
+
+    private String deptname; //系部
+
+    private String deptStuName; //部门
+
+    private String dengji;
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public String getDeptname() {
+        return deptname;
+    }
+
+    public void setDeptname(String deptname) {
+        this.deptname = deptname;
+    }
+
+    public String getDeptStuName() {
+        return deptStuName;
+    }
+
+    public void setDeptStuName(String deptStuName) {
+        this.deptStuName = deptStuName;
+    }
+
+    public String getDengji() {
+        return dengji;
+    }
+
+    public void setDengji(String dengji) {
+        this.dengji = dengji;
+    }
+
     public Integer getId() {
         return id;
     }

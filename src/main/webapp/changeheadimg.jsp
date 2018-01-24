@@ -14,7 +14,7 @@
             <div class="col-md-1 "></div>
             <div class="col-md-4 col-md-5">
                 <div class="image-crop" style="height: 400px">
-                    <img src="${sessionScope.userinfo.imgHeah}"  class="img-circle" alt="User Image" >
+                    <img src="${sessionScope.userinfo.imgHeah}">
                 </div>
             </div>
             <div class="col-md-2 "></div>
