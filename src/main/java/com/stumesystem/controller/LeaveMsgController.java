@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-public class leaveMsgController {
+public class LeaveMsgController {
 
     @Autowired
     private LeaveMsgService leaveMsgService;
