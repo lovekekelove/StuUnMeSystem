@@ -83,6 +83,9 @@
 </div>
 </body>
 <script>
+    $(function () {
+        layer.load(0, {time: 1000});
+    });
     function add() {
         var deptStuName=$("#deptStuName").val();
         if(deptStuName == ''){

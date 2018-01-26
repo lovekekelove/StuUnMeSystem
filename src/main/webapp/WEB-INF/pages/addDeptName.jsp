@@ -84,6 +84,9 @@
 </div>
 </body>
 <script>
+    $(function () {
+        layer.load(0, {time: 1000});
+    });
 
     var totalRecord,currentNum;
     function add() {
@@ -121,10 +124,10 @@
         });
     }
 
-
     $(function () {
         to_page(1);
     });
+
     //分页
     function to_page(pn) {
         $.ajax({

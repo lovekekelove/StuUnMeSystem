@@ -101,7 +101,13 @@
 </div>
 </body>
 <script>
+
+    $(function () {
+        layer.load(0, {time: 1000});
+    });
     function add() {
+
+
         var className=$("#className").val();
         var deptNameId=$("#deptName select").val();
         var jiid=$("#jibie select").val();
@@ -255,6 +261,8 @@
 
     //弹出模态框
     $("#addEmp_modal_btn").click(function () {
+        $("#deptName select").empty();
+        $("#jibie select").empty();
         //清除表单数据和样式
         reset_form("#empAdd form");
         //显示系部

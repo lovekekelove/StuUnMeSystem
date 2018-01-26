@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stumesystem.mapper.LeaveMsgMapper">
+    <resultMap id="BaseResultMap" type="com.stumesystem.bean.LeaveMsg">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="count" jdbcType="VARCHAR" property="count"/>
+        <result column="creatTime" jdbcType="TIMESTAMP" property="creattime"/>
+        <result column="send_uid" jdbcType="INTEGER" property="sendUid"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+        <result column="zan_num" jdbcType="INTEGER" property="zanNum"/>
+        <result column="img_heah" jdbcType="VARCHAR" property="imgHeah"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="user_id" jdbcType="VARCHAR" property="zanUid"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        a.id, count, creatTime, send_uid, a.state, zan_num
+    </sql>
+    <sql id="deptName_Column_List">
+        ,img_heah,nickname
+    </sql>
+
+    <sql id="msg_Column_List">
+        ,user_id
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from leavemsg as a
+        where a.id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectMsgsByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        <include refid="msg_Column_List"/>
+        from leavemsg as a LEFT JOIN zan_user AS b on a.id=b.msg_id
+        where a.id = #{id,jdbcType=INTEGER} and a.state = #{state,jdbcType=INTEGER}
+    </select>
+
+
+    <select id="selectByUid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from leavemsg as a
+        where a.id = #{uid,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectLeaveMsg" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        <include refid="deptName_Column_List"/>
+        from leavemsg as a LEFT JOIN stu_user as b on a.send_uid=b.id where a.state=1 ORDER BY creatTime DESC
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from leavemsg
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.stumesystem.bean.LeaveMsg">
+    insert into leavemsg (id, count, creatTime, 
+      send_uid, state, zan_num
+      )
+    values (#{id,jdbcType=INTEGER}, #{count,jdbcType=VARCHAR}, #{creattime,jdbcType=TIMESTAMP}, 
+      #{sendUid,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{zanNum,jdbcType=INTEGER}
+      )
+  </insert>
+
+    <insert id="insertZanUser" parameterType="java.lang.Integer">
+        insert into zan_user (msg_id,user_id)
+        values (#{msgid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}
+        )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.stumesystem.bean.LeaveMsg">
+        insert into leavemsg
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="count != null">
+                count,
+            </if>
+            <if test="creattime != null">
+                creatTime,
+            </if>
+            <if test="sendUid != null">
+                send_uid,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="zanNum != null">
+                zan_num,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="count != null">
+                #{count,jdbcType=VARCHAR},
+            </if>
+            <if test="creattime != null">
+                #{creattime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="sendUid != null">
+                #{sendUid,jdbcType=INTEGER},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=INTEGER},
+            </if>
+            <if test="zanNum != null">
+                #{zanNum,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.stumesystem.bean.LeaveMsg">
+        update leavemsg
+        <set>
+            <if test="count != null">
+                count = #{count,jdbcType=VARCHAR},
+            </if>
+            <if test="creattime != null">
+                creatTime = #{creattime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="sendUid != null">
+                send_uid = #{sendUid,jdbcType=INTEGER},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=INTEGER},
+            </if>
+            <if test="zanNum != null">
+                zan_num = #{zanNum,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.stumesystem.bean.LeaveMsg">
+    update leavemsg
+    set count = #{count,jdbcType=VARCHAR},
+      creatTime = #{creattime,jdbcType=TIMESTAMP},
+      send_uid = #{sendUid,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      zan_num = #{zanNum,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

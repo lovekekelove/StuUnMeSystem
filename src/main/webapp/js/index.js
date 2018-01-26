@@ -3,12 +3,12 @@
 $("#logout").click(function () {
     $.ajax({
         type: "POST",
-        url: "/user/logout",
+        url: "${staticPath}/user/logout",
         dataType: "json",
         success: function (result) {
             if(result.code == 100){
                 // console.log(result)
-                window.location.href="/";
+                window.location.href = "${staticPath}/";
             }
         }
     });
@@ -33,7 +33,7 @@ $("#user_save_btn").click(function () {
 
    var arr=$("#stuAdd form").serialize();
     $.ajax({
-        url:"/user/reg",
+        url: "${staticPath}/user/reg",
         type:"POST",
         dataType: "json",
         data: arr,//序列化保存的数据
@@ -133,7 +133,7 @@ function getyzm(obj) {
     changetime(obj,'#mimayzm');//倒计时60s
     $.ajax({
         type: 'get',
-        url: '/user/sendyzm',
+        url: '${staticPath}/user/sendyzm',
         dataType: "json",
         data: {"email":email},
         success: function (result) {
@@ -146,7 +146,7 @@ function getyzm(obj) {
                     $.ajax ({
                         type: 'get',
                         data: {"email":email},
-                        url: '/user/checkoutyzm',
+                        url: '${staticPath}/user/checkoutyzm',
                         dataType: "json",
                         success: function (result) {
                             if(result.code==100){
@@ -233,7 +233,7 @@ $("#stu_change_btn").click(function () {
     }
 
     $.ajax({
-        url:"/user/intoalterpassword",
+        url: "${staticPath}/user/intoalterpassword",
         type:"POST",
         dataType: "json",
         cache: false,
@@ -320,7 +320,7 @@ $("#stu_login_btn").click(function () {
     var pwd=$("#stupassword").val();
     //2.发送ajax请求保存员工
     $.ajax({
-        url:"/user/login",
+        url: "${staticPath}/user/login",
         type:"POST",
         dataType: "json",
         data: {"email":email,"password":pwd},
@@ -329,7 +329,7 @@ $("#stu_login_btn").click(function () {
             if(result.code == 100) {
                 //1.关闭模态框
                 $("#stulogin").modal('hide');
-                window.location.href="/";
+                window.location.href = "${staticPath}/";
             }else{
                 if(result.code == 404){
                     show_validate_msg("#stuEmail","error",result.extend.errors);
@@ -368,7 +368,7 @@ $("#niname").change(function () {
     var nickname = $('#niname').val().trim();
     var rniname=/^([a-zA-Z0-9_-]{5,16}$)|(^[\u2E80-\u9FFF]{2,5})$/;
         $.ajax({
-            url:"/user/nicheng",
+            url: "${staticPath}/user/nicheng",
             data:{"nickname":nickname},
             type:"get",
             dataType: "json",
@@ -405,7 +405,7 @@ $("#iemail").change(function () {
     var email = $('#iemail').val().trim();
     var remail = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
     $.ajax({
-        url:"/user/yemail",
+        url: "${staticPath}/user/yemail",
         data:{"email":email},
         type:"get",
         dataType: "json",
@@ -547,7 +547,7 @@ function getyzm2(obj) {
 
     $.ajax({
         type: 'get',
-        url: '/user/sendyzm2',
+        url: '${staticPath}/user/sendyzm2',
         dataType: "json",
         data: {"email":email},
         success: function (result) {
@@ -560,7 +560,7 @@ function getyzm2(obj) {
                     $.ajax ({
                         type: 'get',
                         data: {"email":email},
-                        url: '/user/checkoutyzm',
+                        url: '${staticPath}/user/checkoutyzm',
                         dataType: "json",
                         success: function (result) {
                             if(result.code==100){
@@ -581,7 +581,7 @@ function getyzm2(obj) {
 }
 
 $("#peocenter").click(function () {
-    window.location.href="/user/personCon";
+    window.location.href = "${staticPath}/user/personCon";
 });
 
 ////////////////////////////评论区////////////////////////////
@@ -590,15 +590,14 @@ $("#peocenter").click(function () {
 $("#leaveMSG").click(function () {
     var msg = layer.open({
         type: 2,
-        title: '用户登录',
+        title: '留言板',
         shadeClose: false,
         shade: false,
         // maxmin: true, //开启最大化最小化按钮
-        area: ['600px', '600px'],
-        content: '/leaveMsg'
+        area: ['864px', '600px'],
+        content: '${staticPath}/leaveMsg'
     });
     layer.full(msg);
 });
-
 
 
