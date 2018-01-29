@@ -11,7 +11,7 @@ public interface StuRoseMapper {
 
     int insertSelective(StuRose record);
 
-
+    StuRose selectId(Integer uid);
 
     StuRose selectByPrimaryKey(Integer id);
 

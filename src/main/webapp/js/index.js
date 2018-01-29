@@ -3,12 +3,12 @@
 $("#logout").click(function () {
     $.ajax({
         type: "POST",
-        url: "${staticPath}/user/logout",
+        url: "/user/logout",
         dataType: "json",
         success: function (result) {
             if(result.code == 100){
                 // console.log(result)
-                window.location.href = "${staticPath}/";
+                window.location.href = "/";
             }
         }
     });
@@ -33,7 +33,7 @@ $("#user_save_btn").click(function () {
 
    var arr=$("#stuAdd form").serialize();
     $.ajax({
-        url: "${staticPath}/user/reg",
+        url: "/user/reg",
         type:"POST",
         dataType: "json",
         data: arr,//序列化保存的数据
@@ -133,7 +133,7 @@ function getyzm(obj) {
     changetime(obj,'#mimayzm');//倒计时60s
     $.ajax({
         type: 'get',
-        url: '${staticPath}/user/sendyzm',
+        url: '/user/sendyzm',
         dataType: "json",
         data: {"email":email},
         success: function (result) {
@@ -146,7 +146,7 @@ function getyzm(obj) {
                     $.ajax ({
                         type: 'get',
                         data: {"email":email},
-                        url: '${staticPath}/user/checkoutyzm',
+                        url: '/user/checkoutyzm',
                         dataType: "json",
                         success: function (result) {
                             if(result.code==100){
@@ -233,7 +233,7 @@ $("#stu_change_btn").click(function () {
     }
 
     $.ajax({
-        url: "${staticPath}/user/intoalterpassword",
+        url: "/user/intoalterpassword",
         type:"POST",
         dataType: "json",
         cache: false,
@@ -320,7 +320,7 @@ $("#stu_login_btn").click(function () {
     var pwd=$("#stupassword").val();
     //2.发送ajax请求保存员工
     $.ajax({
-        url: "${staticPath}/user/login",
+        url: "/user/login",
         type:"POST",
         dataType: "json",
         data: {"email":email,"password":pwd},
@@ -329,7 +329,7 @@ $("#stu_login_btn").click(function () {
             if(result.code == 100) {
                 //1.关闭模态框
                 $("#stulogin").modal('hide');
-                window.location.href = "${staticPath}/";
+                window.location.href = "/";
             }else{
                 if(result.code == 404){
                     show_validate_msg("#stuEmail","error",result.extend.errors);
@@ -368,7 +368,7 @@ $("#niname").change(function () {
     var nickname = $('#niname').val().trim();
     var rniname=/^([a-zA-Z0-9_-]{5,16}$)|(^[\u2E80-\u9FFF]{2,5})$/;
         $.ajax({
-            url: "${staticPath}/user/nicheng",
+            url: "/user/nicheng",
             data:{"nickname":nickname},
             type:"get",
             dataType: "json",
@@ -405,7 +405,7 @@ $("#iemail").change(function () {
     var email = $('#iemail').val().trim();
     var remail = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
     $.ajax({
-        url: "${staticPath}/user/yemail",
+        url: "/user/yemail",
         data:{"email":email},
         type:"get",
         dataType: "json",
@@ -547,7 +547,7 @@ function getyzm2(obj) {
 
     $.ajax({
         type: 'get',
-        url: '${staticPath}/user/sendyzm2',
+        url: '/user/sendyzm2',
         dataType: "json",
         data: {"email":email},
         success: function (result) {
@@ -560,7 +560,7 @@ function getyzm2(obj) {
                     $.ajax ({
                         type: 'get',
                         data: {"email":email},
-                        url: '${staticPath}/user/checkoutyzm',
+                        url: '/user/checkoutyzm',
                         dataType: "json",
                         success: function (result) {
                             if(result.code==100){
@@ -581,7 +581,7 @@ function getyzm2(obj) {
 }
 
 $("#peocenter").click(function () {
-    window.location.href = "${staticPath}/user/personCon";
+    window.location.href = "/user/personCon";
 });
 
 ////////////////////////////评论区////////////////////////////
@@ -595,7 +595,7 @@ $("#leaveMSG").click(function () {
         shade: false,
         // maxmin: true, //开启最大化最小化按钮
         area: ['864px', '600px'],
-        content: '${staticPath}/leaveMsg'
+        content: '/leaveMsg'
     });
     layer.full(msg);
 });

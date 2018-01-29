@@ -33,6 +33,24 @@ public class LeaveMsgService {
         return leaveMsgMapper.selectLeaveMsg();
     }
 
+    /**
+     * 查询留言（管理）
+     *
+     * @return
+     */
+    public List<LeaveMsg> getAllWithState(String serch) {
+        return leaveMsgMapper.selectLeaveMsgWithState(serch);
+    }
+
+    /**
+     * 查询留言（个人）
+     *
+     * @return
+     */
+    public List<LeaveMsg> getAllWithUid(Integer uid) {
+        return leaveMsgMapper.selectLeaveMsgWithUid(uid);
+    }
+
 
     /**
      * 通过id和state查询所有的
@@ -75,6 +93,18 @@ public class LeaveMsgService {
     public int updateLeave(LeaveMsg leaveMsg) {
         return leaveMsgMapper.updateByPrimaryKeySelective(leaveMsg);
     }
+
+    /**
+     * 删除留言
+     *
+     * @param id
+     * @return
+     */
+    public int deleteLeaveMsg(Integer id) {
+        return leaveMsgMapper.deleteByPrimaryKey(id);
+    }
+
+
 
 
 }

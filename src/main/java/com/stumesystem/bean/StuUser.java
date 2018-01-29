@@ -25,6 +25,16 @@ public class StuUser {
 
     private String docuAddress;
 
+    private String roseName;
+
+    public String getRoseName() {
+        return roseName;
+    }
+
+    public void setRoseName(String roseName) {
+        this.roseName = roseName;
+    }
+
     @Pattern(regexp = "^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]{2,6})$"
             ,message = "邮箱格式错误")
     private String email;

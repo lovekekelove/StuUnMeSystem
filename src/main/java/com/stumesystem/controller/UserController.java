@@ -1,11 +1,11 @@
 package com.stumesystem.controller;
 
-import com.stumesystem.bean.Dept;
-import com.stumesystem.bean.Msg;
-import com.stumesystem.bean.StuRight;
-import com.stumesystem.bean.StuUser;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.stumesystem.bean.*;
 import com.stumesystem.listener.Online;
 import com.stumesystem.service.DeptService;
+import com.stumesystem.service.StuRoseService;
 import com.stumesystem.service.UserService;
 import com.stumesystem.util.DateUtil;
 import com.stumesystem.util.MD5Util;
@@ -36,6 +36,9 @@ public class UserController {
 
     @Autowired
     private DeptService deptService;
+
+    @Autowired
+    private StuRoseService stuRoseService;
 
 
     /**
@@ -176,7 +179,22 @@ public class UserController {
         return Msg.fail();
     }
 
-
+    /**
+     * 用户管理
+     *
+     * @param pn
+     * @param name
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/userManagers")
+    public Msg getLeaveMsg(@RequestParam(value = "pn", defaultValue = "1") Integer pn,
+                           @RequestParam(value = "name") String name) {
+        PageHelper.startPage(pn, 5);
+        List<StuUser> lists = userService.getStuUserByName(name);
+        PageInfo page = new PageInfo(lists, 5);
+        return Msg.success().add("pageInfo", page);
+    }
     /**
      * 获取验证码
      * @param request
@@ -340,29 +358,7 @@ public class UserController {
         return "welcome";
     }
 
-    /**
-     * 跳转修改页码
-     * @return
-     */
-    @RequestMapping("/changeinfo")
-    public String changeInfo(){
-        return "changeInfo";
-    }
 
-    @RequestMapping("/changePwd")
-    public String changePwd(){
-        return "alertPwd";
-    }
-
-    @RequestMapping("/complInfo")
-    public String complInfo(){
-        return "complInfo";
-    }
-
-    @RequestMapping("/personInfo")
-    public String personInfo() {
-        return "myplace";
-    }
 
 //    @ModelAttribute
 //    public void getUser(@RequestParam(value="email",required=false) String email,
@@ -457,5 +453,35 @@ public class UserController {
             System.out.println("上传失败" + e.getMessage());
         }
         return null;
+    }
+
+    /**
+     * 跳转修改页码
+     *
+     * @return
+     */
+    @RequestMapping("/changeinfo")
+    public String changeInfo() {
+        return "changeInfo";
+    }
+
+    @RequestMapping("/changePwd")
+    public String changePwd() {
+        return "alertPwd";
+    }
+
+    @RequestMapping("/complInfo")
+    public String complInfo() {
+        return "complInfo";
+    }
+
+    @RequestMapping("/personInfo")
+    public String personInfo() {
+        return "myplace";
+    }
+
+    @RequestMapping("/UserManeger")
+    public String UserManeger() {
+        return "stuManager";
     }
 }

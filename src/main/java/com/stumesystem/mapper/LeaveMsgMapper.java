@@ -22,6 +22,12 @@ public interface LeaveMsgMapper {
 
     List<LeaveMsg> selectLeaveMsg();
 
+    List<LeaveMsg> selectLeaveMsgWithState(@Param("niName") String niName);
+
+    List<LeaveMsg> selectLeaveMsgWithUid(@Param("uid") Integer uid);
+
+    List<LeaveMsg> selectLeaveMsgByRose(int uid);
+
     int updateByPrimaryKeySelective(LeaveMsg record);
 
     int updateByPrimaryKey(LeaveMsg record);

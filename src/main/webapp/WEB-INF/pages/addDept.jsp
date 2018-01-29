@@ -39,14 +39,14 @@
 <div class="container">
     <!--标题-->
     <div class="row">
-        <div class="col-md-4"></div>
+        <div class="col-md-6"></div>
         <div class="col-md-5">
             <h2>部门信息</h2>
         </div>
     </div>
     <!--按钮-->
     <div class="row">
-        <div class="col-md-4 col-md-offset-8">
+        <div class="pull-right">
             <button class="btn btn-success" id="addEmp_modal_btn">新增</button>
         </div>
     </div>

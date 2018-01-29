@@ -57,14 +57,14 @@
 <div class="container">
     <!--标题-->
     <div class="row">
-        <div class="col-md-4"></div>
+        <div class="col-md-6"></div>
         <div class="col-md-5">
             <h2>班级信息</h2>
         </div>
     </div>
     <!--按钮-->
     <div class="row">
-        <div class="col-md-4 col-md-offset-8">
+        <div class="pull-right">
             <button class="btn btn-success" id="addEmp_modal_btn">新增</button>
         </div>
     </div>
@@ -265,39 +265,43 @@
         $("#jibie select").empty();
         //清除表单数据和样式
         reset_form("#empAdd form");
-        //显示系部
-        $(function () {
-            $.ajax({
-                url: "${staticPath}/deptNames2",
-                type: "GET",
-                dataType: "json",
-                success: function (result) {
-                    $.each(result.extend.deptNames, function () {
-                        var optionEle = $("<option></option>").append(this.deptname).attr("value", this.id);
-                        optionEle.appendTo("#deptName select");
-                    });
-                }
-            });
-        });
-        //显示年级
-        $(function () {
-            $.ajax({
-                url: "${staticPath}/jibies",
-                type: "GET",
-                dataType: "json",
-                success: function (result) {
-                    $.each(result.extend.jibies, function () {
-                        var optionEle = $("<option></option>").append(this.dengji).attr("value", this.jid);
-                        optionEle.appendTo("#jibie select");
-                    });
-                }
-            });
-        });
+        showDept();
+        showClss();
         //弹出模态框
         $("#empAdd").modal({
             backdrop: "static"
         });
     });
+
+    //显示系部
+    function showDept() {
+        $.ajax({
+            url: "${staticPath}/deptNames2",
+            type: "GET",
+            dataType: "json",
+            success: function (result) {
+                $.each(result.extend.deptNames, function () {
+                    var optionEle = $("<option></option>").append(this.deptname).attr("value", this.id);
+                    optionEle.appendTo("#deptName select");
+                });
+            }
+        });
+    };
+
+    //显示年级
+    function showClss() {
+        $.ajax({
+            url: "${staticPath}/jibies",
+            type: "GET",
+            dataType: "json",
+            success: function (result) {
+                $.each(result.extend.jibies, function () {
+                    var optionEle = $("<option></option>").append(this.dengji).attr("value", this.jid);
+                    optionEle.appendTo("#jibie select");
+                });
+            }
+        });
+    };
 
     //清除表单数据和样式
     function reset_form(ele) {

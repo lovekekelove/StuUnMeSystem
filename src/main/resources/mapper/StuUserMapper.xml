@@ -14,7 +14,7 @@
     <result column="docu_address" jdbcType="VARCHAR" property="docuAddress" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="img_heah" jdbcType="VARCHAR" property="imgHeah" />
-    <collection property="roseList" resultMap="RoleResultMap"/>
+    <result column="r_rose" jdbcType="VARCHAR" property="roseName"/>
   </resultMap>
   <resultMap id="RoleResultMap" type="com.stumesystem.bean.StuRose" >
     <id column="r_id" property="id" jdbcType="INTEGER" />
@@ -32,8 +32,9 @@
     img_heah
   </sql>
 
+
   <sql id="Role_Column_List">
-    r.id as r_id, r_rose
+    ,r_rose
   </sql>
 
   <sql id="Permission_Column_List">
@@ -63,6 +64,18 @@
     LEFT JOIN rose_right rp ON rp.r_id=r.id
     LEFT JOIN stu_right rg ON rg.id = rp.rg_id
     WHERE email = #{email,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectStuByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    <include refid="Role_Column_List"/>
+    FROM(SELECT a.*,b.r_id FROM stu_user as a
+    LEFT JOIN user_rose as b on a.id=b.u_id )as u
+    LEFT JOIN stu_rose as d on u.r_id=d.id
+    <if test="name !=''">
+      WHERE name = #{name,jdbcType=VARCHAR}
+    </if>
   </select>
 
   <select id="selectBynickname" parameterType="java.lang.String" resultMap="BaseResultMap">

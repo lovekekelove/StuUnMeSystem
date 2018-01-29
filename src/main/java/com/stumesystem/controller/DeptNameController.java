@@ -121,7 +121,6 @@ public class DeptNameController {
             if(deptNameService.deleteDeptName(id)>0) {
                 return Msg.success();
             }
-            return Msg.fail();
         }
         return Msg.fail();
     }

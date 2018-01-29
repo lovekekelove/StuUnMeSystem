@@ -40,14 +40,14 @@
 <div class="container">
     <!--标题-->
     <div class="row">
-        <div class="col-md-4"></div>
+        <div class="col-md-6"></div>
         <div class="col-md-5">
             <h2>系部信息</h2>
         </div>
     </div>
     <!--按钮-->
     <div class="row">
-        <div class="col-md-4 col-md-offset-8">
+        <div class="pull-right">
             <button class="btn btn-success" id="addEmp_modal_btn">新增</button>
         </div>
     </div>
@@ -57,6 +57,7 @@
             <table class="table table-hover" id="emps_table">
                 <thead>
                 <tr>
+                    <th></th>
                     <th>ID</th>
                     <th>DeptName</th>
                     <th>Delete</th>
@@ -152,6 +153,7 @@
         $("#emps_table tbody").empty();
         var deptNames=result.extend.pageInfo.list;
         $.each(deptNames,function (index,item) {
+            var deptTd1 = $("<th ></th>");
             var deptTd=$("<th ></th>").append(item.id);
             var deptNameTd=$("<th ></th>").append(item.deptname);
 
@@ -162,7 +164,7 @@
             delBtn.attr("del_id",item.id);
             var btnTd=$("<th ></th>").append(delBtn);
             //append()方法执行完以后还会返回原来的元素
-            $("<tr></tr>")
+            $("<tr></tr>").append(deptTd1)
                 .append(deptTd)
                 .append(deptNameTd)
                 .append(btnTd)

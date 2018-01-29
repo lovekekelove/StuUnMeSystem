@@ -164,7 +164,7 @@
             data: {"count": count},
             success: function (data) {
                 if (data.code === 100) {
-                    layer.tips("留言成功", $('#btn'), {anim: 6});
+                    layer.tips("留言成功,等待审核！", $('#btn'), {anim: 6});
                     setTimeout(function () {
                         location.replace("${staticPath}/leaveMsg");
                     }, 1000);

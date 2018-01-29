@@ -18,6 +18,8 @@ public interface StuUserMapper {
 
     List<StuUser> selectRoseAndRightByEmail(String email);
 
+    List<StuUser> selectStuByName(@Param("name") String name);
+
     StuUser selectByEmail(String email);
 
     StuUser selectBynickname(String niname);

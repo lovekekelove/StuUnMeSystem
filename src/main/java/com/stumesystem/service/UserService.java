@@ -69,4 +69,14 @@ public class UserService {
     public List<StuRight> getRoseAndRightByUid(Integer id){
         return stuRightMapper.selectByUserId(id);
     }
+
+    /**
+     * 通过用户名搜索所有用户
+     *
+     * @param name
+     * @return
+     */
+    public List<StuUser> getStuUserByName(String name) {
+        return stuUserMapper.selectStuByName(name);
+    }
 }
