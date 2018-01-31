@@ -3,7 +3,7 @@ package com.stumesystem.bean;
 public class StuRight {
     private Integer id;
 
-    private String rRight;
+    private String right;
 
     private Integer fid;
 
@@ -25,12 +25,12 @@ public class StuRight {
         this.id = id;
     }
 
-    public String getrRight() {
-        return rRight;
+    public String getRight() {
+        return right;
     }
 
-    public void setrRight(String rRight) {
-        this.rRight = rRight == null ? null : rRight.trim();
+    public void setRight(String right) {
+        this.right = right == null ? null : right.trim();
     }
 
     public Integer getFid() {

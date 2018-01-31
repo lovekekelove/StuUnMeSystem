@@ -1,10 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="common/base.jsp" %>
-
+<%@ include file="common/commons.jsp" %>
 <html>
 <head>
     <title>更换头像</title>
-    <%@ include file="common/commons.jsp" %>
+
 
 </head>
 <body bgcolor="#ebf6e9" style="height: 500px">

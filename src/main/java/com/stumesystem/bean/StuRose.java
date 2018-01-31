@@ -5,7 +5,7 @@ import java.util.List;
 public class StuRose {
     private Integer id;
 
-    private String rRose;
+    private String rose;
 
     private List<StuRight> rightList;
 
@@ -25,11 +25,11 @@ public class StuRose {
         this.id = id;
     }
 
-    public String getrRose() {
-        return rRose;
+    public String getRose() {
+        return rose;
     }
 
-    public void setrRose(String rRose) {
-        this.rRose = rRose == null ? null : rRose.trim();
+    public void setRose(String rose) {
+        this.rose = rose == null ? null : rose.trim();
     }
 }

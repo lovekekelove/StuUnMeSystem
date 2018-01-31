@@ -133,7 +133,6 @@
             type:"GET",
             dataType:"json",
             success:function(result){
-                console.log(result)
                 //1.解析并显示员工数据
                 build_emps_table(result);
                 //2.解析并显示分页信息

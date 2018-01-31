@@ -3,7 +3,7 @@
 <mapper namespace="com.stumesystem.mapper.StuRoseMapper">
   <resultMap id="BaseResultMap" type="com.stumesystem.bean.StuRose">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="r_rose" jdbcType="VARCHAR" property="rRose" />
+    <result column="r_rose" jdbcType="VARCHAR" property="rose"/>
   </resultMap>
   <sql id="Base_Column_List">
     id, r_rose
@@ -20,6 +20,12 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
 
+  <select id="getRoses" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from stu_rose
+  </select>
+
   <select id="selectId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="rose_Column_List"/>
@@ -33,7 +39,7 @@
   </delete>
   <insert id="insert" parameterType="com.stumesystem.bean.StuRose">
     insert into stu_rose (id, r_rose)
-    values (#{id,jdbcType=INTEGER}, #{rRose,jdbcType=VARCHAR})
+    values (#{id,jdbcType=INTEGER}, #{rose,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.stumesystem.bean.StuRose">
     insert into stu_rose
@@ -41,7 +47,7 @@
       <if test="id != null">
         id,
       </if>
-      <if test="rRose != null">
+      <if test="rose != null">
         r_rose,
       </if>
     </trim>
@@ -49,20 +55,31 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="rRose != null">
-        #{rRose,jdbcType=VARCHAR},
+      <if test="rose != null">
+        #{rose,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.stumesystem.bean.StuRose">
     update stu_rose
     <set>
-      <if test="rRose != null">
-        r_rose = #{rRose,jdbcType=VARCHAR},
+      <if test="rose != null">
+        r_rose = #{rose,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <update id="updateByUidSelective">
+    update user_rose
+    <set>
+      <if test="rid != null">
+        r_id = #{rid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where u_id = #{uid,jdbcType=INTEGER}
+  </update>
+
   <update id="updateByPrimaryKey" parameterType="com.stumesystem.bean.StuRose">
     update stu_rose
     set r_rose = #{rRose,jdbcType=VARCHAR}

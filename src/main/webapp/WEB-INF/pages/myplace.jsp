@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../common/base.jsp" %>
+<%@ include file="../../common/commons.jsp" %>
 <html>
 <head>
     <meta charset="utf-8">
@@ -9,28 +10,10 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
-    <%@ include file="../../common/commons.jsp" %>
-    <script src="${staticPath}/js/jquery-3.2.1.js"></script>
 
-    <link href="${staticPath}/js/datatime/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
-    <script src="${staticPath}/js/datatime/moment-with-locales.js"></script>
-    <script src="${staticPath}/js/datatime/bootstrap-datetimepicker.min.js"></script>
-    <script src="${staticPath}/js/datatime/bootstrap-datetimepicker.zh-CN.js"></script>
-
-    <link rel="stylesheet" href="${staticPath}/static/bootstrap/css/bootstrap.min.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="${staticPath}/static/css/caidan.css">
-    <link rel="stylesheet" href="${staticPath}/static/css/font-awesome.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="${staticPath}/static/css/ionicons.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="${staticPath}/static/dist/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="${staticPath}/static/dist/css/skins/skin-blue.min.css">
-
-    <![endif]-->
 
 </head>
-<body>
+<body style="width: 90%">
 <div class="tab-pane" id="updata_id">
     <form class="form-horizontal">
         <div class="form-group">
@@ -130,11 +113,6 @@
     </form>
 </div>
 
-</body>
-
-
-<!-- Bootstrap 3.3.6 -->
-<script src="/static/bootstrap/js/bootstrap.min.js"></script>
 </body>
 
 </html>

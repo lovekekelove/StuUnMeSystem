@@ -3,7 +3,7 @@
 <mapper namespace="com.stumesystem.mapper.StuRightMapper">
   <resultMap id="BaseResultMap" type="com.stumesystem.bean.StuRight">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="r_right" jdbcType="VARCHAR" property="rRight" />
+    <result column="r_right" jdbcType="VARCHAR" property="right"/>
     <result column="fid" jdbcType="INTEGER" property="fid" />
       <result column="url" jdbcType="VARCHAR" property="url" />
   </resultMap>
@@ -20,6 +20,13 @@
     (SELECT r_id FROM user_rose WHERE u_id=#{id,jdbcType=INTEGER})) a  LEFT JOIN stu_right b on a.rg_id=b.id
   </select>
 
+  <select id="selectByRoseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from rose_right as a LEFT JOIN stu_right as b on a.rg_id=b.id WHERE r_id=#{rid,jdbcType=INTEGER}
+  </select>
+
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -30,6 +37,12 @@
     delete from stu_right
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
+  <delete id="deleteRoseWithRight" parameterType="java.lang.Integer">
+    delete from rose_right
+    where r_id = #{rid,jdbcType=INTEGER} and rg_id = #{rgId,jdbcType=INTEGER}
+  </delete>
+
   <insert id="insert" parameterType="com.stumesystem.bean.StuRight">
     insert into stu_right (id, r_right, fid,url
       )
@@ -42,7 +55,7 @@
       <if test="id != null">
         id,
       </if>
-      <if test="rRight != null">
+      <if test="right != null">
         r_right,
       </if>
       <if test="fid != null">
@@ -55,7 +68,7 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="rRight != null">
+      <if test="right != null">
         #{rRight,jdbcType=VARCHAR},
       </if>
       <if test="fid != null">
@@ -69,13 +82,13 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.stumesystem.bean.StuRight">
     update stu_right
     <set>
-      <if test="rRight != null">
-        r_right = #{rRight,jdbcType=VARCHAR},
+      <if test="right != null">
+        r_right = #{right,jdbcType=VARCHAR},
       </if>
       <if test="fid != null">
         fid = #{fid,jdbcType=INTEGER},
       </if>
-        <if test="rRight != null">
+      <if test="right != null">
             url = #{url,jdbcType=VARCHAR},
         </if>
     </set>
@@ -83,7 +96,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.stumesystem.bean.StuRight">
     update stu_right
-    set r_right = #{rRight,jdbcType=VARCHAR},
+    set r_right = #{right,jdbcType=VARCHAR},
       fid = #{fid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

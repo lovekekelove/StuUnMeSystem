@@ -79,4 +79,38 @@ public class UserService {
     public List<StuUser> getStuUserByName(String name) {
         return stuUserMapper.selectStuByName(name);
     }
+
+    /**
+     * 删除用户
+     *
+     * @param id
+     * @return
+     */
+    public int deleteUser(Integer id) {
+        if (stuUserMapper.deleteByPrimaryKey(id) > 0) {
+            return stuUserMapper.deleteStuWithRose(id);
+        }
+        return 0;
+    }
+
+
+    /**
+     * id查询Stu
+     *
+     * @param id
+     * @return
+     */
+    public StuUser getUser(Integer id) {
+        return stuUserMapper.selectByPrimaryKey(id);
+    }
+
+    /**
+     * 更新用户
+     *
+     * @param stuUser
+     * @return
+     */
+    public int updateStu(StuUser stuUser) {
+        return stuUserMapper.updateByPrimaryKeySelective(stuUser);
+    }
 }

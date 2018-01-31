@@ -340,16 +340,7 @@ public class UserController {
      */
     @RequestMapping("/personCon")
     public String sendPerson(HttpServletRequest request){
-        StuUser user= (StuUser) request.getSession(false).getAttribute("userinfo");
-        List<StuRight> rights=new ArrayList<StuRight>();
-        if(user!=null) {
-            rights = userService.getRoseAndRightByUid(user.getId());
-        }
-        if(rights!=null){
-            request.setAttribute("rights",rights);
             return "home";
-        }
-        return "index";
     }
 
     @RequestMapping("/welcome")
@@ -453,6 +444,110 @@ public class UserController {
             System.out.println("上传失败" + e.getMessage());
         }
         return null;
+    }
+
+    /**
+     * 删除用户
+     *
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/delUser")
+    public Msg deleteDeptName(@RequestParam("id") Integer id, HttpServletRequest request) {
+        StuUser stuUser = (StuUser) request.getSession().getAttribute("userinfo");
+
+        if (id == stuUser.getId()) {
+            return Msg.fail().add("error", 1);
+        }
+
+
+        if (id != null) {
+            if (userService.deleteUser(id) > 0) {
+                return Msg.success();
+            }
+        }
+        return Msg.fail();
+    }
+
+    /**
+     * 批量删除
+     *
+     * @param ids
+     * @return
+     */
+
+    @ResponseBody
+    @RequestMapping(value = "/deleteUsers/{ids}")
+    public Msg deleteUser(@PathVariable(value = "ids") String ids, HttpServletRequest request) {
+        StuUser stuUser = (StuUser) request.getSession().getAttribute("userinfo");
+        //批量删除
+        if (ids.contains("-")) {
+            String[] str_ids = ids.split("-");
+            for (String id : str_ids) {
+                if (Integer.parseInt(id) == stuUser.getId()) {
+                    continue;
+                }
+                userService.deleteUser(Integer.parseInt(id));
+            }
+
+        } else {
+
+
+            //单个删除
+            Integer id = Integer.parseInt(ids);
+
+            if (id == stuUser.getId()) {
+                return Msg.fail().add("error", 1);
+            }
+
+            userService.deleteUser(id);
+        }
+        return Msg.success();
+    }
+
+    /**
+     * 审核
+     *
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/updateUser")
+    public Msg updateDeptName(@RequestParam("id") Integer id) {
+        if (id != null) {
+            StuUser stuUser = userService.getUser(id);
+            stuUser.setState("1");
+            if (userService.updateStu(stuUser) > 0) {
+                return Msg.success();
+            }
+        }
+        return Msg.fail();
+    }
+
+    /**
+     * 显示角色
+     *
+     * @param id
+     * @param request
+     * @return
+     */
+    @RequestMapping("/checkRose")
+    public String toCheckRose(@RequestParam("id") Integer id, HttpServletRequest request) {
+        StuUser stuUser = userService.getUser(id);
+        request.setAttribute("user", stuUser);
+        List<StuRose> stuRoses = stuRoseService.getRose();
+        request.setAttribute("roses", stuRoses);
+        return "checkRose";
+    }
+
+    @RequestMapping("/stuInfo")
+    public String toLookPersonInfo(@RequestParam("id") Integer id, HttpServletRequest request) {
+        StuUser stuUser = userService.getUser(id);
+        request.setAttribute("userInfo", stuUser);
+        Dept dept = deptService.getDeptWith(id);
+        request.setAttribute("deptInfo", dept);
+        return "lookPersonInfo";
     }
 
     /**

@@ -8,6 +8,8 @@ import java.util.List;
 public interface StuUserMapper {
     int deleteByPrimaryKey(Integer id);
 
+    int deleteStuWithRose(Integer uid);
+
     int insert(StuUser record);
 
     int insert_Rose(@Param("id")Integer id, @Param("r_id") Integer r_id);

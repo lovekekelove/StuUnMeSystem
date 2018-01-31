@@ -1,11 +1,14 @@
 package com.stumesystem.mapper;
 
 import com.stumesystem.bean.StuRight;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface StuRightMapper {
     int deleteByPrimaryKey(Integer id);
+
+    int deleteRoseWithRight(@Param("rgId") Integer rgId, @Param("rid") Integer rid);
 
     int insert(StuRight record);
 
@@ -14,6 +17,8 @@ public interface StuRightMapper {
     StuRight selectByPrimaryKey(Integer id);
 
     List<StuRight> selectByUserId(Integer id);
+
+    List<StuRight> selectByRoseId(Integer id);
 
     int updateByPrimaryKeySelective(StuRight record);
 

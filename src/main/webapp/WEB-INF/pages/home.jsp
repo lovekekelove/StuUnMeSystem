@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>成功学院学生会</title>
+    <link rel="icon" href="/img/bb.ico">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.6 -->
@@ -120,26 +121,7 @@
 
             <!-- Sidebar Menu -->
             <ul class="sidebar-menu">
-                <!-- Optionally, you can add icons to the links -->
-                <c:forEach items="${requestScope.rights}" var="r">
-                <li class="treeview">
-                    <c:if test="${empty r.fid}">
-                     <a href="#"><i class="${r.url}"></i>
-                        <span>${r.rRight}</span>
-                         <span class="pull-right-container">
-                             <i class="fa fa-angle-left pull-right"></i>
-                         </span>
-                    </a>
-                    </c:if>
-                    <c:forEach items="${requestScope.rights}" var="s">
-                        <c:if test="${s.fid==r.id}">
-                    <ul class="treeview-menu">
-                        <li><a class="J_menuItem" href="${staticPath}/${s.url}">${s.rRight}</a></li>
-                    </ul>
-                        </c:if>
-                    </c:forEach>
-                </li>
-                </c:forEach>
+
             </ul>
         </section>
             <!-- /.sidebar-menu -->
@@ -170,29 +152,45 @@
     </footer>
 
 </div>
-<!-- ./wrapper -->
-<%--<script>--%>
-<%--function changeFrameHeight(){--%>
-<%--var ifm= document.getElementById("J_iframe");--%>
-<%--ifm.height=document.documentElement.clientHeight-56;--%>
-<%--}--%>
-<%--$(function(){changeFrameHeight();});--%>
-<%--</script>--%>
-<!-- REQUIRED JS SCRIPTS -->
-<!-- jQuery 2.2.3 -->
 <script src="/static/jquery/jquery-2.2.3.min.js"></script>
+<script src="/js/click.js"></script>
+<script>
+    $(function () {
+        $.ajax({
+            url: "${staticPath}/rights",
+            type: "get",
+            dataType: "json",
+            success: function (result) {
+                $.each(result.extend.rights, function (index, item) {
+                    if (item.fid == null) {
+                        var FIDTd = $("<a href='#'></a>").append($("<i></i>").addClass(item.url))
+                            .append($("<span></span>").append(item.right).append($("<span></span>")
+                                .addClass("pull-right-container").append($("<i></i>").addClass("fa fa-angle-left pull-right"))));
+                    }
+                    var UidTd = $("<ul></ul>");
+                    $.each(result.extend.rights, function (index, s) {
+                        if (s.fid == item.id) {
+                            UidTd.addClass("treeview-menu").append($("<li></li>").append($("<a></a>").addClass("J_menuItem").attr("href", "${staticPath}/" + s.url).append(s.right)));
+                        }
+                    });
+                    $("<li></li>").append(FIDTd).append(UidTd).appendTo(".sidebar-menu");
+                });
+            }
+        });
+    });
 
+</script>
 
 <!-- Bootstrap 3.3.6 -->
 <script src="/static/bootstrap/js/bootstrap.min.js"></script>
 
-<script src="/js/click.js"></script>
+
 <!-- AdminLTE App -->
 <script src="/static/dist/js/app.min.js"></script>
-<script src="/static/js/user.js"></script>
 <script src="/static/dist/js/pages/dashboard.js"></script>
 <script src="/static/dist/js/app.js"></script>
 <script src="/static/dist/js/demo.js"></script>
+
 
 </body>
 </html>
