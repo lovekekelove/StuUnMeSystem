@@ -61,11 +61,11 @@
     <div class="row">
         <div class="col-md-1"></div>
         <!--分页文字信息-->
-        <div class="col-md-7" id="page_info">
+        <div class="col-md-5" id="page_info">
 
         </div>
         <!--分页条信息-->
-        <div class="col-md-4" id="age_nav">
+        <div class="col-md-5" id="age_nav">
 
         </div>
 

@@ -11,10 +11,6 @@
     <input type="hidden" value="${requestScope.rid}" id="rid"/>
     <div class="row">
         <div class="col-md-1">
-
-        </div>
-        <div>
-            <button class="btn glyphicon glyphicon-plus" id="addRight_modal_btn">新增</button>
         </div>
     </div>
     <!--显示表格数据-->
@@ -36,7 +32,7 @@
     $(function () {
         var rid = $("#rid").val();
         $.ajax({
-            url: "${staticPath}/rightsWithRose?rid=" + rid,
+            url: "${staticPath}/addRights",
             type: "get",
             dataType: "json",
             success: function (result) {
@@ -50,12 +46,10 @@
                         if (s.fid == item.id) {
                             UidTd.addClass("treeview-menu").append($("<li></li>").append($("<a href='#'></a>").append(s.right))
                                 .append("&nbsp;&nbsp;&nbsp;&nbsp;")
-                                .append($("<i style='cursor: pointer' class='del_id' del_id='" + s.id + "' del_name='" + s.right + "' fid='"+s.fid+"' data-toggle=\"tooltip\" data-placement=\"top\" title=\"删除\" ></i>")
-                                    .addClass("glyphicon glyphicon-minus")));
+                                .append($("<i style='cursor: pointer' class='add_id' del_id='" + s.id + "' del_name='" + s.right + "' fid='" + s.fid + "' data-toggle=\"tooltip\" data-placement=\"top\" title=\"添加\" ></i>")
+                                    .addClass("glyphicon glyphicon-plus")));
                         }
                     });
-
-
                     $("<li style='list-style-type: none'></li>").append(FIDTd).append(UidTd).appendTo(".sidebar-menu");
 
                 });
@@ -63,31 +57,31 @@
         });
     });
 
-    $(document).on("click", ".del_id", function () {
+    $(document).on("click", ".add_id", function () {
         var rgId = $(this).attr("del_id");
         var fid = $(this).attr("fid");
         var del_name = $(this).attr("del_name");
         var rid = $("#rid").val();
 
-        layer.confirm("确认删除 " + del_name + " 吗？", {
+        layer.confirm("确认添加 " + del_name + " 吗？", {
             btn: ['确定', '取消'] //按钮
         }, function () {
             $.ajax({
-                url: "${staticPath}/delRight",
+                url: "${staticPath}/addRight",
                 type: "get",
                 dataType: "json",
-                data: {"rid": rid, "rgId": rgId,"fid":fid},
+                data: {"rid": rid, "rgId": rgId, "fid": fid},
                 success: function (result) {
                     if (result.code == 100) {
                         layer.load(0, {time: 1000});
                         setTimeout(function (args) {
-                            layer.msg("删除成功！");
+                            layer.msg("添加成功！");
                         }, 1500);
                     }
                     else {
                         layer.load(0, {time: 1000});
                         setTimeout(function (args) {
-                            layer.msg("删除失败！");
+                            layer.msg("添加失败！");
                         }, 1500);
                     }
                     setTimeout(function () {
@@ -102,26 +96,9 @@
     });
 
 
-    //权限增加
-    $(document).on("click", "#addRight_modal_btn", function () {
-        var id = $("#rid").val();
-        layer.open({
-            type: 2,
-            title: '增加权限',
-            shadeClose: false,
-            shade: false,
-            // maxmin: true, //开启最大化最小化按钮
-            area: ['564px', '454px'],
-            content: '${staticPath}/addRightJsp?id=' + id,
-            end: function () {
-                location.reload();
-            }
-        });
-    });
-
-
 </script>
 </html>
+
 
 
 

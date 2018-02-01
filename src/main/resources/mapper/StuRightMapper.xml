@@ -12,6 +12,12 @@
     id, r_right, fid,url
   </sql>
 
+  <select id="selectAll" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    FROM stu_right
+  </select>
+
   <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
@@ -31,6 +37,12 @@
         <include refid="Base_Column_List"/>
         from stu_right WHERE fid=#{fid,jdbcType=INTEGER}
     </select>
+
+  <select id="selectNull" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from stu_right WHERE fid is NULL
+  </select>
 
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -57,9 +69,17 @@
   <insert id="insert" parameterType="com.stumesystem.bean.StuRight">
     insert into stu_right (id, r_right, fid,url
       )
-    values (#{id,jdbcType=INTEGER}, #{rRight,jdbcType=VARCHAR}, #{fid,jdbcType=INTEGER},#{url,jdbcType=VARCHAR}
-      )
+    values (#{id,jdbcType=INTEGER}, #{right,jdbcType=VARCHAR}, #{fid,jdbcType=INTEGER},#{url,jdbcType=VARCHAR}
+    )
   </insert>
+
+  <insert id="insertRoseWithRight" parameterType="java.lang.Integer">
+    insert into rose_right (r_id, rg_id
+    )
+    values (#{rid,jdbcType=INTEGER},#{rgId,jdbcType=INTEGER}
+    )
+  </insert>
+
   <insert id="insertSelective" parameterType="com.stumesystem.bean.StuRight">
     insert into stu_right
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -80,12 +100,12 @@
         #{id,jdbcType=INTEGER},
       </if>
       <if test="right != null">
-        #{rRight,jdbcType=VARCHAR},
+        #{right,jdbcType=VARCHAR},
       </if>
       <if test="fid != null">
         #{fid,jdbcType=INTEGER},
       </if>
-        <if test="fid != null">
+      <if test="url != null">
             #{url,jdbcType=VARCHAR},
         </if>
     </trim>

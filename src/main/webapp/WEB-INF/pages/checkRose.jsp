@@ -14,11 +14,11 @@
                 <div class="col-md-2">
                     <select class="form-control" name="deptName" style="width: 180px">
                         <c:forEach items="${roses}" var="r">
-                            <c:if test="${r.rRose==user.roseName}">
-                                <option value="${r.id}" selected>${r.rRose}</option>
+                            <c:if test="${r.rose==user.roseName}">
+                                <option value="${r.id}" selected>${r.rose}</option>
                             </c:if>
-                            <c:if test="${r.rRose!=user.roseName}">
-                                <option value="${r.id}">${r.rRose}</option>
+                            <c:if test="${r.rose!=user.roseName}">
+                                <option value="${r.id}">${r.rose}</option>
                             </c:if>
                         </c:forEach>
                     </select>

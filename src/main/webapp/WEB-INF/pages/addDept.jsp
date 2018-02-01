@@ -57,7 +57,7 @@
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>DeptName</th>
+                    <th>Dept</th>
                     <th>Delete</th>
                 </tr>
                 </thead>

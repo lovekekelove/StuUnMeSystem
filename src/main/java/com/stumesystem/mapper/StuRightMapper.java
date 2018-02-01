@@ -14,15 +14,21 @@ public interface StuRightMapper {
 
     int insert(StuRight record);
 
+    int insertRoseWithRight(@Param("rgId") Integer rgId, @Param("rid") Integer rid);
+
     int insertSelective(StuRight record);
 
     StuRight selectByPrimaryKey(Integer id);
+
+    List<StuRight> selectAll();
 
     List<StuRight> selectByUserId(Integer id);
 
     List<StuRight> selectByRoseId(Integer id);
 
     List<StuRight> selectByFid(Integer fid);
+
+    List<StuRight> selectNull();
 
     int updateByPrimaryKeySelective(StuRight record);
 

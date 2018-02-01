@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-md-6"></div>
         <div class="col-md-5">
-            <h2>角色管理</h2>
+            <h2>权限管理</h2>
         </div>
     </div>
     <!--按钮-->
@@ -32,7 +32,9 @@
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>角色</th>
+                    <th>权限</th>
+                    <th>父Id</th>
+                    <th>URL</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -69,9 +71,10 @@
 
     //分页
     function to_page(pn) {
+        var name = $("#serch").val();
         $.ajax({
-            url: "${staticPath}/roseManagers",
-            data: {"pn": pn},
+            url: "${staticPath}/rightManagers",
+            data: {"pn": pn, "name": name},
             type: "GET",
             dataType: "json",
             success: function (result) {
@@ -96,15 +99,15 @@
         var deptstus = result.extend.pageInfo.list;
         $.each(deptstus, function (index, item) {
             var IDTd = $("<th ></th>").append(item.id);
-            var roseTd = $("<th ></th>").append(item.rose);
-
-
+            var rightTd = $("<th ></th>").append(item.right);
+            var fidTd = $("<th ></th>").append(item.fid == null ? "主菜单栏" : item.fid);
+            var urlTd = $("<th ></th>").append(item.url);
             var checkBtn = $("<i style='cursor: pointer' data-toggle=\"tooltip\" +\n" +
-                "                   data-placement=\"top\" title=\"分配权限\"></i>")
+                "                   data-placement=\"top\" title=\"修改权限\"></i>")
                 .addClass("glyphicon glyphicon-paperclip check_btn");
 
             var delBtn = $("<i style='cursor: pointer' data-toggle=\"tooltip\" +\n" +
-                "                data-placement=\"top\" title=\"删除角色\"></i>").addClass("glyphicon glyphicon-trash del_btn");
+                "                data-placement=\"top\" title=\"删除权限\"></i>").addClass("glyphicon glyphicon-trash del_btn");
             // var delBtn=$("<button></button>").addClass("btn btn-danger btn-sm del_btn")
             //     .append($("<span></span>").addClass("glyphicon glyphicon-trash"))
             //     .append("删除");
@@ -116,7 +119,9 @@
             //append()方法执行完以后还会返回原来的元素
             $("<tr></tr>")
                 .append(IDTd)
-                .append(roseTd)
+                .append(rightTd)
+                .append(fidTd)
+                .append(urlTd)
                 .append(btnTd)
                 .appendTo("#emps_table tbody");
         });
@@ -141,7 +146,7 @@
 
         var ul = $("<ul></ul>").addClass("pagination");
         var firstPageLi = $("<li></li>").append($("<a></a>").append("首页").attr("href", "#"));
-        var prePageLi = $("<li></li>").append($("<a></a>").append("&laquo;"));
+        var prePageLi = $("<li></li>").append($("<a style='cursor: pointer'></a>").append("&laquo;"));
 
         if (result.extend.pageInfo.hasPreviousPage == false) {
             prePageLi.addClass("disabled");
@@ -168,7 +173,7 @@
             ul.append(numPageLi);
         });
 
-        var nextPageLi = $("<li></li>").append($("<a></a>").append("&raquo;"));
+        var nextPageLi = $("<li></li>").append($("<a style='cursor: pointer'></a>").append("&raquo;"));
         var lastPageLi = $("<li></li>").append($("<a></a>").append("末页").attr("href", "#"));
 
         if (result.extend.pageInfo.hasNextPage == false) {
@@ -188,18 +193,17 @@
         nvaEle.appendTo("#age_nav");
     }
 
-    //删除角色
+    //删除权限
     $(document).on("click", ".del_btn", function () {
 
         //1.弹出是否删除确认框
         var deptName = $(this).parents("tr").find("th:eq(1)").text();
         var id = $(this).attr("del_id");
-
         layer.confirm("确认删除 " + deptName + " 吗？", {
             btn: ['确定', '取消'] //按钮
         }, function () {
             $.ajax({
-                url: "${staticPath}/delRose?id=" + id,
+                url: "${staticPath}/deleteRight?id=" + id,
                 type: "get",
                 dataType: "json",
                 success: function (result) {
@@ -224,44 +228,44 @@
 
         });
     });
-    //角色增加
-    $(document).on("click", "#addEmp_modal_btn", function () {
-        var id = $(this).attr("rose_id");
-        layer.open({
-            type: 2,
-            title: '角色增加',
-            shadeClose: false,
-            shade: false,
-            // maxmin: true, //开启最大化最小化按钮
-            area: ['464px', '254px'],
-            content: '${staticPath}/addRoseJsp',
-            end: function () {
-                to_page(totalRecord);
-            }
-        });
-    });
-    //角色权限分配
+    //权限修改
     $(document).on("click", ".check_btn", function () {
         var id = $(this).attr("check_id");
-        var checkRose = layer.open({
+        layer.open({
             type: 2,
-            title: '角色权限分配',
+            title: '权限修改',
             shadeClose: false,
             shade: false,
             // maxmin: true, //开启最大化最小化按钮
-            area: ['464px', '254px'],
-            content: '${staticPath}/distRightJsp?id=' + id,
+            area: ['364px', '364px'],
+            content: '${staticPath}/updateRightJsp?id=' + id,
             end: function () {
                 to_page(currentNum);
             }
         });
+    });
 
-        layer.full(checkRose);
+    //权限添加
+    $(document).on("click", "#addEmp_modal_btn", function () {
+        layer.open({
+            type: 2,
+            title: '权限添加',
+            shadeClose: false,
+            shade: false,
+            // maxmin: true, //开启最大化最小化按钮
+            area: ['364px', '364px'],
+            content: '${staticPath}/rightJsp',
+            end: function () {
+                to_page(totalRecord);
+            }
+        });
+
     });
 
 
 </script>
 </html>
+
 
 
 

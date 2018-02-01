@@ -82,7 +82,7 @@
 
   <update id="updateByPrimaryKey" parameterType="com.stumesystem.bean.StuRose">
     update stu_rose
-    set r_rose = #{rRose,jdbcType=VARCHAR}
+    set r_rose = #{rose,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

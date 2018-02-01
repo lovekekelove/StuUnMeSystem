@@ -54,4 +54,73 @@ public class StuRightService {
     public List<StuRight> getStuRightByFid(Integer fid){
         return stuRightMapper.selectByFid(fid);
     }
+
+    /**
+     * 查询主菜单
+     *
+     * @return
+     */
+    public List<StuRight> getStuRightNull() {
+        return stuRightMapper.selectNull();
+    }
+
+    /**
+     * 获取所有的权限
+     *
+     * @return
+     */
+    public List<StuRight> getStuRights() {
+        return stuRightMapper.selectAll();
+    }
+
+    /**
+     * 插入中间表
+     *
+     * @param rgId
+     * @param rid
+     * @return
+     */
+    public int insertRight(Integer rgId, Integer rid) {
+        return stuRightMapper.insertRoseWithRight(rgId, rid);
+    }
+
+    /**
+     * 删除权限
+     *
+     * @param id
+     * @return
+     */
+    public int delRight(Integer id) {
+        return stuRightMapper.deleteByPrimaryKey(id);
+    }
+
+    /**
+     * 添加权限
+     *
+     * @param stuRight
+     * @return
+     */
+    public int addRight(StuRight stuRight) {
+        return stuRightMapper.insertSelective(stuRight);
+    }
+
+    /**
+     * id获取权限
+     *
+     * @param id
+     * @return
+     */
+    public StuRight getStu(Integer id) {
+        return stuRightMapper.selectByPrimaryKey(id);
+    }
+
+    /**
+     * 更新权限
+     *
+     * @param stuRight
+     * @return
+     */
+    public int updateStuRight(StuRight stuRight) {
+        return stuRightMapper.updateByPrimaryKeySelective(stuRight);
+    }
 }
