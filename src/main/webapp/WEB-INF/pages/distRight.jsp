@@ -50,7 +50,7 @@
                         if (s.fid == item.id) {
                             UidTd.addClass("treeview-menu").append($("<li></li>").append($("<a href='#'></a>").append(s.right))
                                 .append("&nbsp;&nbsp;&nbsp;&nbsp;")
-                                .append($("<i style='cursor: pointer' class='del_id' del_id='" + s.id + "' del_name='" + s.right + "' ></i>")
+                                .append($("<i style='cursor: pointer' class='del_id' del_id='" + s.id + "' del_name='" + s.right + "' fid='"+s.fid+"' data-toggle=\"tooltip\" data-placement=\"top\" title=\"删除\" ></i>")
                                     .addClass("glyphicon glyphicon-minus")));
                         }
                     });
@@ -65,6 +65,7 @@
 
     $(document).on("click", ".del_id", function () {
         var rgId = $(this).attr("del_id");
+        var fid = $(this).attr("fid");
         var del_name = $(this).attr("del_name");
         var rid = $("#rid").val();
 
@@ -76,23 +77,23 @@
                 url: "${staticPath}/delRight",
                 type: "get",
                 dataType: "json",
-                data: {"rid": rid, "rgId": rgId},
+                data: {"rid": rid, "rgId": rgId,"fid":fid},
                 success: function (result) {
                     if (result.code == 100) {
-                        layer.load(0, {time: 2000});
+                        layer.load(0, {time: 1000});
                         setTimeout(function (args) {
                             layer.msg("删除成功！");
-                        }, 2000);
+                        }, 1500);
                     }
                     else {
-                        layer.load(0, {time: 2000});
+                        layer.load(0, {time: 1000});
                         setTimeout(function (args) {
                             layer.msg("删除失败！");
-                        }, 2000);
+                        }, 1500);
                     }
                     setTimeout(function () {
                         location.reload();
-                    }, 3000);
+                    }, 2000);
                 }
             });
         }, function () {
@@ -102,42 +103,6 @@
     });
 
 
-    //删除用户
-    $(document).on("click", ".del_btn", function () {
-
-        //1.弹出是否删除确认框
-        var deptName = $(this).parents("tr").find("th:eq(1)").text();
-        var id = $(this).attr("del_id");
-
-        layer.confirm("确认删除 " + deptName + " 吗？", {
-            btn: ['确定', '取消'] //按钮
-        }, function () {
-            $.ajax({
-                url: "${staticPath}/delRose?id=" + id,
-                type: "get",
-                dataType: "json",
-                success: function (result) {
-                    if (result.code == 100) {
-                        layer.load(0, {time: 2000});
-                        setTimeout(function (args) {
-                            layer.msg("删除成功！");
-                        }, 2000);
-                    }
-                    else {
-                        layer.load(0, {time: 2000});
-                        setTimeout(function (args) {
-                            layer.msg("删除失败！");
-                        }, 2000);
-                    }
-                    setTimeout(function () {
-                        to_page(currentNum);
-                    }, 3000);
-                }
-            });
-        }, function () {
-
-        });
-    });
     //角色修改
     $(document).on("click", "#addEmp_modal_btn", function () {
         var id = $(this).attr("rose_id");

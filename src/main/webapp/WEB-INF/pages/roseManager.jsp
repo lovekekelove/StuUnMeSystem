@@ -189,7 +189,7 @@
         nvaEle.appendTo("#age_nav");
     }
 
-    //删除用户
+    //删除角色
     $(document).on("click", ".del_btn", function () {
 
         //1.弹出是否删除确认框
@@ -205,20 +205,20 @@
                 dataType: "json",
                 success: function (result) {
                     if (result.code == 100) {
-                        layer.load(0, {time: 2000});
+                        layer.load(0, {time: 1000});
                         setTimeout(function (args) {
                             layer.msg("删除成功！");
-                        }, 2000);
+                        }, 1500);
                     }
                     else {
-                        layer.load(0, {time: 2000});
+                        layer.load(0, {time: 1000});
                         setTimeout(function (args) {
                             layer.msg("删除失败！");
-                        }, 2000);
+                        }, 1500);
                     }
                     setTimeout(function () {
                         to_page(currentNum);
-                    }, 3000);
+                    }, 2000);
                 }
             });
         }, function () {

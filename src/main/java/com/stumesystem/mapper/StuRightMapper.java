@@ -10,6 +10,8 @@ public interface StuRightMapper {
 
     int deleteRoseWithRight(@Param("rgId") Integer rgId, @Param("rid") Integer rid);
 
+    int deleteRoseWithRightByFid(@Param("fId") Integer fId, @Param("rid") Integer rid);
+
     int insert(StuRight record);
 
     int insertSelective(StuRight record);
@@ -19,6 +21,8 @@ public interface StuRightMapper {
     List<StuRight> selectByUserId(Integer id);
 
     List<StuRight> selectByRoseId(Integer id);
+
+    List<StuRight> selectByFid(Integer fid);
 
     int updateByPrimaryKeySelective(StuRight record);
 

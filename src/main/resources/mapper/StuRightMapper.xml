@@ -26,6 +26,12 @@
     from rose_right as a LEFT JOIN stu_right as b on a.rg_id=b.id WHERE r_id=#{rid,jdbcType=INTEGER}
   </select>
 
+    <select id="selectByFid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from stu_right WHERE fid=#{fid,jdbcType=INTEGER}
+    </select>
+
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -42,6 +48,11 @@
     delete from rose_right
     where r_id = #{rid,jdbcType=INTEGER} and rg_id = #{rgId,jdbcType=INTEGER}
   </delete>
+
+    <delete id="deleteRoseWithRightByFid" parameterType="java.lang.Integer">
+        delete from rose_right
+        where r_id = #{rid,jdbcType=INTEGER} and rg_id = #{fId,jdbcType=INTEGER}
+    </delete>
 
   <insert id="insert" parameterType="com.stumesystem.bean.StuRight">
     insert into stu_right (id, r_right, fid,url

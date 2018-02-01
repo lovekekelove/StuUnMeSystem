@@ -33,4 +33,25 @@ public class StuRightService {
     public int deleteRightWithRose(Integer rgId, Integer rid) {
         return stuRightMapper.deleteRoseWithRight(rgId, rid);
     }
+
+    /**
+     * 删除权限中间表fid
+     *
+     * @param fId
+     * @param rid
+     * @return
+     */
+    public int deleteRightWithRoseByFid(Integer fId, Integer rid) {
+        return stuRightMapper.deleteRoseWithRight(fId, rid);
+    }
+
+
+    /**
+     * fid查询权限
+     * @param fid
+     * @return
+     */
+    public List<StuRight> getStuRightByFid(Integer fid){
+        return stuRightMapper.selectByFid(fid);
+    }
 }

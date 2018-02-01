@@ -145,6 +145,12 @@
                 </h4>
                 <span class="help-block"></span>
             </div>
+
+            <label class="col-sm-2 control-label">邮箱:</label>
+            <div class="col-sm-2">
+                <h4>${requestScope.userInfo.email}</h4>
+                <span class="help-block"></span>
+            </div>
         </div>
     </form>
 </div>
