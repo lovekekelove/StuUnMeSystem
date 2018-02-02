@@ -592,7 +592,7 @@ $("#leaveMSG").click(function () {
         type: 2,
         title: '留言板',
         shadeClose: false,
-        shade: false,
+        shade: 0.6,
         // maxmin: true, //开启最大化最小化按钮
         area: ['864px', '600px'],
         content: '/leaveMsg'

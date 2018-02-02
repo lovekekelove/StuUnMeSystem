@@ -235,7 +235,8 @@
             type: 2,
             title: '权限修改',
             shadeClose: false,
-            shade: false,
+            shade: 0.6,
+            anim: 1,
             // maxmin: true, //开启最大化最小化按钮
             area: ['364px', '364px'],
             content: '${staticPath}/updateRightJsp?id=' + id,
@@ -251,7 +252,8 @@
             type: 2,
             title: '权限添加',
             shadeClose: false,
-            shade: false,
+            shade: 0.6,
+            anim: 1,
             // maxmin: true, //开启最大化最小化按钮
             area: ['364px', '364px'],
             content: '${staticPath}/rightJsp',

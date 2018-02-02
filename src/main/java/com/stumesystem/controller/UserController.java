@@ -63,8 +63,11 @@ public class UserController {
                     Dept dept = deptService.getDeptWith(user.getId());
                     if (dept != null) {
                         request.getSession().setAttribute("dept", dept);
+                        String email2 = ((StuUser) request.getSession().getAttribute("userinfo")).getEmail();
+                        if ((StuUser) request.getSession().getAttribute("userinfo") == null || !email2.equals(user.getEmail())) {
+                            Online.add();
+                        }
                         request.getSession().setAttribute("userinfo", user);
-                        Online.add();
                         return Msg.success();
                     } else {
                         request.getSession().setAttribute("userinfo", user);

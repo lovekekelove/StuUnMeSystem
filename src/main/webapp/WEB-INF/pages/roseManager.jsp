@@ -231,8 +231,8 @@
             type: 2,
             title: '角色增加',
             shadeClose: false,
-            shade: false,
-            // maxmin: true, //开启最大化最小化按钮
+            shade: 0.6,
+            anim: 1,
             area: ['464px', '254px'],
             content: '${staticPath}/addRoseJsp',
             end: function () {
@@ -247,7 +247,8 @@
             type: 2,
             title: '角色权限分配',
             shadeClose: false,
-            shade: false,
+            shade: 0.6,
+            anim: 1,
             // maxmin: true, //开启最大化最小化按钮
             area: ['464px', '254px'],
             content: '${staticPath}/distRightJsp?id=' + id,
