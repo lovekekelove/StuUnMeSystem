@@ -12,12 +12,14 @@ import com.stumesystem.util.MD5Util;
 import com.stumesystem.util.MailUtil;
 import com.stumesystem.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import sun.misc.BASE64Decoder;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -43,6 +45,7 @@ public class UserController {
 
     /**
      * 用户登录
+     *
      * @param request
      * @return
      * @throws UnsupportedEncodingException
@@ -52,63 +55,79 @@ public class UserController {
     @ResponseBody
     public Msg checkLogin(HttpServletRequest request)
             throws UnsupportedEncodingException, NoSuchAlgorithmException {
-         String email=request.getParameter("email");
-         String pwd=request.getParameter("password");
+        String email = request.getParameter("email");
+        String pwd = request.getParameter("password");
+        String ip = request.getRemoteHost();
         //查数据库 如果查到数据  调用MD5加密对比密码
         StuUser user = userService.getUser(email);
-        if(user!=null){
-            if(MD5Util.checkPassword(pwd,user.getPassword())){
-               //校验成功  设置session
-                if("1".equals(user.getState())){
+        if (user != null) {
+            if (MD5Util.checkPassword(pwd, user.getPassword())) {
+                //校验成功  设置session
+                if ("1".equals(user.getState())) {
                     Dept dept = deptService.getDeptWith(user.getId());
                     if (dept != null) {
                         request.getSession().setAttribute("dept", dept);
-                        String email2 = ((StuUser) request.getSession().getAttribute("userinfo")).getEmail();
-                        if ((StuUser) request.getSession().getAttribute("userinfo") == null || !email2.equals(user.getEmail())) {
-                            Online.add();
-                        }
-                        request.getSession().setAttribute("userinfo", user);
+                    }
+
+                    boolean flag = true;
+                    ServletContext application = (ServletContext) request.getSession().getServletContext();
+
+
+                    StuUser usr = (StuUser) application.getAttribute("user");
+                    if (null != usr && usr.getName().equals(user.getName())) {//login repeatly!
+                        flag = false;
+                    }
+
+
+                    if (flag) {
+                        Online.add();
+                        HttpSession session = request.getSession();
+                        session.setAttribute("userinfo", user);
+                        request.getServletContext().setAttribute("user", user);
                         return Msg.success();
                     } else {
-                        request.getSession().setAttribute("userinfo", user);
-                        Online.add();
+                        HttpSession session = request.getSession();
+                        session.setAttribute("userinfo", user);
                         return Msg.success();
                     }
-                }else{
-                    return Msg.fail().add("errors","未通过审核！");
+                } else {
+                    return Msg.fail().add("errors", "未通过审核！");
                 }
 
-           }else{
-               // 校验失败  返回校验失败signal
-                return Msg.fail().add("errors","密码错误");
-           }
-        }else {
+            } else {
+                // 校验失败  返回校验失败signal
+                return Msg.fail().add("errors", "密码错误");
+            }
+        } else {
             // 校验失败  返回校验失败signal
-            return Msg.notFind().add("errors","用户不存在！");
+            return Msg.notFind().add("errors", "用户不存在！");
         }
     }
 
+
     /**
      * 退出系统
-     * @param session
+     * @param request
      * @return
      */
     @RequestMapping("/logout")
     @ResponseBody
-    public Msg logout(HttpSession session){
-        session.invalidate();
+    public Msg logout(HttpServletRequest request) {
+        request.getSession().invalidate();
+        request.getServletContext().removeAttribute("user");
         Online.delete();
         return Msg.success();
     }
 
     /**
      * 退出系统
-     * @param session
+     * @param request
      * @return
      */
     @RequestMapping("/logout2")
-    public String logout2(HttpSession session){
-        session.invalidate();
+    public String logout2(HttpServletRequest request) {
+        request.getSession().invalidate();
+        request.getServletContext().removeAttribute("user");
         Online.delete();
         return "redirect:/index.jsp";
     }

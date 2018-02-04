@@ -57,23 +57,23 @@
   </filter-mapping>
 
 
-    <!--<servlet-mapping>-->
-    <!--<servlet-name>default</servlet-name>-->
-    <!--<url-pattern>*.js</url-pattern>-->
-    <!--</servlet-mapping>-->
-    <!--<servlet-mapping>-->
-    <!--<servlet-name>default</servlet-name>-->
-    <!--<url-pattern>*.css</url-pattern>-->
-    <!--</servlet-mapping>-->
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.js</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.css</url-pattern>
+  </servlet-mapping>
 
-  <!--<filter>-->
-    <!--<filter-name>commonAuthority</filter-name>-->
-    <!--<filter-class>com.stumesystem.filters.AuthorityFilter</filter-class>-->
-  <!--</filter>-->
-  <!--<filter-mapping>-->
-    <!--<filter-name>commonAuthority</filter-name>-->
-    <!--<url-pattern>/user/*</url-pattern>-->
-  <!--</filter-mapping>-->
+  <filter>
+    <filter-name>commonAuthority</filter-name>
+    <filter-class>com.stumesystem.filters.AuthorityFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>commonAuthority</filter-name>
+    <url-pattern>/user/*</url-pattern>
+  </filter-mapping>
 
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
