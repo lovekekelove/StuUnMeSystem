@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.stumesystem.bean.*;
 import com.stumesystem.listener.Online;
 import com.stumesystem.service.DeptService;
+import com.stumesystem.service.PointMsgService;
 import com.stumesystem.service.StuRoseService;
 import com.stumesystem.service.UserService;
 import com.stumesystem.util.DateUtil;
@@ -41,6 +42,9 @@ public class UserController {
 
     @Autowired
     private StuRoseService stuRoseService;
+
+    @Autowired
+    private PointMsgService pointMsgService;
 
 
     /**
@@ -193,7 +197,7 @@ public class UserController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("/yemail")
+    @RequestMapping("/yEmail")
     public Msg yzEmail(@RequestParam("email") String email){
         if (userService.getUser(email)==null){
             return Msg.success();
@@ -363,6 +367,19 @@ public class UserController {
     @RequestMapping("/personCon")
     public String sendPerson(HttpServletRequest request){
             return "home";
+    }
+
+    /**
+     * 提示
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/pointMsg")
+    public Msg pointMsg() {
+        int num = pointMsgService.getNum();
+        List<PointMsg> pointMsgs = pointMsgService.getPointMsg();
+        return Msg.success().add("pointMsgs", pointMsgs).add("num", num);
     }
 
     @RequestMapping("/welcome")

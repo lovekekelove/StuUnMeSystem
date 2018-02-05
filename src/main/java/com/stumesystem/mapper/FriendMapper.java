@@ -11,6 +11,8 @@ public interface FriendMapper {
 
     Friend selectByPrimaryKey(Integer id);
 
+    Friend selectByAddFriend(Integer id);
+
     int updateByPrimaryKeySelective(Friend record);
 
     int updateByPrimaryKey(Friend record);

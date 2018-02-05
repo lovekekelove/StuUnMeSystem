@@ -405,7 +405,7 @@ $("#iemail").change(function () {
     var email = $('#iemail').val().trim();
     var remail = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
     $.ajax({
-        url: "/user/yemail",
+        url: "/user/yEmail",
         data:{"email":email},
         type:"get",
         dataType: "json",
@@ -588,6 +588,10 @@ $("#peocenter").click(function () {
 
 
 $("#leaveMSG").click(function () {
+    var id = $("#peocenter").attr("mark");
+    if (id == undefined) {
+        return false;
+    }
     var msg = layer.open({
         type: 2,
         title: '留言板',

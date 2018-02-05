@@ -56,13 +56,12 @@
                     <!-- Messages: style can be found in dropdown.less-->
                     <li class="dropdown messages-menu">
                         <!-- Menu toggle button -->
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-envelope-o"></i>
-                            <span class="label label-success">4</span>
+                        <a href="#" class="dropdown-toggle num" data-toggle="dropdown">
+                            <i class="fa fa-bell-o"></i>
+                            <span class="label label-success"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="header">您有4条信息待处理</li>
-                            <li class="footer"><a href="#">查看所有信息</a></li>
+
                         </ul>
                     </li>
                     <!-- /.messages-menu -->
@@ -178,6 +177,26 @@
             }
         });
     });
+
+    $(function () {
+        $.ajax({
+            url: "${staticPath}/user/pointMsg",
+            type: "get",
+            dataType: "json",
+            success: function (result) {
+                $(".num span").text(result.extend.num);
+                $.each(result.extend.pointMsgs, function (index, p) {
+                    var tishi = $("<li></li>").append(p.msgCount).append(
+                        $("<span></span>").append($("<button></button>")
+                            .addClass("btn btn-default btn-xs btn-info pull-right del_btn").append("删除"))
+                            .append($("<button></button>")
+                                .addClass("btn btn-default btn-xs btn-danger pull-right del_btn").append("查看")));
+                    tishi.appendTo(".dropdown-menu");
+                });
+            }
+        });
+    });
+
 
 </script>
 

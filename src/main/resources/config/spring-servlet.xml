@@ -31,6 +31,10 @@
 
     <mvc:default-servlet-handler/>
 
+    <mvc:interceptors>
+        <bean class="com.stumesystem.interceptor.SessionInterceptor"/>
+    </mvc:interceptors>
+
     <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
         <property name="converters">
             <list>

@@ -17,6 +17,13 @@
         from friend
         where id = #{id,jdbcType=INTEGER}
     </select>
+
+    <select id="selectByAddFriend" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from friend
+        where add_uid = #{id,jdbcType=INTEGER}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from friend
     where id = #{id,jdbcType=INTEGER}

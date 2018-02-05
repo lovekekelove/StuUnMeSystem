@@ -72,7 +72,10 @@
     }
 
     $("#btn_serch").click(function () {
-        to_page();
+        layer.load(0, {time: 400});
+        setTimeout(function (args) {
+            to_page();
+        }, 2000);
     });
 
     //显示员工列表
@@ -84,64 +87,65 @@
         var imgTd = $("<th ></th>").append($("<img style='width: 38px;height: 38px;'/>").addClass("img-circle").attr("src", deptstus.imgHeah));
         var deptNameTd = $("<th ></th>").append(deptstus.nickname);
         var countTd = $("<th ></th>").append(deptstus.name);
-        var stateTd = $("<th ></th>").append(deptstus.state == '1' ? "通过审核" : "未通过审核");
 
 
         var addBtn = $("<i style='cursor: pointer' data-toggle=\"tooltip\" +\n" +
-            "                data-placement=\"top\" title=\"添加用户\"></i>").addClass("glyphicon glyphicon-plus-sign del_btn");
+            "                data-placement=\"top\" title=\"添加用户\"></i>").addClass("glyphicon glyphicon-plus-sign add_btn");
             // var delBtn=$("<button></button>").addClass("btn btn-danger btn-sm del_btn")
             //     .append($("<span></span>").addClass("glyphicon glyphicon-trash"))
             //     .append("删除");
             //为删除按钮添加一个自定义属性，来表示员工的ID
 
-        addBtn.attr("del_id", deptstus.id);
+        addBtn.attr("add_id", deptstus.id);
         var btnTd = $("<th ></th>").append(addBtn);
             //append()方法执行完以后还会返回原来的元素
-        $("<tr style='background-color: #b0f0a0'></tr>")
+        $("<tr></tr>")
                 .append(IDTd)
                 .append(imgTd)
                 .append(deptNameTd)
                 .append(countTd)
-                .append(stateTd)
                 .append(btnTd)
                 .appendTo("#emps_table tbody");
     }
 
 
-    //删除用户
-    $(document).on("click", ".del_btn", function () {
+    //添加用户
+    $(document).on("click", ".add_btn", function () {
 
-        //1.弹出是否删除确认框
+        //1.弹出是否添加确认框
         var deptName = $(this).parents("tr").find("th:eq(3)").text();
-        var id = $(this).attr("del_id");
+        var id = $(this).attr("add_id");
 
-        layer.confirm("确认删除 " + deptName + " 吗？", {
+        layer.confirm("确认添加 " + deptName + " 吗？", {
             btn: ['确定', '取消'] //按钮
         }, function () {
             $.ajax({
-                url: "${staticPath}/user/delUser?id=" + id,
+                url: "${staticPath}/addFriend?id=" + id,
                 type: "get",
                 dataType: "json",
                 success: function (result) {
                     if (result.code == 100) {
-                        layer.load(0, {time: 2000});
+                        layer.load(0, {time: 700});
                         setTimeout(function (args) {
-                            layer.msg("删除成功！");
+                            layer.msg("请求发出，等待通过！");
+
                         }, 2000);
                     } else if (result.extend.error == 1) {
-                        layer.load(0, {time: 2000});
+                        layer.load(0, {time: 700});
                         setTimeout(function (args) {
-                            layer.msg("不能删除自己！");
+                            layer.msg("已经是您的好友！");
+                        }, 2000);
+                    } else if (result.extend.error == 2) {
+                        layer.load(0, {time: 700});
+                        setTimeout(function (args) {
+                            layer.msg("未通过审核，不能添加！");
                         }, 2000);
                     } else {
-                        layer.load(0, {time: 2000});
+                        layer.load(0, {time: 800});
                         setTimeout(function (args) {
-                            layer.msg("删除失败！");
+                            layer.msg("添加失败！");
                         }, 2000);
                     }
-                    setTimeout(function () {
-                        to_page(currentNum);
-                    }, 3000);
                 }
             });
         }, function () {

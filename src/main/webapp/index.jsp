@@ -258,7 +258,7 @@
                 </li>
                 <c:if test="${not empty sessionScope.userinfo}">
                 <li>
-                    <a class="page-scroll" id="peocenter" style="cursor: pointer">个人中心</a>
+                    <a class="page-scroll" id="peocenter" mark="${sessionScope.userinfo.id}" style="cursor: pointer">个人中心</a>
                 </li>
                 <li>
                     <a class="page-scroll"  id="logout" style="cursor: pointer">退出</a>
@@ -325,7 +325,7 @@
             <div class="col-md-6 col-0-gutter">
                 <div class="ot-portfolio-item">
                     <figure class="effect-bubba">
-                        <img src="img/demo/portfolio-3.jpg" alt="img02" class="img-responsive" />
+                        <img src="img/demo/portfolio-5.jpg" alt="img02" class="img-responsive"/>
                         <figcaption>
                             <h2>Lamp & Velvet</h2>
                             <p>Branding, Web Design</p>
@@ -339,7 +339,7 @@
             <div class="col-md-6 col-0-gutter">
                 <div class="ot-portfolio-item">
                     <figure class="effect-bubba">
-                        <img src="img/demo/portfolio-4.jpg" alt="img02" class="img-responsive"/>
+                        <img src="img/demo/portfolio-6.jpg" alt="img02" class="img-responsive"/>
                         <figcaption>
                             <h2>留言区</h2>
                             <p>请大声说出来</p>
