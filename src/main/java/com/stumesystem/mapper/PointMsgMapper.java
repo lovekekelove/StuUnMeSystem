@@ -12,9 +12,9 @@ public interface PointMsgMapper {
 
     int insertSelective(PointMsg record);
 
-    List<PointMsg> selectAllWithState();
+    List<PointMsg> selectAllWithState(Integer id);
 
-    int selectNum();
+    int selectNum(Integer id);
 
     PointMsg selectByPrimaryKey(Integer id);
 

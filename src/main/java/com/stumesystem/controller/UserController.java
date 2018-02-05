@@ -376,9 +376,10 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping("/pointMsg")
-    public Msg pointMsg() {
-        int num = pointMsgService.getNum();
-        List<PointMsg> pointMsgs = pointMsgService.getPointMsg();
+    public Msg pointMsg(HttpServletRequest request) {
+        StuUser stuUser = (StuUser) request.getSession().getAttribute("userinfo");
+        int num = pointMsgService.getNum(stuUser.getId());
+        List<PointMsg> pointMsgs = pointMsgService.getPointMsg(stuUser.getId());
         return Msg.success().add("pointMsgs", pointMsgs).add("num", num);
     }
 

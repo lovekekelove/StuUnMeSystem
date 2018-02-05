@@ -60,7 +60,7 @@
                             <i class="fa fa-bell-o"></i>
                             <span class="label label-success"></span>
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu option_msg">
 
                         </ul>
                     </li>
@@ -184,14 +184,14 @@
             type: "get",
             dataType: "json",
             success: function (result) {
-                $(".num span").text(result.extend.num);
+                $(".num span").text(result.extend.num == 1 ? result.extend.num : "");
                 $.each(result.extend.pointMsgs, function (index, p) {
                     var tishi = $("<li></li>").append(p.msgCount).append(
                         $("<span></span>").append($("<button></button>")
                             .addClass("btn btn-default btn-xs btn-info pull-right del_btn").append("删除"))
                             .append($("<button></button>")
                                 .addClass("btn btn-default btn-xs btn-danger pull-right del_btn").append("查看")));
-                    tishi.appendTo(".dropdown-menu");
+                    tishi.appendTo(".option_msg");
                 });
             }
         });

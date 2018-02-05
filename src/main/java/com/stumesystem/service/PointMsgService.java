@@ -32,8 +32,8 @@ public class PointMsgService {
      *
      * @return
      */
-    public int getNum() {
-        return pointMsgMapper.selectNum();
+    public int getNum(Integer id) {
+        return pointMsgMapper.selectNum(id);
     }
 
     /**
@@ -41,8 +41,8 @@ public class PointMsgService {
      *
      * @return
      */
-    public List<PointMsg> getPointMsg() {
-        return pointMsgMapper.selectAllWithState();
+    public List<PointMsg> getPointMsg(Integer id) {
+        return pointMsgMapper.selectAllWithState(id);
     }
 
 }

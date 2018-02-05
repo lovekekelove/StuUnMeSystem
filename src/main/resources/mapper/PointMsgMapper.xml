@@ -19,17 +19,17 @@
         where id = #{id,jdbcType=INTEGER}
     </select>
 
-    <select id="selectAllWithState" resultMap="BaseResultMap">
+    <select id="selectAllWithState" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
         from point_msg
-        where state = '2'
+        where state = '2' AND accept_uid = #{id,jdbcType=INTEGER}
     </select>
 
-    <select id="selectNum" resultType="java.lang.Integer">
+    <select id="selectNum" resultType="java.lang.Integer" parameterType="java.lang.Integer">
     select COUNT(id)
     from point_msg
-    where state = '2'
+        where state = '2' AND accept_uid = #{id,jdbcType=INTEGER}
   </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
