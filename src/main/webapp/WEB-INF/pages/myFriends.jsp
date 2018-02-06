@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-md-6"></div>
         <div class="col-md-5">
-            <h2>好友管理</h2>
+            <h2>我的好友</h2>
         </div>
     </div>
     <!--按钮-->
@@ -43,11 +43,11 @@
                         <input type="checkbox" id="check_all"/>
                     </th>
                     <th>ID</th>
+                    <th>用户ID</th>
                     <th>头像</th>
                     <th>昵称</th>
                     <th>姓名</th>
                     <th>添加时间</th>
-                    <th>请求</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -88,7 +88,7 @@
         $.ajax({
             url: "${staticPath}/myFriends",
             data: {"pn": pn, "name": name},
-            type: "GET",
+            type: "post",
             dataType: "json",
             success: function (result) {
                 //1.解析并显示员工数据
@@ -113,15 +113,12 @@
         $.each(deptstus, function (index, item) {
             var checkTd = $("<th ><input type='checkbox' class='check_item'/></th>");
             var IDTd = $("<th ></th>").append(item.id);
-            var imgTd = $("<th ></th>").append($("<img style='width: 38px;height: 38px;'/>").addClass("img-circle").attr("src", item.imgHeah));
+            var userTd = $("<th ></th>").append(item.addUid);
+            var imgTd = $("<th ></th>").append($("<img style='width: 38px;height: 38px;'/>").addClass("img-circle").attr("src", item.img));
             var deptNameTd = $("<th ></th>").append(item.nickname);
-            var countTd = $("<th ></th>").append(item.name);
-            var timeTd = $("<th ></th>").append(item.roseName);
-            var stateTd = $("<th ></th>").append(item.state == '1' ? "同意" : "未同意");
+            var nameTd = $("<th ></th>").append(item.name);
+            var timeTd = $("<th ></th>").append(formatDateTime(item.addTime));
 
-            var addBtn = $("<i style='cursor: pointer' data-toggle=\"tooltip\"\n" +
-                "        data-placement=\"top\" title=\"审核请求\"></i>")
-                .addClass("glyphicon glyphicon-edit add_btn");
 
             var showBtn = $("<i style='cursor: pointer' data-toggle=\\\"tooltip\\\"\\n\" +\n" +
                 "                    data-placement=\"top\" title=\"个人资料\"></i>")
@@ -133,18 +130,19 @@
             //     .append($("<span></span>").addClass("glyphicon glyphicon-trash"))
             //     .append("删除");
             //为删除按钮添加一个自定义属性，来表示员工的ID
-            showBtn.attr("show_id", item.id);
-            addBtn.attr("add_btn", item.id);
+            showBtn.attr("show_id", item.addUid);
             delBtn.attr("del_id", item.id);
-            var btnTd = $("<th ></th>").append(addBtn).append("&nbsp;&nbsp;&nbsp;&nbsp;")
+            var btnTd = $("<th ></th>")
                 .append(showBtn).append("&nbsp;&nbsp;&nbsp;&nbsp;").append(delBtn);
             //append()方法执行完以后还会返回原来的元素
             $("<tr></tr>")
                 .append(checkTd)
                 .append(IDTd)
+                .append(userTd)
                 .append(imgTd)
                 .append(deptNameTd)
-                .append(countTd)
+                .append(nameTd)
+                .append(timeTd)
                 .append(btnTd)
                 .appendTo("#emps_table tbody");
         });
@@ -216,6 +214,23 @@
         nvaEle.appendTo("#age_nav");
     }
 
+
+    function formatDateTime(inputTime) {
+        var date = new Date(inputTime);
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        m = m < 10 ? ('0' + m) : m;
+        var d = date.getDate();
+        d = d < 10 ? ('0' + d) : d;
+        var h = date.getHours();
+        h = h < 10 ? ('0' + h) : h;
+        var minute = date.getMinutes();
+        var second = date.getSeconds();
+        minute = minute < 10 ? ('0' + minute) : minute;
+        second = second < 10 ? ('0' + second) : second;
+        return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
+    };
+
     //删除用户
     $(document).on("click", ".del_btn", function () {
 
@@ -227,7 +242,7 @@
             btn: ['确定', '取消'] //按钮
         }, function () {
             $.ajax({
-                url: "${staticPath}/user/delUser?id=" + id,
+                url: "${staticPath}/delFriend?id=" + id,
                 type: "get",
                 dataType: "json",
                 success: function (result) {
@@ -235,11 +250,6 @@
                         layer.load(0, {time: 2000});
                         setTimeout(function (args) {
                             layer.msg("删除成功！");
-                        }, 2000);
-                    } else if (result.extend.error == 1) {
-                        layer.load(0, {time: 2000});
-                        setTimeout(function (args) {
-                            layer.msg("不能删除自己！");
                         }, 2000);
                     } else {
                         layer.load(0, {time: 2000});
@@ -299,7 +309,7 @@
         var del_ids = "";
         $.each($(".check_item:checked"), function () {
             del_ids += $(this).parents("tr").find("th:eq(1)").text() + "-";
-            empNames += $(this).parents("tr").find("th:eq(3)").text() + ",";
+            empNames += $(this).parents("tr").find("th:eq(5)").text() + ",";
         });
         empNames = empNames.substring(0, empNames.length - 1);
         del_ids = del_ids.substring(0, del_ids.length - 1);
@@ -308,7 +318,7 @@
             btn: ['确定', '取消'] //按钮
         }, function () {
             $.ajax({
-                url: "${staticPath}/user/deleteUsers/" + del_ids,
+                url: "${staticPath}/deleteFriends/" + del_ids,
                 type: "get",
                 dataType: "json",
                 success: function (result) {

@@ -14,7 +14,7 @@ public class SessionInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
         String uri = request.getRequestURI();
-        if ((uri.indexOf("index") >= 0) || (uri.indexOf("login") >= 0) || (uri.indexOf("sendyzm") >= 0) || (uri.indexOf("intoalterpassword") >= 0) || (uri.indexOf("nicheng") >= 0) || (uri.indexOf("yEmail") >= 0) || (uri.indexOf("sendyzm2") >= 0) || (uri.indexOf("reg") >= 0)) {
+        if ((uri.indexOf("index") >= 0) || (uri.indexOf("login") >= 0) || (uri.indexOf("sendyzm") >= 0) || (uri.indexOf("intoalterpassword") >= 0) || (uri.indexOf("nicheng") >= 0) || (uri.indexOf("yEmail") >= 0) || (uri.indexOf("sendyzm2") >= 0) || (uri.indexOf("reg") >= 0) || (uri.indexOf("aa") >= 0)) {
             return true;
         }
         // StuUser user = (User) SecurityUtils.getSubject().getSession().getAttribute("userinfo");

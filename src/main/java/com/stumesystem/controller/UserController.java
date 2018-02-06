@@ -581,6 +581,13 @@ public class UserController {
         return "checkRose";
     }
 
+    /**
+     * 个人资料
+     *
+     * @param id
+     * @param request
+     * @return
+     */
     @RequestMapping("/stuInfo")
     public String toLookPersonInfo(@RequestParam("id") Integer id, HttpServletRequest request) {
         StuUser stuUser = userService.getUser(id);
@@ -611,7 +618,12 @@ public class UserController {
     }
 
     @RequestMapping("/personInfo")
-    public String personInfo() {
+    public String personInfo(HttpServletRequest request) {
+
+        StuUser stuUser = (StuUser) request.getSession().getAttribute("userinfo");
+        Dept dept = deptService.getDeptWith(stuUser.getId());
+        request.setAttribute("deptInfo", dept);
+
         return "myplace";
     }
 

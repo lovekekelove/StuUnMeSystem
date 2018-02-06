@@ -7,23 +7,50 @@
         <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
         <result column="add_uid" jdbcType="INTEGER" property="addUid"/>
         <result column="state" jdbcType="INTEGER" property="state"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="img_heah" jdbcType="VARCHAR" property="img"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, uid, add_time, add_uid, state
-  </sql>
+        a.id, uid, add_time, add_uid, a.state
+    </sql>
+
+    <sql id="user_Column_List">
+      , name,nickname,img_heah
+    </sql>
+
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from friend
-        where id = #{id,jdbcType=INTEGER}
+        from friend as a
+        where a.id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByUid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from friend as a
+        where uid = #{uid,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByUidAndName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        <include refid="user_Column_List"/>
+        from friend as a LEFT JOIN stu_user as b on a.add_uid=b.id
+        where a.uid = #{uid,jdbcType=INTEGER} and a.state=1
+        <if test="name!='' ">
+            and name=#{name,jdbcType=VARCHAR}
+        </if>
     </select>
 
     <select id="selectByAddFriend" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from friend
-        where add_uid = #{id,jdbcType=INTEGER}
+        from friend as a
+        where a.add_uid = #{id,jdbcType=INTEGER} and a.uid=#{uid,jdbcType=INTEGER}
     </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from friend
     where id = #{id,jdbcType=INTEGER}

@@ -28,7 +28,7 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">学号:</label>
             <div class="col-sm-2">
-                <h4>${sessionScope.dept.stuId}</h4>
+                <h4>${requestScope.deptInfo.stuId}</h4>
                 <span class="help-block"></span>
             </div>
 
@@ -82,31 +82,31 @@
             </div>
             <label class="col-sm-1 control-label">班级:</label>
             <div class="col-sm-3">
-                <h4>${sessionScope.dept.className}</h4>
+                <h4>${requestScope.deptInfo.className}</h4>
                 <span class="help-block"></span>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">系部:</label>
             <div class="col-sm-2">
-                <h4>${sessionScope.dept.deptname}</h4>
+                <h4>${requestScope.deptInfo.deptname}</h4>
                 <span class="help-block"></span>
             </div>
             <label class="col-sm-2 control-label">部门:</label>
             <div class="col-sm-2">
-                <h4>${sessionScope.dept.deptStuName}</h4>
+                <h4>${requestScope.deptInfo.deptStuName}</h4>
                 <span class="help-block"></span>
             </div>
             <label class="col-sm-1 control-label">年级:</label>
             <div class="col-sm-3">
-                <h4>${sessionScope.dept.dengji}</h4>
+                <h4>${requestScope.deptInfo.dengji}</h4>
                 <span class="help-block"></span>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">政治面貌:</label>
             <div class="col-sm-2">
-                <h4>${sessionScope.dept.political}</h4>
+                <h4>${requestScope.deptInfo.political}</h4>
                 <span class="help-block"></span>
             </div>
             <label class="col-sm-2 control-label">邮箱:</label>

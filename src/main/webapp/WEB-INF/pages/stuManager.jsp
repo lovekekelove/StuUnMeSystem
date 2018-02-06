@@ -291,6 +291,7 @@
             // maxmin: true, //开启最大化最小化按钮
             //area: ['264px', '254px'],
             content: '${staticPath}/user/stuInfo?id=' + id
+
         });
         layer.full(show);
     });

@@ -140,6 +140,11 @@
                         setTimeout(function (args) {
                             layer.msg("未通过审核，不能添加！");
                         }, 2000);
+                    } else if (result.extend.error == 3) {
+                        layer.load(0, {time: 700});
+                        setTimeout(function (args) {
+                            layer.msg("不能添加自己！");
+                        }, 2000);
                     } else {
                         layer.load(0, {time: 800});
                         setTimeout(function (args) {

@@ -56,12 +56,35 @@
                     <!-- Messages: style can be found in dropdown.less-->
                     <li class="dropdown messages-menu">
                         <!-- Menu toggle button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-envelope-o"></i>
+                            <span class="label label-success"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+
+                            <li>
+                                <!-- inner menu: contains the actual data -->
+                                <ul class="menu">
+                                    <li><!-- start message -->
+
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li class="dropdown messages-menu">
+                        <!-- Menu toggle button -->
                         <a href="#" class="dropdown-toggle num" data-toggle="dropdown">
                             <i class="fa fa-bell-o"></i>
                             <span class="label label-success"></span>
                         </a>
-                        <ul class="dropdown-menu option_msg">
+                        <ul class="dropdown-menu ">
+                            <li id="option_msg">
+                                <!-- inner menu: contains the actual data -->
 
+                            </li>
                         </ul>
                     </li>
                     <!-- /.messages-menu -->
@@ -179,20 +202,45 @@
     });
 
     $(function () {
+        msg_point();
+    });
+
+
+    function msg_point() {
         $.ajax({
             url: "${staticPath}/user/pointMsg",
             type: "get",
             dataType: "json",
             success: function (result) {
-                $(".num span").text(result.extend.num == 1 ? result.extend.num : "");
+                $(".num span").text(result.extend.num == 0 ? "" : result.extend.num);
+                $("#option_msg").empty();
                 $.each(result.extend.pointMsgs, function (index, p) {
-                    var tishi = $("<li></li>").append(p.msgCount).append(
-                        $("<span></span>").append($("<button></button>")
-                            .addClass("btn btn-default btn-xs btn-info pull-right del_btn").append("删除"))
-                            .append($("<button></button>")
-                                .addClass("btn btn-default btn-xs btn-danger pull-right del_btn").append("查看")));
-                    tishi.appendTo(".option_msg");
+                    var tishi = $("<li ></li>").append("&nbsp;&nbsp;&nbsp;&nbsp;").append("<i class='fa fa-user text-green'></i>").append("&nbsp;").append(p.msgCount).append(
+                        $("<span></span>")
+                            .append($("<button uid='" + p.sendUid + "'></button>")
+                                .addClass("btn btn-default btn-xs btn-success pull-right   look_btn").append("查看")));
+
+                    $("<ul class=\"menu\"></ul>")
+                        .append(tishi)
+                        .appendTo("#option_msg");
+
                 });
+            }
+        });
+    };
+
+    $(document).on("click", ".look_btn", function () {
+        var send_id = $(this).attr("uid");
+        layer.open({
+            type: 2,
+            title: '添加好友',
+            shadeClose: false,
+            shade: false,
+            // maxmin: true, //开启最大化最小化按钮
+            area: ['474px', '437px'],
+            content: '${staticPath}/lookFriendMsg?send_id=' + send_id,
+            end: function () {
+                msg_point();
             }
         });
     });
@@ -203,7 +251,8 @@
 <!-- Bootstrap 3.3.6 -->
 <script src="/static/bootstrap/js/bootstrap.min.js"></script>
 
-
+<script src="${staticPath}/js/plugins/layer/layer.js"></script>
+<script src="${staticPath}/js/plugins/layer/laypage/laypage.js"></script>
 <!-- AdminLTE App -->
 <script src="/static/dist/js/app.min.js"></script>
 <script src="/static/dist/js/pages/dashboard.js"></script>
