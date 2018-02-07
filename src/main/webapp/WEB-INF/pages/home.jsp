@@ -64,11 +64,6 @@
 
                             <li>
                                 <!-- inner menu: contains the actual data -->
-                                <ul class="menu">
-                                    <li><!-- start message -->
-
-                                    </li>
-                                </ul>
                             </li>
 
                         </ul>
@@ -85,6 +80,21 @@
                                 <!-- inner menu: contains the actual data -->
 
                             </li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown messages-menu">
+                        <!-- Menu toggle button -->
+                        <a href="#" class="dropdown-toggle talk" data-toggle="dropdown">
+                            <i class="fa fa-flag-o"></i>
+                            <span class="label label-success"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+
+                            <li id="msg_talk">
+                                <!-- inner menu: contains the actual data -->
+                            </li>
+
                         </ul>
                     </li>
                     <!-- /.messages-menu -->
@@ -203,6 +213,7 @@
 
     $(function () {
         msg_point();
+        msg_talk();
     });
 
 
@@ -229,6 +240,29 @@
         });
     };
 
+    function msg_talk() {
+        $.ajax({
+            url: "${staticPath}/user/msgTalk",
+            type: "get",
+            dataType: "json",
+            success: function (result) {
+                $(".talk span").text(result.extend.num == 0 ? "" : result.extend.num);
+                $("#msg_talk").empty();
+                $.each(result.extend.pointMsgs, function (index, p) {
+                    var tishi = $("<li ></li>").append("&nbsp;&nbsp;&nbsp;&nbsp;").append("<i class='fa fa-users text-aqua'></i>").append("&nbsp;").append(p.msgCount).append(
+                        $("<span></span>")
+                            .append($("<button uid='" + p.acceptUid + "'></button>")
+                                .addClass("btn btn-default btn-xs btn-success pull-right   dle_msg_btn").append("删除")));
+
+                    $("<ul class=\"menu\"></ul>")
+                        .append(tishi)
+                        .appendTo("#msg_talk");
+
+                });
+            }
+        });
+    };
+
     $(document).on("click", ".look_btn", function () {
         var send_id = $(this).attr("uid");
         layer.open({
@@ -241,6 +275,20 @@
             content: '${staticPath}/lookFriendMsg?send_id=' + send_id,
             end: function () {
                 msg_point();
+            }
+        });
+    });
+
+    $(document).on("click", ".dle_msg_btn", function () {
+        var accept_id = $(this).attr("uid");
+        $.ajax({
+            url: "${staticPath}/delMsgTalk?accept_id=" + accept_id,
+            type: "get",
+            dataType: "json",
+            success: function (result) {
+                if (result.code = 100) {
+                    msg_talk();
+                }
             }
         });
     });

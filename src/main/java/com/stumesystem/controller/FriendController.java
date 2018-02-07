@@ -113,18 +113,57 @@ public class FriendController {
     /**
      * 同意好友
      *
-     * @param uid
+     * @param uid 请求方的id
      * @return
      */
     @ResponseBody
     @RequestMapping("/updateFriend")
-    public Msg updateDeptName(@RequestParam("uid") Integer uid) {
+    public Msg updateDeptName(@RequestParam("uid") Integer uid, HttpServletRequest request) {
+        StuUser stuUser = (StuUser) request.getSession().getAttribute("userinfo");
         if (uid != null) {
-            Friend friend = friendService.getFriendByUid(uid);
+            Friend friend = friendService.getFriend(stuUser.getId(), uid);
             friend.setState(1);
             friend.setAddTime(new Date());
             if (friendService.updateFriend(friend) > 0) {
-                return Msg.success();
+                Friend friend1 = new Friend();
+                friend1.setUid(friend.getAddUid());
+                friend1.setAddUid(uid);
+                friend1.setAddTime(new Date());
+                friend1.setState(1);
+                if (friendService.insertFriend(friend1) > 0) {
+                    PointMsg pointMsg = pointMsgService.getPointMsgByAcceptId(friend.getAddUid(), uid);
+                    pointMsg.setState("3");
+                    pointMsg.setSendTime(new Date());
+                    pointMsg.setMsgCount(stuUser.getName() + "  同意了你的好友请求！");
+                    if (pointMsgService.updatePointMsg(pointMsg) > 0) {
+                        return Msg.success();
+                    }
+                }
+            }
+        }
+        return Msg.fail();
+    }
+
+    /**
+     * 拒绝好友
+     *
+     * @param uid 请求方的id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/refuseFriend")
+    public Msg refuseDeptName(@RequestParam("uid") Integer uid, HttpServletRequest request) {
+        StuUser stuUser = (StuUser) request.getSession().getAttribute("userinfo");
+        if (uid != null) {
+            Friend friend = friendService.getFriend(stuUser.getId(), uid);
+            if (friendService.deleteFriend(friend.getId()) > 0) {
+                PointMsg pointMsg = pointMsgService.getPointMsgByAcceptId(friend.getAddUid(), uid);
+                pointMsg.setState("3");
+                pointMsg.setSendTime(new Date());
+                pointMsg.setMsgCount(stuUser.getName() + "  拒绝您的好友请求！");
+                if (pointMsgService.updatePointMsg(pointMsg) > 0) {
+                    return Msg.success();
+                }
             }
         }
         return Msg.fail();
@@ -180,11 +219,37 @@ public class FriendController {
         return Msg.success();
     }
 
+    /**
+     * 查看添加好友
+     *
+     * @param send_id
+     * @param request
+     * @return
+     */
     @RequestMapping("/lookFriendMsg")
     public String toConAddFriend(@RequestParam("send_id") Integer send_id, HttpServletRequest request) {
         StuUser stuUser = userService.getUser(send_id);
         request.setAttribute("user", stuUser);
         return "conAddFriend";
+    }
+
+    /**
+     * 删除通知
+     *
+     * @param accept_id
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/delMsgTalk")
+    public Msg delMsgTalk(@RequestParam("accept_id") Integer accept_id, HttpServletRequest request) {
+        StuUser stuUser = (StuUser) request.getSession().getAttribute("userinfo");
+        PointMsg pointMsg = pointMsgService.getMsgByAcceptIdAndSendUid(accept_id, stuUser.getId());
+        pointMsg.setState("1");
+        if (pointMsgService.updatePointMsg(pointMsg) > 0) {
+            return Msg.success();
+        }
+        return Msg.fail();
     }
 
 

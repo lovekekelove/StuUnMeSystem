@@ -37,7 +37,7 @@
 
     $(document).on("click", "#accept_btn", function () {
         //1.弹出是否删除确认框
-        var id = $("#uid").val();
+        var id = $("#uid").val();//请求方的id
         layer.confirm("确认同意${requestScope.user.name}吗？", {
             btn: ['确定', '取消'] //按钮
         }, function () {
@@ -50,6 +50,29 @@
                         layer.msg("添加成功！");
                     } else {
                         layer.msg("添加失败！");
+                    }
+                }
+            });
+        }, function () {
+
+        });
+    });
+
+    $(document).on("click", "#re_btn", function () {
+        //1.弹出是否删除确认框
+        var id = $("#uid").val();//请求方的id
+        layer.confirm("确认拒绝${requestScope.user.name}吗？", {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            $.ajax({
+                url: "${staticPath}/refuseFriend?uid=" + id,
+                type: "get",
+                dataType: "json",
+                success: function (result) {
+                    if (result.code == 100) {
+                        layer.msg("拒绝成功！");
+                    } else {
+                        layer.msg("拒绝失败！");
                     }
                 }
             });

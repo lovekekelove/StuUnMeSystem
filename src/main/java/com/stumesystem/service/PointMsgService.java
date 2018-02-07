@@ -37,12 +37,60 @@ public class PointMsgService {
     }
 
     /**
+     * 查询数量
+     *
+     * @return
+     */
+    public int getNumWithTalk(Integer id) {
+        return pointMsgMapper.selectNumTalk(id);
+    }
+
+    /**
      * 提示列表
      *
      * @return
      */
     public List<PointMsg> getPointMsg(Integer id) {
         return pointMsgMapper.selectAllWithState(id);
+    }
+
+    /**
+     * 提示列表
+     *
+     * @return
+     */
+    public List<PointMsg> getPointMsgWithTalk(Integer id) {
+        return pointMsgMapper.selectAllWithStateAndTalk(id);
+    }
+
+    /**
+     * 接受方 查找提示
+     *
+     * @param acc_id,send_id
+     * @return
+     */
+    public PointMsg getPointMsgByAcceptId(Integer acc_id, Integer send_id) {
+        return pointMsgMapper.selectByAcceptUid(acc_id, send_id);
+    }
+
+    /**
+     * 接受方 查找提示
+     *
+     * @param acc_id,send_id
+     * @return
+     */
+    public PointMsg getMsgByAcceptIdAndSendUid(Integer acc_id, Integer send_id) {
+        return pointMsgMapper.selectByAcceptUidAndSendUid(acc_id, send_id);
+    }
+
+    /**
+     * 更新
+     *
+     * @param pointMsg
+     * @return
+     */
+    public int updatePointMsg(PointMsg pointMsg) {
+        return pointMsgMapper.updateByPrimaryKeySelective(pointMsg);
     }
 
 }

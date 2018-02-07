@@ -297,8 +297,8 @@
                     <figure class="effect-bubba">
                         <img src="img/demo/portfolio-1.jpg" alt="img02" class="img-responsive" />
                         <figcaption>
-                            <h2>Dean & Letter</h2>
-                            <p>Branding, Design</p>
+                            <h2>纳新</h2>
+                            <p>加入我们吧</p>
                             <a href="#" data-toggle="modal" data-target="#Modal-1">View more</a>
                         </figcaption>
                     </figure>
@@ -311,9 +311,9 @@
                     <figure class="effect-bubba">
                         <img src="img/demo/portfolio-2.jpg" alt="img02" class="img-responsive" />
                         <figcaption>
-                            <h2>Startup Framework</h2>
-                            <p>Branding, Web Design</p>
-                            <a href="#" data-toggle="modal" data-target="#Modal-2">View more</a>
+                            <h2>活动区</h2>
+                            <p>精彩等你来</p>
+                            <a href="#" data-toggle="modal" data-target="#Modal-2" id="news_msg">View more</a>
                         </figcaption>
                     </figure>
                 </div>

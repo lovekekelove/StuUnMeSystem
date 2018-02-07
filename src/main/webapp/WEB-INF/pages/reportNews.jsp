@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="common/base.jsp" %>
+<%@ include file="../../common/base.jsp" %>
 <%@ include file="/common/commons.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,6 +34,14 @@
 
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-sm-2  col-md-2 control-label ">标题：</label>
+                            <div class="col-sm-10 col-md-7">
+                                <input type="text" class="form-control" id="topic">
+                            </div>
+                        </div>
+
+
                         <div class="row">
                             <label class="col-sm-1 col-md-2  control-label"></label>
                             <div class="col-sm-10 col-md-7 ">
@@ -154,7 +162,7 @@
 
 
         if (count == null || count === '') {
-            layer.tips("不能为空", $('#btn'), {anim: 6});
+            layer.tips("内容不能为空", $('#btn'), {anim: 6});
             return false;
         }
         $.ajax({

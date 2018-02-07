@@ -18,7 +18,7 @@ public interface FriendMapper {
 
     Friend selectByUid(Integer uid);
 
-    Friend selectByAddFriend(@Param("id") Integer id, @Param("uid") Integer uid);
+    Friend selectByAddFriend(@Param("add_id") Integer add_id, @Param("uid") Integer uid);
 
     int updateByPrimaryKeySelective(Friend record);
 

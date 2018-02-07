@@ -26,11 +26,11 @@ public class FriendService {
     /**
      * 通过添加好友的id,判断是否是好友
      *
-     * @param id
+     * @param add_id,uid
      * @return
      */
-    public Friend getFriend(Integer id, Integer uid) {
-        return friendMapper.selectByAddFriend(id, uid);
+    public Friend getFriend(Integer add_id, Integer uid) {
+        return friendMapper.selectByAddFriend(add_id, uid);
     }
 
     /**

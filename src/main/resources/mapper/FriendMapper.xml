@@ -48,7 +48,7 @@
         select
         <include refid="Base_Column_List"/>
         from friend as a
-        where a.add_uid = #{id,jdbcType=INTEGER} and a.uid=#{uid,jdbcType=INTEGER}
+        where a.add_uid = #{add_id,jdbcType=INTEGER} and a.uid=#{uid,jdbcType=INTEGER}
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

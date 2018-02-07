@@ -383,6 +383,20 @@ public class UserController {
         return Msg.success().add("pointMsgs", pointMsgs).add("num", num);
     }
 
+    /**
+     * 提示
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/msgTalk")
+    public Msg msgTalk(HttpServletRequest request) {
+        StuUser stuUser = (StuUser) request.getSession().getAttribute("userinfo");
+        int num = pointMsgService.getNumWithTalk(stuUser.getId());
+        List<PointMsg> pointMsgs = pointMsgService.getPointMsgWithTalk(stuUser.getId());
+        return Msg.success().add("pointMsgs", pointMsgs).add("num", num);
+    }
+
     @RequestMapping("/welcome")
     public String welcome(HttpServletRequest request) {
         request.setAttribute("PersonCount", Online.getCount());

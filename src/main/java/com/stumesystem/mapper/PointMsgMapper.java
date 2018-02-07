@@ -14,9 +14,17 @@ public interface PointMsgMapper {
 
     List<PointMsg> selectAllWithState(Integer id);
 
+    List<PointMsg> selectAllWithStateAndTalk(Integer id);
+
     int selectNum(Integer id);
 
+    int selectNumTalk(Integer id);
+
     PointMsg selectByPrimaryKey(Integer id);
+
+    PointMsg selectByAcceptUid(@Param("acc_id") Integer acc_id, @Param("send_id") Integer send_id);
+
+    PointMsg selectByAcceptUidAndSendUid(@Param("acc_id") Integer acc_id, @Param("send_id") Integer send_id);
 
     int updateByPrimaryKeySelective(PointMsg record);
 

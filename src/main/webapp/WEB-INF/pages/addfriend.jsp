@@ -133,7 +133,7 @@
                     } else if (result.extend.error == 1) {
                         layer.load(0, {time: 700});
                         setTimeout(function (args) {
-                            layer.msg("已经是您的好友！");
+                            layer.msg("已经添加过此好友！");
                         }, 2000);
                     } else if (result.extend.error == 2) {
                         layer.load(0, {time: 700});

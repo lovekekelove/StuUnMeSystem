@@ -19,6 +19,20 @@
         where id = #{id,jdbcType=INTEGER}
     </select>
 
+    <select id="selectByAcceptUid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from point_msg
+        where accept_uid = #{acc_id,jdbcType=INTEGER} and send_uid= #{send_id,jdbcType=INTEGER} and state='2'
+    </select>
+
+    <select id="selectByAcceptUidAndSendUid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from point_msg
+        where accept_uid = #{acc_id,jdbcType=INTEGER} and send_uid= #{send_id,jdbcType=INTEGER} and state='3'
+    </select>
+
     <select id="selectAllWithState" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
@@ -26,11 +40,24 @@
         where state = '2' AND accept_uid = #{id,jdbcType=INTEGER}
     </select>
 
+    <select id="selectAllWithStateAndTalk" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from point_msg
+        where state = '3' AND send_uid = #{id,jdbcType=INTEGER}
+    </select>
+
     <select id="selectNum" resultType="java.lang.Integer" parameterType="java.lang.Integer">
     select COUNT(id)
     from point_msg
         where state = '2' AND accept_uid = #{id,jdbcType=INTEGER}
   </select>
+
+    <select id="selectNumTalk" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select COUNT(id)
+        from point_msg
+        where state = '3' AND send_uid = #{id,jdbcType=INTEGER}
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from point_msg

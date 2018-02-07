@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stumesystem.mapper.TopicMapper">
+    <resultMap id="BaseResultMap" type="com.stumesystem.bean.Topic">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="title" jdbcType="INTEGER" property="title"/>
+        <result column="dept_name_id" jdbcType="INTEGER" property="deptNameId"/>
+        <result column="stu_send_id" jdbcType="VARCHAR" property="stuSendId"/>
+        <result column="ttime" jdbcType="TIMESTAMP" property="ttime"/>
+        <result column="treplaycount" jdbcType="INTEGER" property="treplaycount"/>
+        <result column="tclickcount" jdbcType="INTEGER" property="tclickcount"/>
+        <result column="tlastclicktime" jdbcType="TIMESTAMP" property="tlastclicktime"/>
+        <result column="tstaus" jdbcType="INTEGER" property="tstaus"/>
+        <result column="tzan" jdbcType="INTEGER" property="tzan"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.stumesystem.bean.Topic">
+        <result column="tcontent" jdbcType="LONGVARCHAR" property="tcontent"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, title, dept_name_id, stu_send_id, ttime, treplaycount, tclickcount, tlastclicktime, 
+    tstaus, tzan
+  </sql>
+    <sql id="Blob_Column_List">
+    tcontent
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from topic
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from topic
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.stumesystem.bean.Topic">
+    insert into topic (id, title, dept_name_id, 
+      stu_send_id, ttime, treplaycount, 
+      tclickcount, tlastclicktime, tstaus, 
+      tzan, tcontent)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=INTEGER}, #{deptNameId,jdbcType=INTEGER}, 
+      #{stuSendId,jdbcType=VARCHAR}, #{ttime,jdbcType=TIMESTAMP}, #{treplaycount,jdbcType=INTEGER}, 
+      #{tclickcount,jdbcType=INTEGER}, #{tlastclicktime,jdbcType=TIMESTAMP}, #{tstaus,jdbcType=INTEGER}, 
+      #{tzan,jdbcType=INTEGER}, #{tcontent,jdbcType=LONGVARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.stumesystem.bean.Topic">
+        insert into topic
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="deptNameId != null">
+                dept_name_id,
+            </if>
+            <if test="stuSendId != null">
+                stu_send_id,
+            </if>
+            <if test="ttime != null">
+                ttime,
+            </if>
+            <if test="treplaycount != null">
+                treplaycount,
+            </if>
+            <if test="tclickcount != null">
+                tclickcount,
+            </if>
+            <if test="tlastclicktime != null">
+                tlastclicktime,
+            </if>
+            <if test="tstaus != null">
+                tstaus,
+            </if>
+            <if test="tzan != null">
+                tzan,
+            </if>
+            <if test="tcontent != null">
+                tcontent,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=INTEGER},
+            </if>
+            <if test="deptNameId != null">
+                #{deptNameId,jdbcType=INTEGER},
+            </if>
+            <if test="stuSendId != null">
+                #{stuSendId,jdbcType=VARCHAR},
+            </if>
+            <if test="ttime != null">
+                #{ttime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="treplaycount != null">
+                #{treplaycount,jdbcType=INTEGER},
+            </if>
+            <if test="tclickcount != null">
+                #{tclickcount,jdbcType=INTEGER},
+            </if>
+            <if test="tlastclicktime != null">
+                #{tlastclicktime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="tstaus != null">
+                #{tstaus,jdbcType=INTEGER},
+            </if>
+            <if test="tzan != null">
+                #{tzan,jdbcType=INTEGER},
+            </if>
+            <if test="tcontent != null">
+                #{tcontent,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.stumesystem.bean.Topic">
+        update topic
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=INTEGER},
+            </if>
+            <if test="deptNameId != null">
+                dept_name_id = #{deptNameId,jdbcType=INTEGER},
+            </if>
+            <if test="stuSendId != null">
+                stu_send_id = #{stuSendId,jdbcType=VARCHAR},
+            </if>
+            <if test="ttime != null">
+                ttime = #{ttime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="treplaycount != null">
+                treplaycount = #{treplaycount,jdbcType=INTEGER},
+            </if>
+            <if test="tclickcount != null">
+                tclickcount = #{tclickcount,jdbcType=INTEGER},
+            </if>
+            <if test="tlastclicktime != null">
+                tlastclicktime = #{tlastclicktime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="tstaus != null">
+                tstaus = #{tstaus,jdbcType=INTEGER},
+            </if>
+            <if test="tzan != null">
+                tzan = #{tzan,jdbcType=INTEGER},
+            </if>
+            <if test="tcontent != null">
+                tcontent = #{tcontent,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.stumesystem.bean.Topic">
+    update topic
+    set title = #{title,jdbcType=INTEGER},
+      dept_name_id = #{deptNameId,jdbcType=INTEGER},
+      stu_send_id = #{stuSendId,jdbcType=VARCHAR},
+      ttime = #{ttime,jdbcType=TIMESTAMP},
+      treplaycount = #{treplaycount,jdbcType=INTEGER},
+      tclickcount = #{tclickcount,jdbcType=INTEGER},
+      tlastclicktime = #{tlastclicktime,jdbcType=TIMESTAMP},
+      tstaus = #{tstaus,jdbcType=INTEGER},
+      tzan = #{tzan,jdbcType=INTEGER},
+      tcontent = #{tcontent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.stumesystem.bean.Topic">
+    update topic
+    set title = #{title,jdbcType=INTEGER},
+      dept_name_id = #{deptNameId,jdbcType=INTEGER},
+      stu_send_id = #{stuSendId,jdbcType=VARCHAR},
+      ttime = #{ttime,jdbcType=TIMESTAMP},
+      treplaycount = #{treplaycount,jdbcType=INTEGER},
+      tclickcount = #{tclickcount,jdbcType=INTEGER},
+      tlastclicktime = #{tlastclicktime,jdbcType=TIMESTAMP},
+      tstaus = #{tstaus,jdbcType=INTEGER},
+      tzan = #{tzan,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

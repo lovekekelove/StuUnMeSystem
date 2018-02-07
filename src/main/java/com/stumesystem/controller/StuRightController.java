@@ -55,7 +55,7 @@ public class StuRightController {
     }
 
     /**
-     * 删除角色的权限
+     * 添加角色的权限
      *
      * @return
      */
@@ -72,12 +72,15 @@ public class StuRightController {
         boolean flag = false;
 
         if (stuRightService.insertRight(rgId, rid) > 0) {
-
-            for (StuRight ridId : ridRight) {
+            List<StuRight> ridRight2 = stuRightService.getRightByRoseId(rid);
+            a:
+            for (StuRight ridId : ridRight2) {
                 if (ridId.getId() == fid) {
                     flag = false;
+                    break a;
                 } else {
                     flag = true;
+                    continue;
                 }
             }
             if (flag) {
