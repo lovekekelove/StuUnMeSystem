@@ -13,13 +13,13 @@ public class Topic {
 
     private Date ttime;
 
-    private Integer treplaycount;
+    private Integer treplaycount; //回帖量
 
-    private Integer tclickcount;
+    private Integer tclickcount; //点击量
 
     private Date tlastclicktime;
 
-    private Integer tstaus;
+    private Integer tstaus; //置顶
 
     private Integer tzan;
 

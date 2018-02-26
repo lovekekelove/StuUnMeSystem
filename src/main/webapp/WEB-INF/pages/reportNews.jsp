@@ -31,13 +31,21 @@
                         <div class="form-group">
 
                             <div class="col-sm-10 col-md-7">
-
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2  col-md-2 control-label ">标题：</label>
                             <div class="col-sm-10 col-md-7">
                                 <input type="text" class="form-control" id="topic">
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="deptName">
+                            <label class="col-sm-2  col-md-2 control-label">系部：</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" name="deptName">
+                                    <option value="">请选择：</option>
+                                </select>
                             </div>
                         </div>
 
@@ -100,31 +108,45 @@
     var msg_length = count.length;
 
 
-    $(document).ready(function () {
-        $('.summernote').summernote({
-            lang: 'zh-CN'
-        });
+    <%--$(document).ready(function () {--%>
+    <%--$('.summernote').summernote({--%>
+    <%--lang: 'zh-CN'--%>
+    <%--});--%>
+    <%--$.ajax({--%>
+    <%--url: '${staticPath}/section/getSection',--%>
+    <%--cache: false,--%>
+    <%--dataType: "json",--%>
+    <%--success: function (data) {--%>
+
+    <%--for (var i = 0; i < data.length; i++) {--%>
+    <%--$('#section').append(' <option value="' + data[i].sid +--%>
+    <%--'">' + data[i].sname +--%>
+    <%--'</option>');--%>
+    <%--}--%>
+    <%--var sid = getUrlParam("sid");--%>
+    <%--if (sid != null) {--%>
+    <%--$("select option[value=" + sid + "]").attr("selected", true);--%>
+    <%--} else {--%>
+    <%--$('select option[value="2"]').attr("selected", true);--%>
+    <%--}--%>
+    <%--}--%>
+    <%--})--%>
+
+
+    <%--});--%>
+    //显示系部
+    $(function () {
         $.ajax({
-            url: '${staticPath}/section/getSection',
-            cache: false,
+            url: "${staticPath}/deptNames2",
+            type: "GET",
             dataType: "json",
-            success: function (data) {
-
-                for (var i = 0; i < data.length; i++) {
-                    $('#section').append(' <option value="' + data[i].sid +
-                        '">' + data[i].sname +
-                        '</option>');
-                }
-                var sid = getUrlParam("sid");
-                if (sid != null) {
-                    $("select option[value=" + sid + "]").attr("selected", true);
-                } else {
-                    $('select option[value="2"]').attr("selected", true);
-                }
+            success: function (result) {
+                $.each(result.extend.deptNames, function () {
+                    var optionEle = $("<option></option>").append(this.deptname).attr("value", this.id);
+                    optionEle.appendTo("#deptName select");
+                });
             }
-        })
-
-
+        });
     });
 
     function getUrlParam(name) {
@@ -149,6 +171,9 @@
 
     var submitMyTopic = function () {
         var count = $('#content').code();
+        var deptNameId = $("#deptName select").val();
+        var title = $("#topic").val();
+
         count = count.replace(/[\r\n]/g, "");
         count = count.replace(/\ +/g, "");
 
@@ -167,9 +192,9 @@
         }
         $.ajax({
             type: 'post',
-            url: '${staticPath}/addLeaveMsg',
+            url: '${staticPath}/reportDynamic',
             dataType: "json",
-            data: {"count": count},
+            data: {"count": count, "title": title, "deptNameId": deptNameId},
             success: function (data) {
                 if (data.code === 100) {
                     layer.tips("留言成功,等待审核！", $('#btn'), {anim: 6});

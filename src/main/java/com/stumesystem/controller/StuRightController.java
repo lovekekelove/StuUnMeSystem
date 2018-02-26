@@ -142,6 +142,9 @@ public class StuRightController {
     @ResponseBody
     @RequestMapping("/addStuRight")
     public Msg addRight(StuRight stuRight) {
+        if (stuRight.getFid() == null) {
+            stuRight.setUrl("fa fa-laptop  text-yellow");
+        }
         List<StuRight> rights = new ArrayList<StuRight>();
         rights = stuRightService.getStuRights();
         for (StuRight s : rights) {
