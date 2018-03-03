@@ -11,6 +11,8 @@ public interface NaXinMapper {
 
     NaXin selectByPrimaryKey(Integer naId);
 
+    NaXin selectByUId(Integer uId);
+
     int updateByPrimaryKeySelective(NaXin record);
 
     int updateByPrimaryKey(NaXin record);

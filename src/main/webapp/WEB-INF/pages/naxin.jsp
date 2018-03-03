@@ -1,11 +1,7 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: 13719
-  Date: 2018/3/3
-  Time: 15:50
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="../../common/base.jsp" %>
+<%@ include file="../../common/commons.jsp" %>
 <html>
 <head>
     <title>纳新</title>
@@ -14,16 +10,27 @@
 <div class="tab-pane" id="complInfo">
     <form class="form-horizontal">
         <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+            <div class="col-sm-4">
+                <h2 class="text-danger">请认真填写纳新资料</h2>
+            </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-5 control-label">学号:</label>
+
+            <label class="col-sm-3 control-label">照片:</label>
+            <div class="col-sm-3">
+                <img id="myheadimg" readonly="readonly" src="${staticPath}/img/add.png"
+                     style="cursor: hand;width: 150px;height: 150px ;" onclick="imgitem();"
+                     class="img-circle" alt="User Image">
+            </div>
+        </div>
+        <div class="form-group" id="political">
+            <label class="col-sm-3 control-label">学号:</label>
             <div class="col-sm-3">
                 <input type="text" name="stuId" class="form-control" id="stuNum" placeholder="请输入您的学号">
                 <span class="help-block"></span>
             </div>
-        </div>
-        <div class="form-group" id="political">
-            <label class="col-sm-5 control-label">政治面貌:</label>
+            <label class="col-sm-1 control-label">政治面貌:</label>
             <div class="col-sm-3">
                 <select class=" form-control" name="political" id="poli">
                     <option value="">请选择：</option>
@@ -33,40 +40,43 @@
                     <option value="群众">群众</option>
                 </select>
             </div>
+
         </div>
-        <div class="form-group" id="deptName">
-            <label class="col-sm-5 control-label">系部:</label>
-            <div class="col-sm-3">
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">系部:</label>
+            <div class="col-sm-3" id="deptName">
                 <select class="form-control" name="deptName">
                     <option value="">请选择：</option>
                 </select>
             </div>
-        </div>
-
-        <div class="form-group" id="jibie">
-            <label class="col-sm-5 control-label">年级:</label>
-            <div class="col-sm-3">
+            <label class="col-sm-1 control-label">年级:</label>
+            <div class="col-sm-3" id="jibie">
                 <select class="form-control" name="dId">
                     <option value="">请选择：</option>
                 </select>
             </div>
         </div>
 
-        <div class="form-group" id="dept">
-            <label class="col-sm-5 control-label">部门:</label>
-            <div class="col-sm-3">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">部门:</label>
+            <div class="col-sm-3" id="dept">
                 <select class="form-control" name="dId">
+                    <option value="">请选择：</option>
+                </select>
+            </div>
+            <label class="col-sm-1 control-label">班级:</label>
+            <div class="col-sm-3" id="classs">
+                <select class="form-control" name="classId">
                     <option value="">请选择：</option>
                 </select>
             </div>
         </div>
 
-        <div class="form-group" id="classs">
-            <label class="col-sm-5 control-label">班级:</label>
-            <div class="col-sm-3">
-                <select class="form-control" name="dId">
-                    <option value="">请选择：</option>
-                </select>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">兴趣爱好:</label>
+            <div class="col-sm-7">
+                <textarea class="form-control" rows="3" id="prec"></textarea>
             </div>
         </div>
 
@@ -80,6 +90,16 @@
 
 </body>
 <script>
+    function imgitem() {
+        layer.open({
+            type: 2,
+            title: '更换头像',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['1000px', '500px'],
+            content: '${staticPath}/changeheadimg.jsp' //iframe的url
+        });
+    }
     function comInfo() {
         var stuNum = $("#stuNum").val();//学号
         var political = $("#political select").val();//面貌
@@ -87,8 +107,15 @@
         var jiid = $("#jibie select").val();//年级
         var deptid = $("#dept select").val();//部门
         var classs = $("#classs select").val();//班级
+        var precCon = $("#prec").val();//兴趣爱好
 
         var regStuNum = /^([2-9][0-9][1-9][0-9]\d{6})$/;
+
+        var headimg = $('#myheadimg').attr('src');//照片
+        if (headimg == "${staticPath}/img/add.png") {
+            layer.msg("请添加照片！", {anim: 6, icon: 5});
+            return false;
+        }
 
         if (!regStuNum.test(stuNum)) {
             layer.msg("学号格式不正确！", {anim: 6, icon: 5});
@@ -99,33 +126,43 @@
             layer.msg("内容不能为空！", {anim: 6, icon: 5});
             return false;
         }
-        $.ajax({
-            url: "${staticPath}/compl",
-            type: "post",
-            dataType: "json",
-            data: {
-                "stuId": stuNum, "political": political, "dId": deptNameId,
-                "jiid": jiid, "deptId": deptid, "classId": classs
-            },
-            success: function (result) {
-                if (result.code == 100) {
-                    layer.load(0, {time: 2000});
-                    setTimeout(function (args) {
-                        layer.msg("资料完善成功！", {anim: 2, icon: 6});
-                    }, 2000);
-                } else {
-                    layer.load(0, {time: 2000});
-                    setTimeout(function () {
-                        layer.msg("资料完善失败！", {anim: 6, icon: 5});
-                    }, 2000);
-                }
-                setTimeout(function () {
-                    window.location.href = "/user/complInfo";
-                }, 3000);
-            }
-        });
-    }
 
+        layer.confirm("确认提交吗？", {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            $.ajax({
+                url: "${staticPath}/naXingPeoPle",
+                type: "post",
+                dataType: "json",
+                data: {
+                    "stuId": stuNum, "political": political, "dId": deptNameId,
+                    "jiId": jiid, "deptId": deptid, "classId": classs, "picture": headimg, "speciality": precCon
+                },
+                success: function (result) {
+                    if (result.code == 100) {
+                        layer.load(0, {time: 2000});
+                        setTimeout(function (args) {
+                            layer.msg("资料提交成功，等待通知", {anim: 2, icon: 6});
+                        }, 2000);
+                    } else if (result.extend.error == 500) {
+                        layer.load(0, {time: 2000});
+                        setTimeout(function () {
+                            layer.msg("不能重复提交！", {anim: 6, icon: 5});
+                        }, 2000);
+                    }
+                    else {
+                        layer.load(0, {time: 2000});
+                        setTimeout(function () {
+                            layer.msg("资料提交失败，从新提交", {anim: 6, icon: 5});
+                        }, 2000);
+                    }
+                }
+            });
+        }, function () {
+
+        });
+
+    };
     //显示系部
     $(function () {
         $.ajax({
@@ -209,16 +246,6 @@
 
     });
 
-    function show_validate_msg(ele, status, msg) {
-        $(ele).parent().removeClass("has-success has-error");
-        $(ele).next("span").text(" ");
-        if ("success" == status) {
-            $(ele).parent().addClass("has-success");
-            $(ele).next("span").text(msg);
-        } else if ("error" == status) {
-            $(ele).parent().addClass("has-error");
-            $(ele).next("span").text(msg);
-        }
-    }
+
 </script>
 </html>

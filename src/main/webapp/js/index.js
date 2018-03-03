@@ -587,39 +587,6 @@ $("#peocenter").click(function () {
 ////////////////////////////评论区////////////////////////////
 
 
-$("#leaveMSG").click(function () {
-    var id = $("#peocenter").attr("mark");
-    if (id == undefined) {
-        return false;
-    }
-    var msg = layer.open({
-        type: 2,
-        title: '留言板',
-        shadeClose: false,
-        shade: 0.6,
-        // maxmin: true, //开启最大化最小化按钮
-        //area: ['864px', '600px'],
-        content: '/leaveMsg'
-    });
-    layer.full(msg);
-});
 
-$("#news_msg").click(function () {
-    var id = $("#peocenter").attr("mark");
-
-    if (id == undefined) {
-        return false;
-    }
-    var msg = layer.open({
-        type: 2,
-        title: '学生会动态',
-        shadeClose: false,
-        shade: 0.6,
-        // maxmin: true, //开启最大化最小化按钮
-        //area: ['864px', '600px'],
-        content: '/newsMsg'
-    });
-    layer.full(msg);
-});
 
 

@@ -5,6 +5,8 @@ public class NaXin {
 
     private Integer uId;
 
+    private Integer stuId;
+
     private Integer dId;
 
     private Integer deptId;
@@ -16,6 +18,10 @@ public class NaXin {
     private String political;
 
     private Integer state;
+
+    private String picture;
+
+    private String speciality;
 
     public Integer getNaId() {
         return naId;
@@ -31,6 +37,14 @@ public class NaXin {
 
     public void setuId(Integer uId) {
         this.uId = uId;
+    }
+
+    public Integer getStuId() {
+        return stuId;
+    }
+
+    public void setStuId(Integer stuId) {
+        this.stuId = stuId;
     }
 
     public Integer getdId() {
@@ -79,5 +93,21 @@ public class NaXin {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture == null ? null : picture.trim();
+    }
+
+    public String getSpeciality() {
+        return speciality;
+    }
+
+    public void setSpeciality(String speciality) {
+        this.speciality = speciality == null ? null : speciality.trim();
     }
 }
