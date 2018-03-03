@@ -235,7 +235,7 @@
     $(document).on("click", ".del_btn", function () {
 
         //1.弹出是否删除确认框
-        var deptName = $(this).parents("tr").find("th:eq(3)").text();
+        var deptName = $(this).parents("tr").find("th:eq(5)").text();
         var id = $(this).attr("del_id");
 
         layer.confirm("确认删除 " + deptName + " 吗？", {

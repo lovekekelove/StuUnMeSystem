@@ -51,11 +51,11 @@
                 }else {
                     layer.load(0,{time:2000});
                     setTimeout(function (args) {
-                        layer.msg("添加失败！部门存在！");
+                        layer.msg("添加失败！年级存在！");
                     },2000);
                 }
                 setTimeout(function () {
-                    window.location.href="/addJibieJsp";
+                    window.location.href = "${staticPath}/addJibieJsp";
                 },3000);
             }
         });

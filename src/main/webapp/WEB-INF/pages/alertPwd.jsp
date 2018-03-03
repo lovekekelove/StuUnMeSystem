@@ -70,7 +70,7 @@
         }
 
         $.ajax({
-            url:"/user/updatePwd",
+            url: "${staticPath}/user/updatePwd",
             type:"POST",
             dataType: "json",
             data: {"password":pwd1},
@@ -82,7 +82,7 @@
                     },2000);
 
                     setTimeout(function () {
-                        window.location.href="/user/changePwd";
+                        window.location.href = "${staticPath}/user/changePwd";
                     },3000);
                 }
             }

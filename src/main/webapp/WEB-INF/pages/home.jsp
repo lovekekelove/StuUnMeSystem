@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="../../common/base.jsp" %>
+<%--<%@ include file="../../common/commons.jsp" %>--%>
 <html>
 <head>
     <meta charset="utf-8">
@@ -8,17 +9,17 @@
     <title>成功学院学生会</title>
     <link rel="icon" href="/img/bb.ico">
     <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <%--<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">--%>
     <!-- Bootstrap 3.3.6 -->
-    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${staticPath}/static/bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="/static/css/caidan.css">
-    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="${staticPath}/static/css/caidan.css">
+    <link rel="stylesheet" href="${staticPath}/static/css/font-awesome.min.css">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="/static/css/ionicons.min.css">
+    <link rel="stylesheet" href="${staticPath}/static/css/ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="/static/dist/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="/static/dist/css/skins/skin-blue.min.css">
+    <link rel="stylesheet" href="${staticPath}/static/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="${staticPath}/static/dist/css/skins/skin-blue.min.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -184,8 +185,8 @@
     </footer>
 
 </div>
-<script src="/static/jquery/jquery-2.2.3.min.js"></script>
-<script src="/js/click.js"></script>
+<script src="${staticPath}/static/jquery/jquery-2.2.3.min.js"></script>
+<script src="${staticPath}/js/click.js"></script>
 <script>
     $(function () {
         $.ajax({
@@ -297,15 +298,15 @@
 </script>
 
 <!-- Bootstrap 3.3.6 -->
-<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script src="${staticPath}/static/bootstrap/js/bootstrap.min.js"></script>
 
 <script src="${staticPath}/js/plugins/layer/layer.js"></script>
 <script src="${staticPath}/js/plugins/layer/laypage/laypage.js"></script>
 <!-- AdminLTE App -->
-<script src="/static/dist/js/app.min.js"></script>
-<script src="/static/dist/js/pages/dashboard.js"></script>
-<script src="/static/dist/js/app.js"></script>
-<script src="/static/dist/js/demo.js"></script>
+<script src="${staticPath}/static/dist/js/app.min.js"></script>
+<script src="${staticPath}/static/dist/js/pages/dashboard.js"></script>
+<script src="${staticPath}/static/dist/js/app.js"></script>
+<script src="${staticPath}/static/dist/js/demo.js"></script>
 
 
 </body>
