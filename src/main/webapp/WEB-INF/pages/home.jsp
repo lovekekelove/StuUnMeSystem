@@ -57,13 +57,13 @@
                     <!-- Messages: style can be found in dropdown.less-->
                     <li class="dropdown messages-menu">
                         <!-- Menu toggle button -->
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <a href="#" class="dropdown-toggle advice" data-toggle="dropdown">
                             <i class="fa fa-envelope-o"></i>
                             <span class="label label-success"></span>
                         </a>
                         <ul class="dropdown-menu">
 
-                            <li>
+                            <li id="advice_msg">
                                 <!-- inner menu: contains the actual data -->
                             </li>
 
@@ -215,7 +215,31 @@
     $(function () {
         msg_point();
         msg_talk();
+        msg_advice();
     });
+
+    function msg_advice() {
+        $.ajax({
+            url: "${staticPath}/user/advice",
+            type: "get",
+            dataType: "json",
+            success: function (result) {
+                $(".advice span").text(result.extend.num == 0 ? "" : result.extend.num);
+                $("#advice_msg").empty();
+                $.each(result.extend.pointMsgs, function (index, p) {
+                    var tishi = $("<li ></li>").append("&nbsp;&nbsp;&nbsp;&nbsp;").append("<i class='fa fa-user text-green'></i>").append("&nbsp;").append(p.msgCount.substring(0, 58)).append(
+                        $("<span></span>")
+                            .append($("<button count='" + p.msgCount + "' advice_id='" + p.id + "' ></button>")
+                                .addClass("btn btn-default btn-xs btn-success pull-right   look_advice_btn").append("查看")));
+
+                    $("<ul class=\"menu\"></ul>")
+                        .append(tishi)
+                        .appendTo("#advice_msg");
+
+                });
+            }
+        });
+    };
 
 
     function msg_point() {
@@ -252,7 +276,7 @@
                 $.each(result.extend.pointMsgs, function (index, p) {
                     var tishi = $("<li ></li>").append("&nbsp;&nbsp;&nbsp;&nbsp;").append("<i class='fa fa-users text-aqua'></i>").append("&nbsp;").append(p.msgCount).append(
                         $("<span></span>")
-                            .append($("<button uid='" + p.acceptUid + "'></button>")
+                            .append($("<button talk_id='" + p.id + "'></button>")
                                 .addClass("btn btn-default btn-xs btn-success pull-right   dle_msg_btn").append("删除")));
 
                     $("<ul class=\"menu\"></ul>")
@@ -279,11 +303,28 @@
             }
         });
     });
+    //查看通知
+    $(document).on("click", ".look_advice_btn", function () {
+        var count = $(this).attr("count");
+        var advice_id = $(this).attr("advice_id");
+        layer.open({
+            type: 2,
+            title: '通知',
+            shadeClose: false,
+            shade: false,
+            // maxmin: true, //开启最大化最小化按钮
+            area: ['474px', '437px'],
+            content: '${staticPath}/lookFAdviceMsg.jsp?count=' + count + '&&id=' + advice_id,
+            end: function () {
+                msg_advice();
+            }
+        });
+    });
 
     $(document).on("click", ".dle_msg_btn", function () {
-        var accept_id = $(this).attr("uid");
+        var talk_id = $(this).attr("talk_id");
         $.ajax({
-            url: "${staticPath}/delMsgTalk?accept_id=" + accept_id,
+            url: "${staticPath}/delMsgTalk?id=" + talk_id,
             type: "get",
             dataType: "json",
             success: function (result) {

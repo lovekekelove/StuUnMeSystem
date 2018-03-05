@@ -389,6 +389,20 @@ public class UserController {
      * @return
      */
     @ResponseBody
+    @RequestMapping("/advice")
+    public Msg adviceMsg(HttpServletRequest request) {
+        StuUser stuUser = (StuUser) request.getSession().getAttribute("userinfo");
+        int num = pointMsgService.getNumAdvice(stuUser.getId());
+        List<PointMsg> pointMsgs = pointMsgService.getAdviceMsg(stuUser.getId());
+        return Msg.success().add("pointMsgs", pointMsgs).add("num", num);
+    }
+
+    /**
+     * 提示
+     *
+     * @return
+     */
+    @ResponseBody
     @RequestMapping("/msgTalk")
     public Msg msgTalk(HttpServletRequest request) {
         StuUser stuUser = (StuUser) request.getSession().getAttribute("userinfo");
@@ -401,6 +415,20 @@ public class UserController {
     public String welcome(HttpServletRequest request) {
         request.setAttribute("PersonCount", Online.getCount());
         return "welcome";
+    }
+
+    /**
+     * 查看通知
+     *
+     * @param id
+     */
+    @RequestMapping("/lookAdvice")
+    public void lookAdvice(@RequestParam("id") Integer id) {
+        PointMsg pointMsg = pointMsgService.getPointMsgById(id);
+        StuUser stuUser = userService.getUser(pointMsg.getAcceptUid());
+        pointMsg.setMsgCount(stuUser.getName() + " 已查看通知！");
+        pointMsg.setState("3");
+        pointMsgService.updatePointMsg(pointMsg);
     }
 
 

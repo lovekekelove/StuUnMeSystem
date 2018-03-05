@@ -41,6 +41,16 @@ public class PointMsgService {
      *
      * @return
      */
+    public int getNumAdvice(Integer id) {
+        return pointMsgMapper.selectNumAdvice(id);
+    }
+
+
+    /**
+     * 查询数量
+     *
+     * @return
+     */
     public int getNumWithTalk(Integer id) {
         return pointMsgMapper.selectNumTalk(id);
     }
@@ -52,6 +62,15 @@ public class PointMsgService {
      */
     public List<PointMsg> getPointMsg(Integer id) {
         return pointMsgMapper.selectAllWithState(id);
+    }
+
+    /**
+     * 提示列表
+     *
+     * @return
+     */
+    public List<PointMsg> getAdviceMsg(Integer id) {
+        return pointMsgMapper.selectAllWithStateAndAdvice(id);
     }
 
     /**
@@ -91,6 +110,16 @@ public class PointMsgService {
      */
     public int updatePointMsg(PointMsg pointMsg) {
         return pointMsgMapper.updateByPrimaryKeySelective(pointMsg);
+    }
+
+    /**
+     * 查找PointMsg
+     *
+     * @param id
+     * @return
+     */
+    public PointMsg getPointMsgById(Integer id) {
+        return pointMsgMapper.selectByPrimaryKey(id);
     }
 
 }

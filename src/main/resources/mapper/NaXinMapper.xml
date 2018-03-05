@@ -3,7 +3,7 @@
 <mapper namespace="com.stumesystem.mapper.NaXinMapper">
     <resultMap id="BaseResultMap" type="com.stumesystem.bean.NaXin">
         <id column="na_id" property="naId" jdbcType="INTEGER"/>
-        <result column="u_id" property="uId" jdbcType="INTEGER"/>
+        <result column="u_id" property="id" jdbcType="INTEGER"/>
         <result column="stu_id" property="stuId" jdbcType="INTEGER"/>
         <result column="d_id" property="dId" jdbcType="INTEGER"/>
         <result column="dept_id" property="deptId" jdbcType="INTEGER"/>
@@ -13,22 +13,95 @@
         <result column="state" property="state" jdbcType="INTEGER"/>
         <result column="picture" property="picture" jdbcType="VARCHAR"/>
         <result column="speciality" property="speciality" jdbcType="VARCHAR"/>
+        <result column="deptname" property="deptName" jdbcType="VARCHAR"/>
+        <result column="dept_stu_name" property="deptStuName" jdbcType="VARCHAR"/>
+        <result column="class_name" property="className" jdbcType="VARCHAR"/>
+        <result column="dengji" property="dengJi" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
     </resultMap>
+
+    <sql id="naxin_Column_List">
+        na_id, u_id, stu_id, d_id, dept_id, class_id, ji_id, political, state,
+        picture, speciality
+    </sql>
+
     <sql id="Base_Column_List">
-    na_id, u_id, stu_id, d_id, dept_id, class_id, ji_id, political, state, picture, speciality
+        na_id, u_id, stu_id, d_id, dept_id, class_id, ji_id, political, n.state,
+        picture, speciality,a.deptname,b.dept_stu_name ,c.class_name,d.dengji,e.name
   </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
-        <include refid="Base_Column_List"/>
+        <include refid="naxin_Column_List"/>
         from naxin
         where na_id = #{naId,jdbcType=INTEGER}
     </select>
     <select id="selectByUId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
-        <include refid="Base_Column_List"/>
+        <include refid="naxin_Column_List"/>
         from naxin
         where u_id = #{uId,jdbcType=INTEGER}
     </select>
+
+    <select id="selectByUIdWithName" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        FROM naxin as n
+        LEFT JOIN dept_name as a ON n.d_id=a.id
+        LEFT JOIN dept_stu as b ON n.dept_id=b.id
+        LEFT JOIN class_name as c on n.class_id=c.id
+        LEFT JOIN jibie as d on n.ji_id=d.jid
+        LEFT JOIN stu_user as e on n.u_id=e.id
+        where na_id = #{naId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap" parameterType="hashmap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM naxin as n
+        LEFT JOIN dept_name as a ON n.d_id=a.id
+        LEFT JOIN dept_stu as b ON n.dept_id=b.id
+        LEFT JOIN class_name as c on n.class_id=c.id
+        LEFT JOIN jibie as d on n.ji_id=d.jid
+        LEFT JOIN stu_user as e on n.u_id=e.id
+        where n.state =3
+        <if test="deptId != null">
+            and d_id = #{deptId,jdbcType=INTEGER}
+        </if>
+        <if test="deptNameId != null">
+            and dept_id=#{deptNameId,jdbcType=INTEGER}
+        </if>
+        <if test="classId != null">
+            and class_id= #{classId,jdbcType=INTEGER}
+        </if>
+        <if test="jiId != null">
+            and ji_id=#{jiId,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="selectAllEnd" resultMap="BaseResultMap" parameterType="hashmap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM naxin as n
+        LEFT JOIN dept_name as a ON n.d_id=a.id
+        LEFT JOIN dept_stu as b ON n.dept_id=b.id
+        LEFT JOIN class_name as c on n.class_id=c.id
+        LEFT JOIN jibie as d on n.ji_id=d.jid
+        LEFT JOIN stu_user as e on n.u_id=e.id
+        where n.state =#{state,jdbcType=INTEGER}
+        <if test="deptId != null">
+            and d_id = #{deptId,jdbcType=INTEGER}
+        </if>
+        <if test="deptNameId != null">
+            and dept_id=#{deptNameId,jdbcType=INTEGER}
+        </if>
+        <if test="classId != null">
+            and class_id= #{classId,jdbcType=INTEGER}
+        </if>
+        <if test="jiId != null">
+            and ji_id=#{jiId,jdbcType=INTEGER}
+        </if>
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from naxin
     where na_id = #{naId,jdbcType=INTEGER}
@@ -38,7 +111,7 @@
       d_id, dept_id, class_id, 
       ji_id, political, state, 
       picture, speciality)
-    values (#{naId,jdbcType=INTEGER}, #{uId,jdbcType=INTEGER}, #{stuId,jdbcType=INTEGER}, 
+        values (#{naId,jdbcType=INTEGER}, #{id,jdbcType=INTEGER}, #{stuId,jdbcType=INTEGER},
       #{dId,jdbcType=INTEGER}, #{deptId,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER}, 
       #{jiId,jdbcType=INTEGER}, #{political,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
       #{picture,jdbcType=VARCHAR}, #{speciality,jdbcType=VARCHAR})
@@ -49,7 +122,7 @@
             <if test="naId != null">
                 na_id,
             </if>
-            <if test="uId != null">
+            <if test="id != null">
                 u_id,
             </if>
             <if test="stuId != null">
@@ -84,8 +157,8 @@
             <if test="naId != null">
                 #{naId,jdbcType=INTEGER},
             </if>
-            <if test="uId != null">
-                #{uId,jdbcType=INTEGER},
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
             </if>
             <if test="stuId != null">
                 #{stuId,jdbcType=INTEGER},
@@ -119,8 +192,8 @@
     <update id="updateByPrimaryKeySelective" parameterType="com.stumesystem.bean.NaXin">
         update naxin
         <set>
-            <if test="uId != null">
-                u_id = #{uId,jdbcType=INTEGER},
+            <if test="id != null">
+                u_id = #{id,jdbcType=INTEGER},
             </if>
             <if test="stuId != null">
                 stu_id = #{stuId,jdbcType=INTEGER},
@@ -154,7 +227,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.stumesystem.bean.NaXin">
     update naxin
-    set u_id = #{uId,jdbcType=INTEGER},
+        set u_id = #{id,jdbcType=INTEGER},
       stu_id = #{stuId,jdbcType=INTEGER},
       d_id = #{dId,jdbcType=INTEGER},
       dept_id = #{deptId,jdbcType=INTEGER},

@@ -26,6 +26,8 @@ public interface StuUserMapper {
 
     StuUser selectBynickname(String niname);
 
+    StuUser selectByname(String name);
+
     int updateByPrimaryKeySelective(StuUser record);
 
     int updateByEmailSelective(StuUser record);

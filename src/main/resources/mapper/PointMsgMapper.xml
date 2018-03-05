@@ -47,11 +47,24 @@
         where state = '3' AND send_uid = #{id,jdbcType=INTEGER}
     </select>
 
+    <select id="selectAllWithStateAndAdvice" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from point_msg
+        where state = '4' AND accept_uid = #{id,jdbcType=INTEGER}
+    </select>
+
     <select id="selectNum" resultType="java.lang.Integer" parameterType="java.lang.Integer">
     select COUNT(id)
     from point_msg
         where state = '2' AND accept_uid = #{id,jdbcType=INTEGER}
   </select>
+
+    <select id="selectNumAdvice" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select COUNT(id)
+        from point_msg
+        where state = '4' AND accept_uid = #{id,jdbcType=INTEGER}
+    </select>
 
     <select id="selectNumTalk" resultType="java.lang.Integer" parameterType="java.lang.Integer">
         select COUNT(id)

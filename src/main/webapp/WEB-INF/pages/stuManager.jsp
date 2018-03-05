@@ -317,7 +317,7 @@
                     } else if (result.extend.error == 1) {
                         layer.load(0, {time: 2000});
                         setTimeout(function (args) {
-                            layer.msg("不能删除自己！");
+                            layer.msg("不能审核自己！");
                         }, 2000);
                     } else {
                         layer.load(0, {time: 2000});

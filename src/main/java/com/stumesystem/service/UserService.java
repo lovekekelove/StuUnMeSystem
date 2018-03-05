@@ -113,4 +113,14 @@ public class UserService {
     public int updateStu(StuUser stuUser) {
         return stuUserMapper.updateByPrimaryKeySelective(stuUser);
     }
+
+    /**
+     * name 得到Stu
+     *
+     * @param name
+     * @return
+     */
+    public StuUser selectStuUser(String name) {
+        return stuUserMapper.selectByname(name);
+    }
 }

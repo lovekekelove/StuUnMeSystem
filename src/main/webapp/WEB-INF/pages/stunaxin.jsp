@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-md-6"></div>
         <div class="col-md-5">
-            <h2>纳新管理</h2>
+            <h2>纳新人员管理</h2>
         </div>
     </div>
     <!--按钮-->
@@ -34,6 +34,12 @@
                     <option value="">部门：</option>
                 </select>
             </div>
+            <div class="col-sm-2" id="state">
+                <select class="form-control" name="state">
+                    <option value="1">通过</option>
+                    <option value="2">未通过</option>
+                </select>
+            </div>
             <button class="btn btn-success " id="search_btn">搜索</button>
         </div>
         <%--<c:if test="${roseId ==1}"> </c:if>--%>
@@ -53,8 +59,6 @@
                     <th>系别</th>
                     <th>部门</th>
                     <th>班级</th>
-                    <th>爱好</th>
-                    <th>状态</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -95,9 +99,10 @@
         var jiid = $("#jibie select").val();//年级
         var deptid = $("#dept select").val();//部门
         var classs = $("#classs select").val();//班级
+        var state = $("#state select").val();//状态
         $.ajax({
-            url: "${staticPath}/naxingmanager",
-            data: {"pn": pn, "dId": deptNameId, "jiId": jiid, "deptId": deptid, "classId": classs},
+            url: "${staticPath}/stunaxingmanager",
+            data: {"pn": pn, "dId": deptNameId, "jiId": jiid, "deptId": deptid, "classId": classs, "state": state},
             type: "GET",
             dataType: "json",
             success: function (result) {
@@ -128,29 +133,26 @@
             var dept_name = $("<th ></th>").append(item.deptName);
             var deptNameTd = $("<th ></th>").append(item.deptStuName);
             var class_name = $("<th ></th>").append(item.className);
-            var speciality = $("<th ></th>").append(item.speciality.length > 5 ? item.speciality.substring(0, 5) + "..." : item.speciality);
-            var stateTd = $("<th ></th>").append(item.state == '3' ? "等待面试" : "未通过");
-
-            var changeRoseBtn = $("<i style='cursor: pointer' data-toggle=\"tooltip\"\n" +
-                "        data-placement=\"top\" title=\"发送通知\"></i>")
-                .addClass("glyphicon glyphicon-edit user_id");
-
-
-            var checkBtn = $("<i style='cursor: pointer' data-toggle=\"tooltip\" +\n" +
-                "                   data-placement=\"top\" title=\"审核用户\"></i>")
-                .addClass("glyphicon glyphicon-ok check_btn");
+            //
+            // var changeRoseBtn = $("<i style='cursor: pointer' data-toggle=\"tooltip\"\n" +
+            //     "        data-placement=\"top\" title=\"发送通知\"></i>")
+            //     .addClass("glyphicon glyphicon-edit user_id");
+            //
+            //
+            // var checkBtn = $("<i style='cursor: pointer' data-toggle=\"tooltip\" +\n" +
+            //     "                   data-placement=\"top\" title=\"审核用户\"></i>")
+            //     .addClass("glyphicon glyphicon-ok check_btn");
 
             var delBtn = $("<i style='cursor: pointer' data-toggle=\"tooltip\" +\n" +
-                "                data-placement=\"top\" title=\"删除用户\"></i>").addClass("glyphicon glyphicon-trash del_btn");
+                "                data-placement=\"top\" title=\"删除成员\"></i>").addClass("glyphicon glyphicon-trash del_btn");
             // var delBtn=$("<button></button>").addClass("btn btn-danger btn-sm del_btn")
             //     .append($("<span></span>").addClass("glyphicon glyphicon-trash"))
             //     .append("删除");
             //为删除按钮添加一个自定义属性，来表示员工的ID
-            changeRoseBtn.attr("name", item.name);
+            // changeRoseBtn.attr("name", item.name);
             delBtn.attr("del_id", item.naId);
-            checkBtn.attr("check_id", item.naId);
-            var btnTd = $("<th ></th>").append(changeRoseBtn).append("&nbsp;&nbsp;&nbsp;&nbsp;")
-                .append(checkBtn).append("&nbsp;&nbsp;&nbsp;&nbsp;").append(delBtn);
+            // checkBtn.attr("check_id", item.naId);
+            var btnTd = $("<th ></th>").append("&nbsp;&nbsp;&nbsp;&nbsp;").append(delBtn);
             //append()方法执行完以后还会返回原来的元素
             $("<tr></tr>")
                 .append(imgTd)
@@ -160,8 +162,6 @@
                 .append(dept_name)
                 .append(deptNameTd)
                 .append(class_name)
-                .append(speciality)
-                .append(stateTd)
                 .append(btnTd)
                 .appendTo("#emps_table tbody");
         });
@@ -249,9 +249,9 @@
                 dataType: "json",
                 success: function (result) {
                     if (result.code == 100) {
-                            layer.msg("删除成功！");
+                        layer.msg("删除成功！");
                     } else {
-                            layer.msg("删除失败！");
+                        layer.msg("删除失败！");
                     }
                     setTimeout(function () {
                         to_page(currentNum);
@@ -294,9 +294,9 @@
                 dataType: "json",
                 success: function (result) {
                     if (result.code == 100) {
-                            layer.msg("审核成功！");
+                        layer.msg("审核成功！");
                     } else {
-                            layer.msg("审核失败！");
+                        layer.msg("审核失败！");
                     }
                     setTimeout(function () {
                         to_page(currentNum);
@@ -321,7 +321,6 @@
             });
         });
     });
-
 
 
     //显示系部

@@ -3,9 +3,11 @@ package com.stumesystem.bean;
 public class NaXin {
     private Integer naId;
 
-    private Integer uId;
+    private Integer id;
 
     private Integer stuId;
+
+    private String name;
 
     private Integer dId;
 
@@ -23,6 +25,65 @@ public class NaXin {
 
     private String speciality;
 
+    private String deptName;
+
+    private String deptStuName;
+
+    private String className;
+
+    private String dengJi;
+
+    private Integer pn;
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getPn() {
+        return pn;
+    }
+
+    public void setPn(Integer pn) {
+        this.pn = pn;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public String getDeptStuName() {
+        return deptStuName;
+    }
+
+    public void setDeptStuName(String deptStuName) {
+        this.deptStuName = deptStuName;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public String getDengJi() {
+        return dengJi;
+    }
+
+    public void setDengJi(String dengJi) {
+        this.dengJi = dengJi;
+    }
+
     public Integer getNaId() {
         return naId;
     }
@@ -31,12 +92,12 @@ public class NaXin {
         this.naId = naId;
     }
 
-    public Integer getuId() {
-        return uId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setuId(Integer uId) {
-        this.uId = uId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getStuId() {

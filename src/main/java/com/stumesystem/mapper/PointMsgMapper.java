@@ -16,7 +16,11 @@ public interface PointMsgMapper {
 
     List<PointMsg> selectAllWithStateAndTalk(Integer id);
 
+    List<PointMsg> selectAllWithStateAndAdvice(Integer id);
+
     int selectNum(Integer id);
+
+    int selectNumAdvice(Integer id);
 
     int selectNumTalk(Integer id);
 

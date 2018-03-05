@@ -120,6 +120,10 @@ public class FriendController {
     @RequestMapping("/updateFriend")
     public Msg updateDeptName(@RequestParam("uid") Integer uid, HttpServletRequest request) {
         StuUser stuUser = (StuUser) request.getSession().getAttribute("userinfo");
+        if (friendService.getFriend(stuUser.getId(), uid).getState() == 1) {
+            return Msg.fail();
+        }
+
         if (uid != null) {
             Friend friend = friendService.getFriend(stuUser.getId(), uid);
             friend.setState(1);
@@ -236,15 +240,14 @@ public class FriendController {
     /**
      * 删除通知
      *
-     * @param accept_id
-     * @param request
+     * @param id
+     *
      * @return
      */
     @ResponseBody
     @RequestMapping("/delMsgTalk")
-    public Msg delMsgTalk(@RequestParam("accept_id") Integer accept_id, HttpServletRequest request) {
-        StuUser stuUser = (StuUser) request.getSession().getAttribute("userinfo");
-        PointMsg pointMsg = pointMsgService.getMsgByAcceptIdAndSendUid(accept_id, stuUser.getId());
+    public Msg delMsgTalk(@RequestParam("id") Integer id) {
+        PointMsg pointMsg = pointMsgService.getPointMsgById(id);
         pointMsg.setState("1");
         if (pointMsgService.updatePointMsg(pointMsg) > 0) {
             return Msg.success();

@@ -284,6 +284,11 @@
 
 
     $("#delEmp_modal_btn").click(function () {
+
+        if ($(".check_item:checked").length < 1) {
+            layer.tips("请选择！", "#delEmp_modal_btn", {anim: 6});
+            return false;
+        }
         var empNames = "";
         var del_ids = "";
         $.each($(".check_item:checked"), function () {
