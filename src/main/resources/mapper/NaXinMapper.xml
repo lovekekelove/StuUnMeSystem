@@ -63,7 +63,7 @@
         LEFT JOIN class_name as c on n.class_id=c.id
         LEFT JOIN jibie as d on n.ji_id=d.jid
         LEFT JOIN stu_user as e on n.u_id=e.id
-        where n.state =3
+        where n.state =#{state,jdbcType=INTEGER}
         <if test="deptId != null">
             and d_id = #{deptId,jdbcType=INTEGER}
         </if>

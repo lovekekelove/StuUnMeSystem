@@ -17,7 +17,7 @@
 
 </head>
 
-<body class="gray-bg" id="addLeaveMsg">
+<body style="width: 90%">
 <div class="wrapper wrapper-content">
 
     <div class="row">
@@ -29,9 +29,18 @@
                     <div class="form-horizontal">
 
                         <div class="form-group">
-
-                            <div class="col-sm-10 col-md-7">
+                            <label class="col-sm-2  col-md-2 control-label "></label>
+                            <div class="col-sm-9">
+                                <h3>发布新闻动态&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <button type="button" onclick="submitMyTopic();" class="btn btn-primary "
+                                            id="btn">确认发表
+                                    </button>
+                                </h3>
                             </div>
+
+
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2  col-md-2 control-label ">标题：</label>
@@ -42,7 +51,7 @@
 
                         <div class="form-group" id="deptName">
                             <label class="col-sm-2  col-md-2 control-label">系部：</label>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <select class="form-control" name="deptName">
                                     <option value="">请选择：</option>
                                 </select>
@@ -59,15 +68,8 @@
                                         <div class="click2edit wrapper" id="content">
                                         </div>
                                     </div>
-                                    <div id="zishu">
-                                        <p>最多只能输入200个字</p>
-                                    </div>
                                 </div>
-                                <div>
-                                    <button type="button" onclick="submitMyTopic();" class="btn btn-primary"
-                                            style="float: right; margin-right: 0px" id="btn">提交
-                                    </button>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -85,55 +87,8 @@
 
 
 <script>
-    <%--$.ajaxSetup({--%>
-    <%--contentType: "application/x-www-form-urlencoded;charset=utf-8",--%>
-    <%--complete: function (XMLHttpRequest, textStatus) {--%>
-    <%--var sessionstatus = XMLHttpRequest.getResponseHeader("sessionstatus");--%>
-    <%--if (sessionstatus === "timeout") {--%>
-    <%--layer.msg("请先登录");--%>
-    <%--setTimeout(function () {--%>
-    <%--location.replace("${staticPath}/login.html");--%>
-    <%--}, 500);--%>
-    <%--}--%>
-    <%--}--%>
-    <%--});--%>
-
-    var MAX_NUM = 200;
-    // $(document).on("change",".note-editable",function () {
-    //     alert(1);
-    // });
-    var msg_length = 0;
-
-    var count = $('#content').code();
-    var msg_length = count.length;
 
 
-    <%--$(document).ready(function () {--%>
-    <%--$('.summernote').summernote({--%>
-    <%--lang: 'zh-CN'--%>
-    <%--});--%>
-    <%--$.ajax({--%>
-    <%--url: '${staticPath}/section/getSection',--%>
-    <%--cache: false,--%>
-    <%--dataType: "json",--%>
-    <%--success: function (data) {--%>
-
-    <%--for (var i = 0; i < data.length; i++) {--%>
-    <%--$('#section').append(' <option value="' + data[i].sid +--%>
-    <%--'">' + data[i].sname +--%>
-    <%--'</option>');--%>
-    <%--}--%>
-    <%--var sid = getUrlParam("sid");--%>
-    <%--if (sid != null) {--%>
-    <%--$("select option[value=" + sid + "]").attr("selected", true);--%>
-    <%--} else {--%>
-    <%--$('select option[value="2"]').attr("selected", true);--%>
-    <%--}--%>
-    <%--}--%>
-    <%--})--%>
-
-
-    <%--});--%>
     //显示系部
     $(function () {
         $.ajax({
@@ -171,20 +126,20 @@
 
     var submitMyTopic = function () {
         var count = $('#content').code();
-        var deptNameId = $("#deptName select").val();
+        var deptName = $("#deptName option:selected").text();
         var title = $("#topic").val();
 
         count = count.replace(/[\r\n]/g, "");
         count = count.replace(/\ +/g, "");
 
-
-        var length = count.length;
-        //假设长度限制为10
-        if (length > 10) {
-            //截取前10个字符
-            count = count.substring(0, 200);
+        if (title == null || title === '') {
+            layer.tips("标题不能为空", $('#topic'), {anim: 6});
+            return false;
         }
-
+        if (deptName == null || deptName === '') {
+            layer.tips("系部不能为空", $('#deptName select'), {anim: 6});
+            return false;
+        }
 
         if (count == null || count === '') {
             layer.tips("内容不能为空", $('#btn'), {anim: 6});
@@ -194,29 +149,13 @@
             type: 'post',
             url: '${staticPath}/reportDynamic',
             dataType: "json",
-            data: {"count": count, "title": title, "deptNameId": deptNameId},
+            data: {"newsCount": count, "title": title, "deptName": deptName},
             success: function (data) {
                 if (data.code === 100) {
-                    layer.tips("留言成功,等待审核！", $('#btn'), {anim: 6});
-                    setTimeout(function () {
-                        location.replace("${staticPath}/leaveMsg");
-                    }, 1000);
+                    layer.tips("发布成功！", $('#btn'), {anim: 6});
                 } else {
-                    layer.tips("留言失败", $('#btn'), {anim: 6});
-                    setTimeout(function () {
-                        location.replace("${staticPath}/leaveMsg");
-                    }, 1000);
+                    layer.tips("发布失败！", $('#btn'), {anim: 6});
                 }
-                // setTimeout(function (args) {
-                // layer.confirm('继续留言吗？', {
-                //     btn: ['是', '否'] //按钮
-                // }, function () {
-                //     location.reload();
-                // }, function () {
-                //
-                // });
-                // },3000);
-
             }
         });
     }

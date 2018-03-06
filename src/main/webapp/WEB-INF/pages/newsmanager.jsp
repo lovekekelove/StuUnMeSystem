@@ -21,34 +21,7 @@
             <br>
             <br>
         </div>
-
-        <div class="form-group">
-            <div class="col-sm-2" id="deptName">
-                <select class="form-control" name="deptName">
-                    <option value="">系部:</option>
-                </select>
-            </div>
-            <div class="col-sm-2" id="jibie">
-                <select class="form-control" name="dId">
-                    <option value="">年级:</option>
-                </select>
-            </div>
-            <div class="col-sm-2" id="dept">
-                <select class="form-control" name="dId">
-                    <option value="">部门：</option>
-                </select>
-            </div>
-            <div class="col-sm-2" id="state">
-                <select class="form-control" name="state">
-                    <option value="3">未通知</option>
-                    <option value="4">等待面试</option>
-                </select>
-            </div>
-            <button class="btn btn-success " id="search_btn">搜索</button>
-        </div>
         <%--<c:if test="${roseId ==1}"> </c:if>--%>
-
-
     </div>
     <!--显示表格数据-->
     <div class="row">
@@ -56,15 +29,12 @@
             <table class="table table-hover" id="emps_table">
                 <thead>
                 <tr>
-                    <th>照片</th>
-                    <th>学号</th>
-                    <th>姓名</th>
-                    <th>年级</th>
-                    <th>系别</th>
-                    <th>部门</th>
-                    <th>班级</th>
-                    <th>爱好</th>
-                    <th>状态</th>
+                    <th>id</th>
+                    <th>标题</th>
+                    <th>发布人</th>
+                    <th>发布时间</th>
+                    <th>内容</th>
+                    <th>浏览量</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -259,9 +229,9 @@
                 dataType: "json",
                 success: function (result) {
                     if (result.code == 100) {
-                            layer.msg("删除成功！");
+                        layer.msg("删除成功！");
                     } else {
-                            layer.msg("删除失败！");
+                        layer.msg("删除失败！");
                     }
                     setTimeout(function () {
                         to_page(currentNum);
@@ -304,9 +274,9 @@
                 dataType: "json",
                 success: function (result) {
                     if (result.code == 100) {
-                            layer.msg("审核成功！");
+                        layer.msg("审核成功！");
                     } else {
-                            layer.msg("审核失败！");
+                        layer.msg("审核失败！");
                     }
                     setTimeout(function () {
                         to_page(currentNum);
@@ -333,79 +303,9 @@
     });
 
 
-
-    //显示系部
-    $(function () {
-        $.ajax({
-            url: "${staticPath}/deptNames2",
-            type: "GET",
-            dataType: "json",
-            success: function (result) {
-                $.each(result.extend.deptNames, function () {
-                    var optionEle = $("<option></option>").append(this.deptname).attr("value", this.id);
-                    optionEle.appendTo("#deptName select");
-                });
-            }
-        });
-    });
-    //显示年级
-    $(function () {
-        $.ajax({
-            url: "${staticPath}/jibies",
-            type: "GET",
-            dataType: "json",
-            success: function (result) {
-                $.each(result.extend.jibies, function () {
-                    var optionEle = $("<option></option>").append(this.dengji).attr("value", this.jid);
-                    optionEle.appendTo("#jibie select");
-                });
-            }
-        });
-    });
-    //显示部门
-    $("#deptName select").change(function () {
-        $("#dept select ").empty();
-        $("#classs select").empty();
-        var deptNameId = $("#deptName select").val();
-        var jiid = $("#jibie select").val();
-        $.ajax({
-            url: "${staticPath}/depts",
-            type: "GET",
-            data: {"deptNameId": deptNameId},
-            dataType: "json",
-            success: function (result) {
-                $.each(result.extend.list, function () {
-                    var optionEle = $("<option></option>").append(this.deptStuName).attr("value", this.id);
-                    optionEle.appendTo("#dept select");
-                });
-            }
-        });
-
-
-    });
-
-    //显示部门
-    $("#jibie select").change(function () {
-
-        $("#classs select").empty();
-        var deptNameId = $("#deptName select").val();
-        var jiid = $("#jibie select").val();
-        $.ajax({
-            url: "${staticPath}/classs",
-            type: "GET",
-            data: {"deptNameId": deptNameId, "jiid": jiid},
-            dataType: "json",
-            success: function (result) {
-                $.each(result.extend.list, function () {
-                    var optionEle = $("<option></option>").append(this.className).attr("value", this.id);
-                    optionEle.appendTo("#classs select");
-                });
-            }
-        });
-
-    });
 </script>
 </html>
+
 
 
 

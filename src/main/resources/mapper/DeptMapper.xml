@@ -70,6 +70,12 @@
     delete from dept
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
+  <delete id="deleteByUid" parameterType="java.lang.Integer">
+    delete from dept
+    where uid = #{uid,jdbcType=INTEGER}
+  </delete>
+
   <insert id="insert" parameterType="com.stumesystem.bean.Dept">
     insert into dept (id, d_id, dept_id, 
       class_id, uid, jiid, 

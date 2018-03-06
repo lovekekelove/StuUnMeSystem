@@ -56,6 +56,11 @@ public class NaXinController {
         return "naxinmanager";
     }
 
+    @RequestMapping("/talkAdviceJsp")
+    public String toTalkAdvice() {
+        return "renwuAdvice";
+    }
+
 
     /**
      * 人员纳新
@@ -115,6 +120,7 @@ public class NaXinController {
         map.put("deptNameId", naXin.getDeptId());
         map.put("classId", naXin.getClassId());
         map.put("jiId", naXin.getJiId());
+        map.put("state", naXin.getState());
         PageHelper.startPage(naXin.getPn(), 5);
         List<NaXin> lists = naXinService.getNaXinAll(map);
         PageInfo page = new PageInfo(lists, 5);
@@ -163,6 +169,61 @@ public class NaXinController {
         if (pointMsgService.insertPointMsg(pointMsg) > 0) {
             MailUtil mailUtil = new MailUtil();
             mailUtil.sendSimpleMail(accUser.getEmail(), "成功学院学生会", count);
+            NaXin naXin = naXinService.getNaXinByUId(accUser.getId());
+            naXin.setState(4);
+            if (naXinService.updateNaXin(naXin) > 0) {
+                return Msg.success();
+            }
+        }
+        return Msg.fail();
+    }
+
+    /**
+     * 发送任务通知
+     *
+     * @param count
+     * @param str_id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/sendMsgWithFriends")
+    public Msg sendMsgWithFriends(@RequestParam("count") String count, @RequestParam("str_id") String str_id, HttpServletRequest request) {
+        StuUser stuUser = (StuUser) request.getSession().getAttribute("userinfo");
+        String ids[] = str_id.split(",");
+        boolean flag = true;
+        for (String id : ids) {
+            StuUser accUser = userService.getUser(Integer.parseInt(id));
+            PointMsg pointMsg = new PointMsg();
+            pointMsg.setMsgCount(count);
+            pointMsg.setSendUid(stuUser.getId());
+            pointMsg.setAcceptUid(accUser.getId());
+            pointMsg.setState("4");
+            pointMsg.setSendTime(new Date());
+            if (pointMsgService.insertPointMsg(pointMsg) > 0) {
+                MailUtil mailUtil = new MailUtil();
+                mailUtil.sendSimpleMail(accUser.getEmail(), "成功学院学生会", count);
+                flag = true;
+            } else {
+                flag = false;
+            }
+        }
+        if (flag) {
+            return Msg.success();
+        }
+
+        return Msg.fail();
+    }
+
+    /**
+     * 删除纳新人员
+     *
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/delNaXin")
+    public Msg deleteNaXin(@RequestParam("id") Integer id) {
+        if (naXinService.deleteNaXin(id) > 0) {
             return Msg.success();
         }
         return Msg.fail();
@@ -175,11 +236,25 @@ public class NaXinController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("/delNaXin")
-    public Msg deleteDeptName(@RequestParam("id") Integer id) {
-        if (naXinService.deleteNaXin(id) > 0) {
-            return Msg.success();
+    @RequestMapping("/delStuNaXin")
+    public Msg deleteStuNaXin(@RequestParam("id") Integer id,
+                              @RequestParam("name") String name) {
+        NaXin naXin = naXinService.getNaXinById(id);
+        StuUser stuUser = userService.selectStuUser(name);
+        if (naXin.getState() == 1) {
+            if (naXinService.deleteNaXin(id) > 0) {
+                if (deptService.deleteDeptByUid(stuUser.getId()) > 0) {
+                    if (stuRoseService.updateRose(5, stuUser.getId()) > 0) {
+                        return Msg.success();
+                    }
+                }
+            }
+        } else {
+            if (naXinService.deleteNaXin(id) > 0) {
+                return Msg.success();
+            }
         }
+
         return Msg.fail();
     }
 

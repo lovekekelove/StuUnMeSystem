@@ -50,4 +50,14 @@ public class DeptService {
     public Dept getDeptWith(Integer uid) {
         return deptMapper.selectWithByUId(uid);
     }
+
+    /**
+     * 删除通过
+     *
+     * @param uid
+     * @return
+     */
+    public int deleteDeptByUid(Integer uid) {
+        return deptMapper.deleteByUid(uid);
+    }
 }

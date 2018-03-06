@@ -5,6 +5,8 @@ import com.stumesystem.bean.Dept;
 public interface DeptMapper {
     int deleteByPrimaryKey(Integer id);
 
+    int deleteByUid(Integer uid);
+
     int insert(Dept record);
 
     int insertSelective(Dept record);

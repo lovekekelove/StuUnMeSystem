@@ -149,7 +149,6 @@
             //     .append($("<span></span>").addClass("glyphicon glyphicon-trash"))
             //     .append("删除");
             //为删除按钮添加一个自定义属性，来表示员工的ID
-            // changeRoseBtn.attr("name", item.name);
             delBtn.attr("del_id", item.naId);
             // checkBtn.attr("check_id", item.naId);
             var btnTd = $("<th ></th>").append("&nbsp;&nbsp;&nbsp;&nbsp;").append(delBtn);
@@ -239,14 +238,14 @@
         //1.弹出是否删除确认框
         var deptName = $(this).parents("tr").find("th:eq(2)").text();
         var id = $(this).attr("del_id");
-
         layer.confirm("确认删除 " + deptName + " 吗？", {
             btn: ['确定', '取消'] //按钮
         }, function () {
             $.ajax({
-                url: "${staticPath}/delNaXin?id=" + id,
+                url: "${staticPath}/delStuNaXin",
                 type: "get",
                 dataType: "json",
+                data: {"id": id, "name": deptName},
                 success: function (result) {
                     if (result.code == 100) {
                         layer.msg("删除成功！");
@@ -260,65 +259,6 @@
             });
         }, function () {
 
-        });
-    });
-    //发送通知
-    $(document).on("click", ".user_id", function () {
-        var name = $(this).attr("name");
-        layer.open({
-            type: 2,
-            title: '发送通知==>>' + name,
-            shadeClose: false,
-            shade: false,
-            // maxmin: true, //开启最大化最小化按钮
-            area: ['780px', '510px'],
-            content: '${staticPath}/sendMsg.jsp?name=' + name,
-            end: function () {
-                to_page(currentNum);
-            }
-        });
-    });
-
-    //用户审核
-    $(document).on("click", ".check_btn", function () {
-        //1.弹出是否删除确认框
-        var deptName = $(this).parents("tr").find("th:eq(2)").text();
-        var id = $(this).attr("check_id");
-
-        layer.confirm("进入审核 " + deptName, {
-            btn: ['通过', '不通过'] //按钮
-        }, function () {
-            $.ajax({
-                url: "${staticPath}/updateNaXin?id=" + id,
-                type: "get",
-                dataType: "json",
-                success: function (result) {
-                    if (result.code == 100) {
-                        layer.msg("审核成功！");
-                    } else {
-                        layer.msg("审核失败！");
-                    }
-                    setTimeout(function () {
-                        to_page(currentNum);
-                    }, 3000);
-                }
-            });
-        }, function () {
-            $.ajax({
-                url: "${staticPath}/updateNoNaXin?id=" + id,
-                type: "get",
-                dataType: "json",
-                success: function (result) {
-                    if (result.code == 100) {
-                        layer.msg("审核成功！");
-                    } else {
-                        layer.msg("审核失败！");
-                    }
-                    setTimeout(function () {
-                        to_page(currentNum);
-                    }, 3000);
-                }
-            });
         });
     });
 

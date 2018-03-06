@@ -327,9 +327,9 @@
                     <figure class="effect-bubba">
                         <img src="img/demo/portfolio-5.jpg" alt="img02" class="img-responsive"/>
                         <figcaption>
-                            <h2>Lamp & Velvet</h2>
-                            <p>Branding, Web Design</p>
-                            <a href="#" data-toggle="modal" data-target="#Modal-3">View more</a>
+                            <h2>校园新闻</h2>
+                            <p>了解校园资讯</p>
+                            <a href="#" data-toggle="modal" data-target="#Modal-3" id="news">View more</a>
                         </figcaption>
                     </figure>
                 </div>
@@ -470,6 +470,23 @@
             // maxmin: true, //开启最大化最小化按钮
             //area: ['864px', '600px'],
             content: '/newsMsg'
+        });
+        layer.full(msg);
+    });
+
+    $("#news").click(function () {
+        var id = $("#peocenter").attr("mark");
+
+        if (id == undefined) {
+            layer.msg("请您先登录！");
+            return false;
+        }
+        var msg = layer.open({
+            type: 2,
+            title: '新闻动态',
+            shadeClose: false,
+            shade: 0.6,
+            content: '/newsJSP'
         });
         layer.full(msg);
     });

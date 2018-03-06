@@ -29,13 +29,5 @@ public class TopicController {
         return "reportNews";
     }
 
-    @ResponseBody
-    @RequestMapping("/")
-    public Msg reportDynamic(@RequestParam("count") String count, HttpServletRequest request) {
-        if (!count.equals("")) {
-            Topic topic = new Topic();
-            return Msg.success();
-        }
-        return Msg.fail();
-    }
+
 }

@@ -111,6 +111,20 @@ public class FriendController {
     }
 
     /**
+     * 好友列表
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/lookmyFriends")
+    public Msg lookmyFriends(HttpServletRequest request) {
+        String name = "";
+        StuUser stuUser = (StuUser) request.getSession().getAttribute("userinfo");
+        List<Friend> friends = friendService.getFriends(stuUser.getId(), name);
+        return Msg.success().add("friends", friends);
+    }
+
+    /**
      * 同意好友
      *
      * @param uid 请求方的id

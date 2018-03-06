@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stumesystem.mapper.NewsMapper">
+    <resultMap id="BaseResultMap" type="com.stumesystem.bean.News">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="news_count" property="newsCount" jdbcType="VARCHAR"/>
+        <result column="send_time" property="sendTime" jdbcType="TIMESTAMP"/>
+        <result column="send_uid" property="sendUid" jdbcType="INTEGER"/>
+        <result column="look_num" property="lookNum" jdbcType="INTEGER"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="dept_name" property="deptName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, news_count, send_time, send_uid, look_num, title, dept_name
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from news
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectNewsList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from news
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from news
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.stumesystem.bean.News">
+    insert into news (id, news_count, send_time, 
+      send_uid, look_num, title, 
+      dept_name)
+    values (#{id,jdbcType=INTEGER}, #{newsCount,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}, 
+      #{sendUid,jdbcType=INTEGER}, #{lookNum,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+      #{deptName,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.stumesystem.bean.News">
+        insert into news
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="newsCount != null">
+                news_count,
+            </if>
+            <if test="sendTime != null">
+                send_time,
+            </if>
+            <if test="sendUid != null">
+                send_uid,
+            </if>
+            <if test="lookNum != null">
+                look_num,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="deptName != null">
+                dept_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="newsCount != null">
+                #{newsCount,jdbcType=VARCHAR},
+            </if>
+            <if test="sendTime != null">
+                #{sendTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="sendUid != null">
+                #{sendUid,jdbcType=INTEGER},
+            </if>
+            <if test="lookNum != null">
+                #{lookNum,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="deptName != null">
+                #{deptName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.stumesystem.bean.News">
+        update news
+        <set>
+            <if test="newsCount != null">
+                news_count = #{newsCount,jdbcType=VARCHAR},
+            </if>
+            <if test="sendTime != null">
+                send_time = #{sendTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="sendUid != null">
+                send_uid = #{sendUid,jdbcType=INTEGER},
+            </if>
+            <if test="lookNum != null">
+                look_num = #{lookNum,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="deptName != null">
+                dept_name = #{deptName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.stumesystem.bean.News">
+    update news
+    set news_count = #{newsCount,jdbcType=VARCHAR},
+      send_time = #{sendTime,jdbcType=TIMESTAMP},
+      send_uid = #{sendUid,jdbcType=INTEGER},
+      look_num = #{lookNum,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      dept_name = #{deptName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
