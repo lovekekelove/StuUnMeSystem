@@ -460,6 +460,7 @@
         var id = $("#peocenter").attr("mark");
 
         if (id == undefined) {
+            layer.msg("请您先登录！");
             return false;
         }
         var msg = layer.open({
@@ -469,7 +470,7 @@
             shade: 0.6,
             // maxmin: true, //开启最大化最小化按钮
             //area: ['864px', '600px'],
-            content: '/newsMsg'
+            content: '/reportDyJsp'
         });
         layer.full(msg);
     });

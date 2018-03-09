@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="common/base.jsp" %>
+<%@ include file="/common/base.jsp" %>
 <%@ include file="/common/commons.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +17,7 @@
 
 </head>
 
-<body class="gray-bg" id="addLeaveMsg">
+<body style="width: 90%">
 <div class="wrapper wrapper-content">
 
     <div class="row">
@@ -29,13 +29,29 @@
                     <div class="form-horizontal">
 
                         <div class="form-group">
+                            <label class="col-sm-2  col-md-2 control-label "></label>
+                            <div class="col-sm-9">
+                                <h3>发布动态&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <button type="button" onclick="submitMyTopic();" class="btn btn-primary "
+                                            id="btn">确认发表
+                                    </button>
+                                </h3>
+                            </div>
 
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2  col-md-2 control-label ">标题：</label>
                             <div class="col-sm-10 col-md-7">
-
+                                <input type="text" class="form-control" id="topic">
                             </div>
                         </div>
+
+
                         <div class="row">
-                            <label class="col-sm-1 col-md-2  control-label"></label>
+                            <label class="col-sm-1 col-md-2  control-label">内容：</label>
                             <div class="col-sm-10 col-md-7 ">
                                 <div class="ibox float-e-margins">
 
@@ -43,15 +59,8 @@
                                         <div class="click2edit wrapper" id="content">
                                         </div>
                                     </div>
-                                    <div id="zishu">
-                                        <p>最多只能输入200个字</p>
-                                    </div>
                                 </div>
-                                <div>
-                                    <button type="button" onclick="submitMyTopic();" class="btn btn-primary"
-                                            style="float: right; margin-right: 0px" id="btn">提交
-                                    </button>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -69,8 +78,6 @@
 
 
 <script>
-
-
 
 
     function getUrlParam(name) {
@@ -95,46 +102,36 @@
 
     var submitMyTopic = function () {
         var count = $('#content').code();
+        var title = $("#topic").val();
+
         count = count.replace(/[\r\n]/g, "");
         count = count.replace(/\ +/g, "");
 
-
-        if (count == null || count === '') {
-            layer.tips("不能为空", $('#btn'), {anim: 6});
+        if (title == null || title === '') {
+            layer.tips("标题不能为空", $('#topic'), {anim: 6});
             return false;
         }
 
+
+        if (count == null || count === '') {
+            layer.tips("内容不能为空", $('#btn'), {anim: 6});
+            return false;
+        }
         if (count.length > 1640) {
             layer.msg("内容不能超过200个字！")
             return false;
         }
         $.ajax({
             type: 'post',
-            url: '${staticPath}/addLeaveMsg',
+            url: '${staticPath}/rtDynamic',
             dataType: "json",
-            data: {"count": count},
+            data: {"tcontent": count, "title": title},
             success: function (data) {
                 if (data.code === 100) {
-                    layer.tips("留言成功,等待审核！", $('#btn'), {anim: 6});
-                    setTimeout(function () {
-                        location.replace("${staticPath}/leaveMsg");
-                    }, 1000);
+                    layer.tips("发布成功！", $('#btn'), {anim: 6});
                 } else {
-                    layer.tips("留言失败", $('#btn'), {anim: 6});
-                    setTimeout(function () {
-                        location.replace("${staticPath}/leaveMsg");
-                    }, 1000);
+                    layer.tips("发布失败！", $('#btn'), {anim: 6});
                 }
-                // setTimeout(function (args) {
-                // layer.confirm('继续留言吗？', {
-                //     btn: ['是', '否'] //按钮
-                // }, function () {
-                //     location.reload();
-                // }, function () {
-                //
-                // });
-                // },3000);
-
             }
         });
     }
@@ -144,4 +141,5 @@
 </body>
 
 </html>
+
 

@@ -156,7 +156,8 @@
             // var delBtn=$("<button></button>").addClass("btn btn-danger btn-sm del_btn")
             //     .append($("<span></span>").addClass("glyphicon glyphicon-trash"))
             //     .append("删除");
-            //为删除按钮添加一个自定义属性，来表示员工的ID            changeRoseBtn.attr("name", item.name);
+            //为删除按钮添加一个自定义属性，来表示员工的ID
+            changeRoseBtn.attr("name", item.name);
             delBtn.attr("del_id", item.naId);
             checkBtn.attr("check_id", item.naId);
             var btnTd = $("<th ></th>").append(changeRoseBtn == null ? "" : changeRoseBtn).append("&nbsp;&nbsp;&nbsp;&nbsp;")

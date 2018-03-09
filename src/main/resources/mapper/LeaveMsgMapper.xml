@@ -51,6 +51,7 @@
         <include refid="Base_Column_List"/>
         <include refid="deptName_Column_List"/>
         from leavemsg as a LEFT JOIN stu_user as b on a.send_uid=b.id where a.state=1 ORDER BY creatTime DESC
+        limit 0,300
     </select>
 
     <select id="selectLeaveMsgWithState" parameterType="java.lang.String" resultMap="BaseResultMap">

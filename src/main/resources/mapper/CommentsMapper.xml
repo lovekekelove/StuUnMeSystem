@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stumesystem.mapper.CommentsMapper">
+    <resultMap id="BaseResultMap" type="com.stumesystem.bean.Comments">
+        <id column="com_id" property="comId" jdbcType="INTEGER"/>
+        <result column="com_fid" property="comFid" jdbcType="INTEGER"/>
+        <result column="topic_id" property="topicId" jdbcType="INTEGER"/>
+        <result column="com_count" property="comCount" jdbcType="VARCHAR"/>
+        <result column="com_time" property="comTime" jdbcType="TIMESTAMP"/>
+        <result column="com_user_id" property="comUserId" jdbcType="INTEGER"/>
+        <result column="com_state" property="comState" jdbcType="INTEGER"/>
+        <result column="nickname" property="nickname" jdbcType="VARCHAR"/>
+        <result column="img_heah" property="imgHeah" jdbcType="VARCHAR"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    com_id, com_fid, topic_id, com_count, com_time, com_user_id, com_state
+  </sql>
+
+    <sql id="topic_Column_List">
+    com_id, com_fid, topic_id, com_count, com_time, com_user_id, com_state ,t.title
+  </sql>
+
+    <sql id="all_Column_List">
+    com_id, com_fid, topic_id, com_count, com_time, com_user_id, com_state ,t.title,u.nickname,u.img_heah
+  </sql>
+
+    <sql id="list_Column_List">
+    com_id, com_fid, topic_id, com_count, com_time, com_user_id, com_state,u.nickname,u.img_heah
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from comments
+        where com_id = #{comId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectListWithUser" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="list_Column_List"/>
+        from comments AS c LEFT JOIN stu_user u on c.com_user_id=u.id
+        where topic_id = #{topicid,jdbcType=INTEGER} and com_fid is null
+    </select>
+
+    <select id="selectListAll" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="list_Column_List"/>
+        from comments AS c LEFT JOIN stu_user u on c.com_user_id=u.id
+        where com_fid = #{fid,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        select
+        <include refid="all_Column_List"/>
+        from comments AS c
+        LEFT JOIN stu_user u on c.com_user_id=u.id
+        LEFT JOIN topic t on c.topic_id=t.id
+
+    </select>
+
+    <select id="selectListAllWithTopic" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="topic_Column_List"/>
+        from comments AS c LEFT JOIN topic t on c.topic_id=t.id
+        where com_user_id = #{uid,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectListWithFid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="list_Column_List"/>
+        from comments AS c LEFT JOIN stu_user u on c.com_user_id=u.id
+        where topic_id = #{topicid,jdbcType=INTEGER} and com_fid= #{fid,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectListWithUserRoot" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="list_Column_List"/>
+        from comments AS c LEFT JOIN stu_user u on c.com_user_id=u.id
+        where com_fid = #{fid,jdbcType=INTEGER}
+    </select>
+
+    <select id="getCommentNum" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+    select IF(count(com_id) IS NULL,0,count(com_id))  as num
+    from comments
+    where topic_id = #{topicid,jdbcType=INTEGER}
+  </select>
+
+    <select id="getCommentList" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from comments
+        where topic_id = #{topicid,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from comments
+    where com_id = #{comId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.stumesystem.bean.Comments">
+    insert into comments (com_id, com_fid, topic_id, 
+      com_count, com_time, com_user_id, 
+      com_state)
+    values (#{comId,jdbcType=INTEGER}, #{comFid,jdbcType=INTEGER}, #{topicId,jdbcType=INTEGER}, 
+      #{comCount,jdbcType=VARCHAR}, #{comTime,jdbcType=TIMESTAMP}, #{comUserId,jdbcType=INTEGER}, 
+      #{comState,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.stumesystem.bean.Comments">
+        insert into comments
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="comId != null">
+                com_id,
+            </if>
+            <if test="comFid != null">
+                com_fid,
+            </if>
+            <if test="topicId != null">
+                topic_id,
+            </if>
+            <if test="comCount != null">
+                com_count,
+            </if>
+            <if test="comTime != null">
+                com_time,
+            </if>
+            <if test="comUserId != null">
+                com_user_id,
+            </if>
+            <if test="comState != null">
+                com_state,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="comId != null">
+                #{comId,jdbcType=INTEGER},
+            </if>
+            <if test="comFid != null">
+                #{comFid,jdbcType=INTEGER},
+            </if>
+            <if test="topicId != null">
+                #{topicId,jdbcType=INTEGER},
+            </if>
+            <if test="comCount != null">
+                #{comCount,jdbcType=VARCHAR},
+            </if>
+            <if test="comTime != null">
+                #{comTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="comUserId != null">
+                #{comUserId,jdbcType=INTEGER},
+            </if>
+            <if test="comState != null">
+                #{comState,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.stumesystem.bean.Comments">
+        update comments
+        <set>
+            <if test="comFid != null">
+                com_fid = #{comFid,jdbcType=INTEGER},
+            </if>
+            <if test="topicId != null">
+                topic_id = #{topicId,jdbcType=INTEGER},
+            </if>
+            <if test="comCount != null">
+                com_count = #{comCount,jdbcType=VARCHAR},
+            </if>
+            <if test="comTime != null">
+                com_time = #{comTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="comUserId != null">
+                com_user_id = #{comUserId,jdbcType=INTEGER},
+            </if>
+            <if test="comState != null">
+                com_state = #{comState,jdbcType=INTEGER},
+            </if>
+        </set>
+        where com_id = #{comId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.stumesystem.bean.Comments">
+    update comments
+    set com_fid = #{comFid,jdbcType=INTEGER},
+      topic_id = #{topicId,jdbcType=INTEGER},
+      com_count = #{comCount,jdbcType=VARCHAR},
+      com_time = #{comTime,jdbcType=TIMESTAMP},
+      com_user_id = #{comUserId,jdbcType=INTEGER},
+      com_state = #{comState,jdbcType=INTEGER}
+    where com_id = #{comId,jdbcType=INTEGER}
+  </update>
+</mapper>

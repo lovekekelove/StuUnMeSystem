@@ -37,6 +37,11 @@ public class NewsController {
         return "newsmanager";
     }
 
+    @RequestMapping("/reportNewsJsp")
+    public String fabiao() {
+        return "reportNews";
+    }
+
     /**
      * 发布新闻
      *
@@ -67,6 +72,36 @@ public class NewsController {
     public Msg getNews(@RequestParam(value = "pn", defaultValue = "1") Integer pn) {
         PageHelper.startPage(pn, 8);
         List<News> lists = newService.getList();
+        PageInfo page = new PageInfo(lists, 5);
+        return Msg.success().add("pageInfo", page);
+    }
+
+    /**
+     * 删除纳新人员
+     *
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/delNews")
+    public Msg deleteNaXin(@RequestParam("id") Integer id) {
+        if (newService.deleteNews(id) > 0) {
+            return Msg.success();
+        }
+        return Msg.fail();
+    }
+
+    /**
+     * 后台查看新闻列表
+     *
+     * @param pn
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/newsManager")
+    public Msg getNewsManager(@RequestParam(value = "pn", defaultValue = "1") Integer pn) {
+        PageHelper.startPage(pn, 8);
+        List<News> lists = newService.getManagerList();
         PageInfo page = new PageInfo(lists, 5);
         return Msg.success().add("pageInfo", page);
     }

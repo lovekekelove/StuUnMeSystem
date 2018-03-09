@@ -33,6 +33,27 @@ public class NewsService {
     }
 
     /**
+     * 获得新闻列表(后台)
+     *
+     * @return
+     */
+    public List<News> getManagerList() {
+        return mapper.selectNewsListWithUser();
+    }
+
+    /**
+     * 删除
+     *
+     * @param id
+     * @return
+     */
+    public int deleteNews(Integer id) {
+        return mapper.deleteByPrimaryKey(id);
+    }
+
+
+
+    /**
      * id得到news
      *
      * @param id

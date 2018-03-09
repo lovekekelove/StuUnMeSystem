@@ -3,7 +3,7 @@
 <%@ include file="../../common/commons.jsp" %>
 <html>
 <head>
-    <title>纳新管理</title>
+    <title>动态管理</title>
 </head>
 <body style="width: 90%">
 
@@ -12,16 +12,22 @@
     <div class="row">
         <div class="col-md-6"></div>
         <div class="col-md-5">
-            <h2>新闻管理</h2>
+            <h2>动态管理</h2>
         </div>
     </div>
     <!--按钮-->
     <div class="row">
         <div class="form-group">
-            <br>
-            <br>
         </div>
-        <%--<c:if test="${roseId ==1}"> </c:if>--%>
+        <div class="form-group">
+            <div class="col-sm-2" id="state">
+                <select class="form-control" name="state">
+                    <option value="1">通过</option>
+                    <option value="2">未通过</option>
+                </select>
+            </div>
+            <button class="btn btn-success " id="search_btn">搜索</button>
+        </div>
     </div>
     <!--显示表格数据-->
     <div class="row">
@@ -30,11 +36,14 @@
                 <thead>
                 <tr>
                     <th>id</th>
+                    <th>头像</th>
                     <th>标题</th>
-                    <th>发布人</th>
-                    <th>来源</th>
+                    <th>姓名</th>
+                    <th>昵称</th>
                     <th>发布时间</th>
                     <th>浏览量</th>
+                    <th>赞数</th>
+                    <th>审核</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -71,9 +80,10 @@
 
     //分页
     function to_page(pn) {
+        var state = $("#state select").val();//状态
         $.ajax({
-            url: "${staticPath}/newsManager",
-            data: {"pn": pn},
+            url: "${staticPath}/getManagerTopicList",
+            data: {"pn": pn, "state": state},
             type: "GET",
             dataType: "json",
             success: function (result) {
@@ -97,26 +107,38 @@
         $("#emps_table tbody").empty();
         var news_manager_list = result.extend.pageInfo.list;
         $.each(news_manager_list, function (index, item) {
-            console.log(news_manager_list);
             var news_id = $("<th ></th>").append(item.id);
+            var imgTd = $("<th ></th>").append($("<img style='width: 38px;height: 38px;'/>").addClass("img-circle").attr("src", item.imgHeah));
             var news_title = $("<th ></th>").append(item.title.length > 20 ? item.title.substring(0, 20) + "..." : item.title);
             var send_name = $("<th ></th>").append(item.name);
-            var from_dept = $("<th ></th>").append(item.deptName);
-            var send_time = $("<th ></th>").append(formatDateTime(item.sendTime));
-            var news_look_num = $("<th ></th>").append(item.lookNum + "次");
+            var from_dept = $("<th ></th>").append(item.nickname);
+            var send_time = $("<th ></th>").append(formatDateTime(item.ttime));
+            var news_look_num = $("<th ></th>").append(item.tclickcount + "次");
+            var zan_num = $("<th ></th>").append(item.tzan + "次");
+            var topic_state = $("<th ></th>").append(item.tstaus == 1 ? "通过" : "未通过");
             var delBtn = $("<i style='cursor: pointer' data-toggle=\"tooltip\" +\n" +
-                "                data-placement=\"top\" title=\"删除用户\"></i>").addClass("glyphicon glyphicon-trash del_btn");
+                "                data-placement=\"top\" title=\"删除动态\"></i>").addClass("glyphicon glyphicon-trash del_btn");
             delBtn.attr("del_id", item.id);
 
-            var btnTd = $("<th ></th>").append("&nbsp;&nbsp;&nbsp;&nbsp;").append(delBtn);
+            if (item.tstaus == 2) {
+                var check_Btn = $("<i style='cursor: pointer' data-toggle=\"tooltip\" +\n" +
+                    "                   data-placement=\"top\" title=\"审核动态\"></i>")
+                    .addClass("glyphicon glyphicon-ok check_btn");
+                check_Btn.attr("check_id", item.id);
+            }
+
+            var btnTd = $("<th ></th>").append(check_Btn == null ? "" : check_Btn).append("&nbsp;&nbsp;&nbsp;&nbsp;").append(delBtn);
             //append()方法执行完以后还会返回原来的元素
             $("<tr></tr>")
                 .append(news_id)
+                .append(imgTd)
                 .append(news_title)
                 .append(send_name)
                 .append(from_dept)
                 .append(send_time)
                 .append(news_look_num)
+                .append(zan_num)
+                .append(topic_state)
                 .append(btnTd)
                 .appendTo("#emps_table tbody");
         });
@@ -204,17 +226,17 @@
         nvaEle.appendTo("#age_nav");
     }
 
-    //删除用户
+    //删除动态
     $(document).on("click", ".del_btn", function () {
 
         //1.弹出是否删除确认框
-        var deptName = $(this).parents("tr").find("th:eq(1)").text();
+        var deptName = $(this).parents("tr").find("th:eq(2)").text();
         var id = $(this).attr("del_id");
-        layer.confirm("确认删除 " + deptName + " 这篇文章吗？", {
+        layer.confirm("确认删除 " + deptName + " 这个动态吗？", {
             btn: ['确定', '取消'] //按钮
         }, function () {
             $.ajax({
-                url: "${staticPath}/delNews?id=" + id,
+                url: "${staticPath}/delMyTopic?id=" + id,
                 type: "get",
                 dataType: "json",
                 success: function (result) {
@@ -232,10 +254,39 @@
 
         });
     });
+    //动态审核
+    $(document).on("click", ".check_btn", function () {
+        //1.弹出是否删除确认框
+        var deptName = $(this).parents("tr").find("th:eq(2)").text();
+        var id = $(this).attr("check_id");
+        alert(id);
+        layer.confirm("确认通过审核 " + deptName + "这个动态吗？", {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            $.ajax({
+                url: "${staticPath}/updatetopic?id=" + id,
+                type: "get",
+                dataType: "json",
+                success: function (result) {
+                    if (result.code == 100) {
+                        layer.msg("审核成功！");
+                    } else {
+                        layer.msg("审核失败！");
+                    }
+                    setTimeout(function () {
+                        to_page(currentNum);
+                    }, 3000);
+                }
+            });
+        }, function () {
 
+        });
+    });
 
 </script>
 </html>
+
+
 
 
 

@@ -3,7 +3,7 @@
 <%@ include file="../../common/commons.jsp" %>
 <html>
 <head>
-    <title>纳新管理</title>
+    <title>我的评论</title>
 </head>
 <body style="width: 90%">
 
@@ -12,16 +12,14 @@
     <div class="row">
         <div class="col-md-6"></div>
         <div class="col-md-5">
-            <h2>新闻管理</h2>
+            <h2>我的评论</h2>
         </div>
     </div>
     <!--按钮-->
     <div class="row">
-        <div class="form-group">
-            <br>
-            <br>
-        </div>
         <%--<c:if test="${roseId ==1}"> </c:if>--%>
+        <div class="col-md"></div>
+
     </div>
     <!--显示表格数据-->
     <div class="row">
@@ -29,12 +27,10 @@
             <table class="table table-hover" id="emps_table">
                 <thead>
                 <tr>
-                    <th>id</th>
-                    <th>标题</th>
-                    <th>发布人</th>
-                    <th>来源</th>
-                    <th>发布时间</th>
-                    <th>浏览量</th>
+                    <th>ID</th>
+                    <th>动态标题</th>
+                    <th>评论时间</th>
+                    <th>内容</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -48,11 +44,11 @@
     <div class="row">
         <div class="col-md-1"></div>
         <!--分页文字信息-->
-        <div class="col-md-5" id="page_info">
+        <div class="col-md-7" id="page_info">
 
         </div>
         <!--分页条信息-->
-        <div class="col-md-5" id="age_nav">
+        <div class="col-md-4" id="age_nav">
 
         </div>
 
@@ -71,8 +67,9 @@
 
     //分页
     function to_page(pn) {
+        var serch_var = $("#serch").val();
         $.ajax({
-            url: "${staticPath}/newsManager",
+            url: "${staticPath}/myComment",
             data: {"pn": pn},
             type: "GET",
             dataType: "json",
@@ -87,36 +84,33 @@
         });
     }
 
-    $("#search_btn").click(function () {
-        to_page(1);
-    });
-
     //显示员工列表
     function build_emps_table(result) {
         //先清空table表格
         $("#emps_table tbody").empty();
-        var news_manager_list = result.extend.pageInfo.list;
-        $.each(news_manager_list, function (index, item) {
-            console.log(news_manager_list);
-            var news_id = $("<th ></th>").append(item.id);
-            var news_title = $("<th ></th>").append(item.title.length > 20 ? item.title.substring(0, 20) + "..." : item.title);
-            var send_name = $("<th ></th>").append(item.name);
-            var from_dept = $("<th ></th>").append(item.deptName);
-            var send_time = $("<th ></th>").append(formatDateTime(item.sendTime));
-            var news_look_num = $("<th ></th>").append(item.lookNum + "次");
-            var delBtn = $("<i style='cursor: pointer' data-toggle=\"tooltip\" +\n" +
-                "                data-placement=\"top\" title=\"删除用户\"></i>").addClass("glyphicon glyphicon-trash del_btn");
-            delBtn.attr("del_id", item.id);
+        var deptstus = result.extend.pageInfo.list;
+        $.each(deptstus, function (index, item) {
+            var IDTd = $("<th ></th>").append(item.comId);
+            var title_Td = $("<th ></th>").append(item.title);
+            var createTimeTd = $("<th ></th>").append(formatDateTime(item.comTime));
+            var countTd = $("<th ></th>").append(item.comCount.length > 15 ? item.comCount.substring(0, 15) + "..." : item.comCount);
 
-            var btnTd = $("<th ></th>").append("&nbsp;&nbsp;&nbsp;&nbsp;").append(delBtn);
+            var lookBtn = $("<button></button>").addClass("btn btn-success btn-sm  look_btn")
+                .append($("<span></span>").addClass("glyphicon glyphicon-tag"))
+                .append("查看");
+            var delBtn = $("<button></button>").addClass("btn btn-danger btn-sm del_btn")
+                .append($("<span></span>").addClass("glyphicon glyphicon-trash"))
+                .append("删除");
+            //为删除按钮添加一个自定义属性，来表示员工的ID
+            delBtn.attr("del_id", item.comId);
+            lookBtn.attr("topic_id", item.topicId);
+            var btnTd = $("<th ></th>").append(lookBtn).append(" ").append(delBtn);
             //append()方法执行完以后还会返回原来的元素
             $("<tr></tr>")
-                .append(news_id)
-                .append(news_title)
-                .append(send_name)
-                .append(from_dept)
-                .append(send_time)
-                .append(news_look_num)
+                .append(IDTd)
+                .append(title_Td)
+                .append(createTimeTd)
+                .append(countTd)
                 .append(btnTd)
                 .appendTo("#emps_table tbody");
         });
@@ -137,7 +131,6 @@
         second = second < 10 ? ('0' + second) : second;
         return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
     };
-
 
     //显示分页信息
     function build_page_(result) {
@@ -204,17 +197,23 @@
         nvaEle.appendTo("#age_nav");
     }
 
-    //删除用户
+
+    $(document).on("click", ".look_btn", function () {
+        var id = $(this).attr("topic_id");
+        window.location.href = "${staticPath}/lookTopic?id=" + id;
+    });
+
+
     $(document).on("click", ".del_btn", function () {
 
         //1.弹出是否删除确认框
-        var deptName = $(this).parents("tr").find("th:eq(1)").text();
+        var CommentName = $(this).parents("tr").find("th:eq(3)").text();
         var id = $(this).attr("del_id");
-        layer.confirm("确认删除 " + deptName + " 这篇文章吗？", {
+        layer.confirm("确认删除 " + CommentName + " 这条评论吗？", {
             btn: ['确定', '取消'] //按钮
         }, function () {
             $.ajax({
-                url: "${staticPath}/delNews?id=" + id,
+                url: "${staticPath}/delComment?id=" + id,
                 type: "get",
                 dataType: "json",
                 success: function (result) {
@@ -236,7 +235,6 @@
 
 </script>
 </html>
-
 
 
 

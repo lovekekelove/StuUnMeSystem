@@ -9,21 +9,32 @@
         <result column="look_num" property="lookNum" jdbcType="INTEGER"/>
         <result column="title" property="title" jdbcType="VARCHAR"/>
         <result column="dept_name" property="deptName" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+
     </resultMap>
     <sql id="Base_Column_List">
-    id, news_count, send_time, send_uid, look_num, title, dept_name
+        n.id, news_count, send_time, send_uid, look_num, title, dept_name
   </sql>
+    <sql id="news_Column_List">
+        n.id, news_count, send_time, send_uid, look_num, title, dept_name,u.name
+    </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
-        from news
+        from news as n
         where id = #{id,jdbcType=INTEGER}
     </select>
 
     <select id="selectNewsList" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from news
+        from news as n
+    </select>
+
+    <select id="selectNewsListWithUser" resultMap="BaseResultMap">
+        select
+        <include refid="news_Column_List"/>
+        from news as n LEFT JOIN stu_user as u ON n.send_uid=u.id
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

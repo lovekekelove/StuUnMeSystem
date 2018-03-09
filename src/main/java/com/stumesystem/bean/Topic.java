@@ -5,25 +5,53 @@ import java.util.Date;
 public class Topic {
     private Integer id;
 
-    private Integer title;
+    private String title;
 
-    private Integer deptNameId;
-
-    private String stuSendId;
+    private Integer stuSendId;
 
     private Date ttime;
 
-    private Integer treplaycount; //回帖量
+    private Integer treplaycount;
 
-    private Integer tclickcount; //点击量
+    private Integer tclickcount;
 
     private Date tlastclicktime;
 
-    private Integer tstaus; //置顶
+    private Integer tstaus;
 
     private Integer tzan;
 
     private String tcontent;
+
+    private String imgHeah;
+
+    private String nickname;
+
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getImgHeah() {
+        return imgHeah;
+    }
+
+    public void setImgHeah(String imgHeah) {
+        this.imgHeah = imgHeah;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
     public Integer getId() {
         return id;
@@ -33,28 +61,20 @@ public class Topic {
         this.id = id;
     }
 
-    public Integer getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(Integer title) {
-        this.title = title;
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
     }
 
-    public Integer getDeptNameId() {
-        return deptNameId;
-    }
-
-    public void setDeptNameId(Integer deptNameId) {
-        this.deptNameId = deptNameId;
-    }
-
-    public String getStuSendId() {
+    public Integer getStuSendId() {
         return stuSendId;
     }
 
-    public void setStuSendId(String stuSendId) {
-        this.stuSendId = stuSendId == null ? null : stuSendId.trim();
+    public void setStuSendId(Integer stuSendId) {
+        this.stuSendId = stuSendId;
     }
 
     public Date getTtime() {

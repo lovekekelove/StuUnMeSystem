@@ -18,12 +18,12 @@
   </resultMap>
   <resultMap id="RoleResultMap" type="com.stumesystem.bean.StuRose" >
     <id column="r_id" property="id" jdbcType="INTEGER" />
-    <result column="r_rose" property="rRose" jdbcType="VARCHAR" />
+    <result column="r_rose" property="rose" jdbcType="VARCHAR"/>
     <collection property="rightList" resultMap="PermissionResultMap"/>
   </resultMap>
   <resultMap id="PermissionResultMap" type="com.stumesystem.bean.StuRight" >
     <id column="rg_id" property="id" jdbcType="INTEGER" />
-    <result column="r_right" property="rRight" jdbcType="VARCHAR" />
+    <result column="r_right" property="right" jdbcType="VARCHAR"/>
     <result column="fid" property="fid" jdbcType="INTEGER" />
   </resultMap>
 

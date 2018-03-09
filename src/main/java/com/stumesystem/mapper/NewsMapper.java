@@ -15,6 +15,8 @@ public interface NewsMapper {
 
     List<News> selectNewsList();
 
+    List<News> selectNewsListWithUser();
+
     int updateByPrimaryKeySelective(News record);
 
     int updateByPrimaryKey(News record);
