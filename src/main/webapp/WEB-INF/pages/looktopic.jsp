@@ -105,7 +105,7 @@
                                 </a>
                                 <div class="media-body" id="${single.comments.comId}">
                                     <a href="#">
-                                            ${single.comments.nickname} :
+                                            ${single.comments.nickname}
                                     </a>
                                         ${single.comments.comCount}
                                     <br/>
@@ -248,10 +248,10 @@
         }
 
         $.ajax({
-            url: "${staticPath}/insertComment",
+            url: "${staticPath}/insertComment?nickname=${requestScope.topic.nickname}",
             type: "get",
             dataType: "json",
-            data: {"topicId":  ${requestScope.topic.id}, "comCount": count},
+            data: {topicId:  ${requestScope.topic.id}, comCount: count},
             success: function (result) {
                 if (result.code == 100) {
                     layer.msg("评论成功！");
@@ -274,13 +274,14 @@
             $('#direct').remove();
         }
         var parentName = $(obj).parent().children().first('a').text().trim();
-        var html = '<div class="social-comment" id="ndirect"> <a  class="pull-left"> <img alt="image" style="width: 27px;height:27px;" src="${staticPath}${sessionScope.userinfo.imgHeah}"/> </a> <div class="media-body"> <textarea class="form-control Ndirectcontent"  placeholder="@' + parentName + '"></textarea> <button type="button" class="btn btn-primary "  style="float: right;margin-top: 1px" onclick="submitNdirect(this,' + direcid +
+        var html = '<div class="social-comment" id="ndirect"> <a  class="pull-left"> <img alt="image" style="width: 27px;height:27px;" src="${staticPath}${sessionScope.userinfo.imgHeah}"/> </a> <div class="media-body"> <textarea class="form-control Ndirectcontent" name="' + parentName + '"  placeholder="@' + parentName + '"></textarea> <button type="button" class="btn btn-primary "  style="float: right;margin-top: 1px" onclick="submitNdirect(this,' + direcid +
             ')">发表评论</button> ' +
             '<button type="button" class="btn btn-primary " onclick="cancle(this)" style="float: right;margin-top: 1px;margin-right:2px">取消</button></div> </div>';
         $(obj).parent().after(html);
     }
 
     function submitNdirect(obj, direcid) {
+        var parentName = $('.Ndirectcontent').attr("name").trim();
         var parentuid = $(obj).parent().parent().prev().attr('directuid');
         var content = $(".Ndirectcontent").val().trim();
         if (content == null || content == '') {
@@ -288,7 +289,7 @@
             return false;
         }
         $.ajax({
-            url: '${staticPath}/insertComment',
+            url: '${staticPath}/insertComment?nickname=' + parentName,
             type: 'post',
             dataType: "json",
             data: {comCount: content, topicId:${requestScope.topic.id}, comFid: parentuid},
@@ -306,14 +307,14 @@
     }
 
     function submitdirect(obj, rootcid) {
-
+        var rootname = $('.directcontent').attr("name").trim();
         var content = $('.directcontent').val().trim();
         if (content == null || content == '') {
             layer.tips("不允许为空", $('.directcontent'));
             return false;
         }
         $.ajax({
-            url: '${staticPath}/insertComment',
+            url: '${staticPath}/insertComment?nickname=' + rootname,
             type: 'post',
             dataType: "json",
             data: {comCount: content, topicId:${requestScope.topic.id}, comFid: rootcid},
@@ -340,7 +341,7 @@
         var rootid = $(obj).parent().parent().attr('rootcid');
         var rootname = $(obj).parent().children().first('a').text().trim();
 
-        var html = '<div class="social-comment" id="direct"> <a  class="pull-left"> <img alt="image" style="width: 27px;height:27px;" src="${staticPath}${sessionScope.userinfo.imgHeah}"/> </a> <div class="media-body"> <textarea class="form-control directcontent"  placeholder="@' + rootname + '"></textarea> <button type="button" class="btn btn-primary "  style="float: right;margin-top: 1px" onclick="submitdirect(this,' + rootid + ')">发表评论</button>' +
+        var html = '<div class="social-comment" id="direct"> <a  class="pull-left"> <img alt="image" style="width: 27px;height:27px;" src="${staticPath}${sessionScope.userinfo.imgHeah}"/> </a> <div class="media-body"> <textarea class="form-control directcontent" name="' + rootname + '"  placeholder="@' + rootname + '"></textarea> <button type="button" class="btn btn-primary "  style="float: right;margin-top: 1px" onclick="submitdirect(this,' + rootid + ')">发表评论</button>' +
             '<button type="button" class="btn btn-primary " onclick="cancle(this)" style="float: right;margin-top: 1px;margin-right:2px">取消</button> </div> </div>';
         $(obj).parent().after(html);
     }

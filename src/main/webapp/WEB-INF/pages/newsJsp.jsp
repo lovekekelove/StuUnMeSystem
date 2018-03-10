@@ -50,7 +50,7 @@
                                             <div class="ibox-content">
                                                     <%--</a>--%>
                                                 <div class="small m-b-xs">
-                                                    <a href="${staticPath}/lookTopic?id=${item.id}"
+                                                    <a href="${staticPath}/lookTopic?id=${item.id}&&advice_id=0"
                                                        style="text-decoration: none"><h3
                                                             style="font-style: normal; color: #337ab7">${item.title}</h3>
                                                     </a>

@@ -227,9 +227,11 @@
                 $(".advice span").text(result.extend.num == 0 ? "" : result.extend.num);
                 $("#advice_msg").empty();
                 $.each(result.extend.pointMsgs, function (index, p) {
-                    var tishi = $("<li ></li>").append("&nbsp;&nbsp;&nbsp;&nbsp;").append("<i class='fa fa-user text-green'></i>").append("&nbsp;").append(p.msgCount.substring(0, 58)).append(
+                    var rcount = p.msgCount.substring(p.msgCount.indexOf(",") + 1, p.msgCount.length);
+                    var topicid = p.msgCount.substring(0, p.msgCount.indexOf(","));
+                    var tishi = $("<li ></li>").append("&nbsp;&nbsp;&nbsp;&nbsp;").append("<i class='fa fa-user text-green'></i>").append("&nbsp;").append(rcount.substring(0, 58)).append(
                         $("<span></span>")
-                            .append($("<button count='" + p.msgCount + "' advice_id='" + p.id + "' ></button>")
+                            .append($("<button topic_id='" + topicid + "' count='" + rcount + "' advice_id='" + p.id + "' ></button>")
                                 .addClass("btn btn-default btn-xs btn-success pull-right   look_advice_btn").append("查看")));
 
                     $("<ul class=\"menu\"></ul>")
@@ -251,6 +253,7 @@
                 $(".num span").text(result.extend.num == 0 ? "" : result.extend.num);
                 $("#option_msg").empty();
                 $.each(result.extend.pointMsgs, function (index, p) {
+
                     var tishi = $("<li ></li>").append("&nbsp;&nbsp;&nbsp;&nbsp;").append("<i class='fa fa-user text-green'></i>").append("&nbsp;").append(p.msgCount).append(
                         $("<span></span>")
                             .append($("<button uid='" + p.sendUid + "'></button>")
@@ -307,6 +310,12 @@
     $(document).on("click", ".look_advice_btn", function () {
         var count = $(this).attr("count");
         var advice_id = $(this).attr("advice_id");
+        var topic_id = $(this).attr("topic_id");
+        if (count === "您有一条消息回复") {
+            window.location.href = "${staticPath}/user/lookAdvice?id=" + advice_id;
+            window.location.href = "${staticPath}/lookTopic?id=" + topic_id + "&&advice_id=" + advice_id;
+            return false;
+        }
         layer.open({
             type: 2,
             title: '通知',

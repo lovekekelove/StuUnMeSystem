@@ -4,7 +4,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.stumesystem.bean.*;
 import com.stumesystem.service.CommentsService;
+import com.stumesystem.service.PointMsgService;
 import com.stumesystem.service.TopicService;
+import com.stumesystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,11 @@ public class CommentsController {
     @Autowired
     private TopicService topicService;
 
+    @Autowired
+    private PointMsgService pointMsgService;
+    @Autowired
+    private UserService userService;
+
     @RequestMapping("/toMyComments")
     public String toMyComments() {
         return "myComments";
@@ -36,7 +43,16 @@ public class CommentsController {
     }
 
     @RequestMapping("/lookTopic")
-    public String toCommentJsp(@RequestParam("id") Integer id, HttpServletRequest request) {
+    public String toCommentJsp(@RequestParam("id") Integer id,
+                               @RequestParam("advice_id") Integer advice_id, HttpServletRequest request) {
+        if (advice_id != 0) {
+            PointMsg pointMsg = pointMsgService.getPointMsgById(advice_id);
+            StuUser stu = userService.getUser(pointMsg.getAcceptUid());
+            pointMsg.setMsgCount(stu.getName() + " 已查看通知！");
+            pointMsg.setState("3");
+            pointMsgService.updatePointMsg(pointMsg);
+        }
+
         Topic topic = topicService.getTopic(id);
         topic.setTclickcount(topic.getTclickcount() + 1);
         List<CommentVoS> commentvoslist = new ArrayList<>();
@@ -90,13 +106,22 @@ public class CommentsController {
      */
     @ResponseBody
     @RequestMapping("/insertComment")
-    public Msg insertComment(Comments comments, HttpServletRequest request) {
+    public Msg insertComment(Comments comments, @RequestParam("nickname") String nickname, HttpServletRequest request) {
         StuUser stuUser = (StuUser) request.getSession().getAttribute("userinfo");
         comments.setComState(2);
         comments.setComTime(new Date());
         comments.setComUserId(stuUser.getId());
         if (commentsService.insertComment(comments) > 0) {
-            return Msg.success();
+            PointMsg pointMsg = new PointMsg();
+            pointMsg.setMsgCount(comments.getTopicId() + ",您有一条消息回复");
+            pointMsg.setSendUid(stuUser.getId());
+            StuUser stuUser1 = userService.getUserYZniC(comments.getNickname());
+            pointMsg.setAcceptUid(stuUser1.getId());
+            pointMsg.setState("4");
+            pointMsg.setSendTime(new Date());
+            if (pointMsgService.insertPointMsg(pointMsg) > 0) {
+                return Msg.success();
+            }
         }
         return Msg.fail();
     }
